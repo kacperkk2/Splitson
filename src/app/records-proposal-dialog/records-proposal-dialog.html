@@ -1,0 +1,13 @@
+<h2 mat-dialog-title>Wczytane rekordy</h2>
+<mat-dialog-content>
+    <mat-list #recordsList>
+        <mat-card *ngFor="let record of records" fxLayout="row" fxLayoutAlign="space-between center">
+            <div> {{ record.name }} </div>
+            <div> {{ record.price }} </div>
+        </mat-card>
+    </mat-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button [mat-dialog-close]="false">Wróć</button>
+  <button mat-button [mat-dialog-close]="true">Dalej</button>
+</mat-dialog-actions>

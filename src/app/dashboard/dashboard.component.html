@@ -1,1 +1,13 @@
-<p>dashboard works!</p>
+<div class="header">
+    <p *ngFor="let user of users"> {{ user.name }} : {{ user.balance }} </p>
+</div>
+<button mat-button (click)="editUsers()">Edytuj userow</button>
+<button mat-button (click)="addRecords()">Dodaj rekordy</button>
+<mat-tab-group>
+    <mat-tab label="Wydatki"> 
+        <app-records [users]="users" [records]="records"></app-records>
+    </mat-tab>
+    <mat-tab label="Bilans">
+        <app-summary></app-summary>
+    </mat-tab>
+</mat-tab-group>

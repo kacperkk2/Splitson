@@ -1,0 +1,12 @@
+<h2 mat-dialog-title>Wklej treść paragonu</h2>
+<mat-dialog-content>
+    <form [formGroup]="receiptForm">
+        <mat-form-field>
+            <textarea matInput cdkAutosizeMinRows="10" formControlName="content"></textarea>
+        </mat-form-field>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onBackClick()">Wróć</button>
+  <button mat-button [disabled]="!receiptForm.valid" (click)="parseReceipt()">Dalej</button>
+</mat-dialog-actions>

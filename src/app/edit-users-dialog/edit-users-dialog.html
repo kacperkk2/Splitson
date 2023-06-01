@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Przypisz</h2>
+<mat-dialog-content>
+    <mat-card *ngFor="let user of users">
+        <div> {{ user.name }} </div>
+    </mat-card>
+    <form [formGroup]="newUserForm">
+        <mat-form-field>
+            <mat-label>Nowy użytkownik</mat-label>
+            <input matInput placeholder="Podaj imię" formControlName="user" autocomplete="off">
+        </mat-form-field>
+    </form>
+    <button mat-button [disabled]="!newUserForm.valid" (click)="addUser()">Dodaj</button>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onBackClick()">Wróć</button>
+</mat-dialog-actions>

@@ -1,0 +1,16 @@
+<h2 mat-dialog-title>Przypisz</h2>
+<mat-dialog-content>    
+    <mat-checkbox [(ngModel)]="allSelected" ngDefaultControl (click)="toggleAllSelection()">
+        Wszyscy
+    </mat-checkbox>
+    <mat-divider></mat-divider>
+    <mat-selection-list #usersList>
+        <mat-list-option *ngFor="let user of data.allUsers" [value]="user" [selected]="isUserSelected(user)" (click)="optionClick()">
+            {{user.name}}
+        </mat-list-option>
+    </mat-selection-list>
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="onBackClick()">Wróć</button>
+  <button mat-button (click)="onConfirmClick(usersList.selectedOptions.selected)" cdkFocusInitial>Potwierdz</button>
+</mat-dialog-actions>

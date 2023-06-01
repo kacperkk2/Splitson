@@ -1,0 +1,8 @@
+<mat-list #recordsList>
+    <mat-card *ngFor="let record of records" fxLayout="row" fxLayoutAlign="space-between center" 
+                (click)="assignUsers(record.id)">
+        <div> {{ record.name }} </div>
+        <div> {{ record.price }} </div>
+        <div *ngIf="record.boughtBy.length > 0"> {{ getUsersNames(record.boughtBy) }} </div>
+    </mat-card>
+</mat-list>

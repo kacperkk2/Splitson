@@ -2,6 +2,7 @@
 <mat-dialog-content>
     <mat-card *ngFor="let user of users">
         <div> {{ user.name }} </div>
+        <button mat-button (click)="deleteUser(user)">Usuń</button>
     </mat-card>
     <form [formGroup]="newUserForm">
         <mat-form-field>

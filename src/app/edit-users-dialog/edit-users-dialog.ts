@@ -27,6 +27,13 @@ export class EditUsersDialog {
         this.newUserForm.reset();
     }
 
+    deleteUser(userToDelete: User) {
+        const index = this.users.map(user => user.name).indexOf(userToDelete.name, 0);
+        if (index > -1) {
+            this.users.splice(index, 1);
+        }
+    }
+
     onBackClick(): void {
         this.dialogRef.close();
     }

@@ -24,6 +24,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import {TextFieldModule} from '@angular/cdk/text-field';
 import { InsertReceiptDialog } from './insert-receipt-dialog/insert-receipt-dialog';
 import { RecordsProposalDialog } from './records-proposal-dialog/records-proposal-dialog';
+import { EditRecordDialog } from './edit-record-dialog/edit-record-dialog';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { RecordsProposalDialog } from './records-proposal-dialog/records-proposa
     AssignUsersDialog,
     EditUsersDialog,
     InsertReceiptDialog,
-    RecordsProposalDialog
+    RecordsProposalDialog,
+    EditRecordDialog
   ],
   imports: [
     BrowserModule,

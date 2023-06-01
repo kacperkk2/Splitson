@@ -23,16 +23,21 @@ export class InsertReceiptDialog {
         });
     }
 
-    parseReceipt() {
+    processReceipt() {
         const receiptContent = this.receiptForm.get('content')!.value as string;
-        let records: RecordProposal[] = []
-        receiptContent.split("\n").forEach(line => records.push({"name": line.split(" ")[0], "price": Number(line.split(" ")[1])}))
+        let records = this.parseReceiptContent(receiptContent);
         const dialogRef = this.dialog.open(RecordsProposalDialog, {data: records});
         dialogRef.afterClosed().subscribe(result => {
             if (result == true) {
                 this.dialogRef.close(new InsertReceiptDialogResult(records));
             }
         });
+    }
+
+    parseReceiptContent(receiptContent: string) {
+        let records: RecordProposal[] = []
+        receiptContent.split("\n").forEach(line => records.push({"name": line.split(" ")[0], "price": Number(line.split(" ")[1])}))
+        return records;
     }
 
     onBackClick(): void {

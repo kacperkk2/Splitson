@@ -3,9 +3,11 @@
 </div>
 <button mat-button (click)="editUsers()">Edytuj userow</button>
 <button mat-button (click)="addRecords()">Dodaj rekordy</button>
+<button mat-button (click)="toggleRecordsDeleteState()">Usuń rekordy</button>
+<button mat-button (click)="toggleRecordsEditState()">Edytuj rekordy</button>
 <mat-tab-group>
     <mat-tab label="Wydatki"> 
-        <app-records [users]="users" [records]="records"></app-records>
+        <app-records [users]="users" [records]="records" [recordsDeleteState]="recordsDeleteState" [recordsEditState]="recordsEditState"></app-records>
     </mat-tab>
     <mat-tab label="Bilans">
         <app-summary></app-summary>

@@ -10,12 +10,14 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
   templateUrl: 'records-proposal-dialog.html'
 })
 export class RecordsProposalDialog {
+  priceSum: number = 0;
 
-    constructor(
-        public dialogRef: MatDialogRef<RecordsProposalDialog>, 
-        @Inject(MAT_DIALOG_DATA) public records: RecordProposal[]
-        ) {
-    }
+  constructor(
+      public dialogRef: MatDialogRef<RecordsProposalDialog>, 
+      @Inject(MAT_DIALOG_DATA) public records: RecordProposal[]
+      ) {
+        records.forEach(record => this.priceSum += record.price);
+  }
 }
 
 export interface RecordProposal {

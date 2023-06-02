@@ -3,6 +3,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { AssignUsersDialog, AssignUsersDialogInput } from '../assign-users-dialog/assign-users-dialog';
 import { Record, User } from '../dashboard/dashboard.component';
 import { EditRecordDialog, EditRecordDialogResult } from '../edit-record-dialog/edit-record-dialog';
+import { InsertReceiptDialog, InsertReceiptDialogResult } from '../insert-receipt-dialog/insert-receipt-dialog';
+import { v4 as uuid } from 'uuid';
 
 @Component({
   selector: 'app-records',
@@ -16,6 +18,17 @@ export class RecordsComponent {
   @Input() recordsEditState: boolean = false;
 
   constructor(public dialog: MatDialog) {}
+
+  addRecords() {
+    const dialogRef = this.dialog.open(InsertReceiptDialog, {data: ""});
+    dialogRef.afterClosed().subscribe((result: InsertReceiptDialogResult) => {
+      if (result) {
+        result.records.forEach(newRecord => {
+          this.records.push({id: uuid(), "name": newRecord.name, price: newRecord.price, "boughtBy": []});
+        });
+      }
+    });
+  }
 
   assignUsers(recordId: string) {
     let record = this.records.filter(record => record.id == recordId)[0];

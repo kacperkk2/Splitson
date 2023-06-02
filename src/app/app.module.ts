@@ -25,6 +25,8 @@ import {TextFieldModule} from '@angular/cdk/text-field';
 import { InsertReceiptDialog } from './insert-receipt-dialog/insert-receipt-dialog';
 import { RecordsProposalDialog } from './records-proposal-dialog/records-proposal-dialog';
 import { EditRecordDialog } from './edit-record-dialog/edit-record-dialog';
+import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatIconModule} from '@angular/material/icon';
 
 @NgModule({
   declarations: [
@@ -55,7 +57,9 @@ import { EditRecordDialog } from './edit-record-dialog/edit-record-dialog';
     MatInputModule,
     MatSelectModule,
     MatCheckboxModule,
-    TextFieldModule
+    TextFieldModule,
+    MatToolbarModule,
+    MatIconModule
   ],
   providers: [],
   bootstrap: [AppComponent]

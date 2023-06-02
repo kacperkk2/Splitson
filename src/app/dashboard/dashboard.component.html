@@ -1,10 +1,20 @@
 <div class="header">
     <p *ngFor="let user of users"> {{ user.name }} : {{ user.balance }} </p>
 </div>
-<button mat-button (click)="editUsers()">Edytuj userow</button>
-<button mat-button (click)="addRecords()">Dodaj rekordy</button>
-<button mat-button (click)="toggleRecordsDeleteState()">Usuń rekordy</button>
-<button mat-button (click)="toggleRecordsEditState()">Edytuj rekordy</button>
+<mat-toolbar class="toolbar" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxFlex="40" fxLayout="column" (click)="editUsers()">
+        <span>Splitson</span>
+        <span> {{ getUsersNamesLabel(users) }} </span>
+    </div>
+    <div>
+        <button mat-icon-button (click)="toggleRecordsEditState()" [disabled]="recordsDeleteState">
+            <mat-icon>edit_note</mat-icon>
+        </button>
+        <button mat-icon-button (click)="toggleRecordsDeleteState()" [disabled]="recordsEditState">
+            <mat-icon>delete_sweep</mat-icon>
+        </button>
+    </div>
+  </mat-toolbar>
 <mat-tab-group>
     <mat-tab label="Wydatki"> 
         <app-records [users]="users" [records]="records" [recordsDeleteState]="recordsDeleteState" [recordsEditState]="recordsEditState"></app-records>

@@ -1,10 +1,12 @@
 <mat-list #recordsList>
     <mat-card class="record" *ngFor="let record of records" fxLayout="row" fxLayoutAlign="center center"
                 (click)="recordsDeleteState || recordsEditState ? null : assignUsers(record.id)">
-        <div class="record-inside" fxLayout="row" fxLayoutAlign="space-between center">
-            <div> {{ record.name }} </div>
-            <div> {{ record.price }} </div>
-            <div *ngIf="record.boughtBy.length > 0"> {{ getUsersNames(record.boughtBy) }} </div>
+        <div class="record-inside" fxLayout="column" fxLayoutAlign="center center">
+            <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="highlight"> {{ record.name }} </div>
+                <div class="highlight"> {{ record.price }} {{ currency }} </div>
+            </div>
+            <div *ngIf="record.boughtBy.length > 0"> {{ boughtByPrefix }} {{ getUsersNames(record.boughtBy) }} </div>
     
             <button *ngIf="recordsDeleteState" mat-icon-button 
             (click)="deleteRecord(record)">
@@ -17,5 +19,14 @@
         </div>
     </mat-card>
 </mat-list>
-<div> Suma: {{ getPriceSum() }} </div>
-<button mat-button (click)="addRecords()">Dodaj rekordy</button>
+<div fxLayout="row" fxLayoutAlign="center center"> 
+    <div fxFlex="49"> </div>
+    <div fxFlex="2">
+        <button mat-mini-fab color="primary" (click)="addRecords()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
+    <div fxFlex="49" class="sum" fxLayoutAlign="end center">
+        Suma: {{ getPriceSum() }} {{ currency }}
+    </div>
+</div>

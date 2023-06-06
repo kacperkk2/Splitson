@@ -12,6 +12,8 @@ import { v4 as uuid } from 'uuid';
   styleUrls: ['./records.component.scss']
 })
 export class RecordsComponent {
+  currency: string = "zł";
+  boughtByPrefix: string = "Kupione przez: ";
   @Input() users: User[] = [];
   @Input() records: Record[] = [];
   @Input() recordsDeleteState: boolean = false;

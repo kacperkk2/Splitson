@@ -1,6 +1,6 @@
 <mat-toolbar class="toolbar" fxLayout="row" fxLayoutAlign="space-between center">
     <div fxFlex="40" fxLayout="column" (click)="editUsers()">
-        <span class="big-letters letters-spacing">Splitson</span>
+        <span class="x-big-letters letters-spacing">Splitson</span>
         <span class="small-letters"> {{ getUsersNamesLabel(users) }} </span>
     </div>
     <div>
@@ -12,7 +12,7 @@
         </button>
     </div>
   </mat-toolbar>
-<mat-tab-group>
+<mat-tab-group dynamicHeight>
     <mat-tab label="Wydatki"> 
         <app-records [users]="users" [records]="records" [recordsDeleteState]="recordsDeleteState" [recordsEditState]="recordsEditState"></app-records>
     </mat-tab>

@@ -1,11 +1,11 @@
 <h2 mat-dialog-title>Edycja rekordu</h2>
 <mat-dialog-content>
-    <form [formGroup]="recordForm">
-        <mat-form-field>
+    <form [formGroup]="recordForm" fxFlexFill>
+        <mat-form-field fxFlex="70">
             <mat-label>Nazwa rekordu</mat-label>
             <input matInput formControlName="name" autocomplete="off">
         </mat-form-field>
-        <mat-form-field>
+        <mat-form-field fxFlex="30">
             <mat-label>Cena</mat-label>
             <input matInput formControlName="price" autocomplete="off">
         </mat-form-field>
@@ -13,5 +13,5 @@
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="onBackClick()">Wróć</button>
-  <button mat-button [disabled]="!recordForm.valid" (click)="save()">Dodaj</button>
+  <button mat-button [disabled]="!recordForm.valid" (click)="save()">Zapisz</button>
 </mat-dialog-actions>

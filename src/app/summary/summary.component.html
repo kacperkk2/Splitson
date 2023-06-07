@@ -1,14 +1,17 @@
 <mat-list #recordsList>
-    <mat-card class="record" *ngFor="let user of users" fxLayout="row" fxLayoutAlign="center center">
-        <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
-            <div fxFlex="65" fxLayout="row" fxLayoutAlign="space-between center">
-                <div class="highlight"> {{ user.name }} </div>
-                <div class="highlight"> {{ user.balance | number : '1.2-2' }} {{ currency }} </div>
+    <div *ngFor="let user of users; let lastItem = last;">
+        <mat-card class="record" fxLayout="row" fxLayoutAlign="center center">
+            <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
+                <div fxFlex="65" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="highlight"> {{ user.name }} </div>
+                    <div class="highlight"> {{ user.balance | number : '1.2-2' }} {{ currency }} </div>
+                </div>
+                <div fxFlex="30" fxLayout="row" fxLayoutAlign="space-between center">
+                    <div class="highlight-background indicator" [style.width.%]="getUserRatio(user)"></div>
+                    <div class="indicator-background indicator"[style.width.%]="100-getUserRatio(user)"></div>
+                </div>
             </div>
-            <div fxFlex="30" fxLayout="row" fxLayoutAlign="space-between center">
-                <div class="highlight-background indicator" [style.width.%]="getUserRatio(user)"></div>
-                <div class="indicator-background indicator"[style.width.%]="100-getUserRatio(user)"></div>
-            </div>
-        </div>
-    </mat-card>
+        </mat-card>
+        <mat-divider *ngIf="!lastItem" class="divider"></mat-divider>
+    </div>
 </mat-list>

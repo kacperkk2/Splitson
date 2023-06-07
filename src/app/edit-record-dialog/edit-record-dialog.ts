@@ -24,11 +24,11 @@ export class EditRecordDialog {
 
     save() {
         let price = this.recordForm.get('price')!.value;
-        price = price?.split(",").join(".");
+        price = String(price).split(",").join(".");
         price = price.trim();
         let name = this.recordForm.get('name')!.value;
         name = name.trim();
-        this.dialogRef.close(new EditRecordDialogResult(name, price));
+        this.dialogRef.close(new EditRecordDialogResult(name, Number(price)));
     }
 
     onBackClick(): void {

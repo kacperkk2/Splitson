@@ -22,7 +22,7 @@ export class RecordsComponent {
   constructor(public dialog: MatDialog) {}
 
   addRecords() {
-    const dialogRef = this.dialog.open(InsertReceiptDialog, {data: "", width: '90%', maxWidth: '650px', height: '90%'});
+    const dialogRef = this.dialog.open(InsertReceiptDialog, {data: "", width: '90%', maxWidth: '650px', height: '90%', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: InsertReceiptDialogResult) => {
       if (result) {
         result.records.forEach(newRecord => {
@@ -35,7 +35,7 @@ export class RecordsComponent {
   assignUsers(recordId: string) {
     let record = this.records.filter(record => record.id == recordId)[0];
     const data = new AssignUsersDialogInput(this.users, record.boughtBy, record.name);
-    const dialogRef = this.dialog.open(AssignUsersDialog, {data: data, width: '90%', maxWidth: '650px'});
+    const dialogRef = this.dialog.open(AssignUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.returnOldAmout(record);
@@ -65,7 +65,7 @@ export class RecordsComponent {
   }
 
   editRecord(record: Record) {
-    const dialogRef = this.dialog.open(EditRecordDialog, {data: record, width: '90%', maxWidth: '650px'});
+    const dialogRef = this.dialog.open(EditRecordDialog, {data: record, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: EditRecordDialogResult) => {
       if (result) {
         this.returnOldAmout(record);

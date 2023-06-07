@@ -8,18 +8,14 @@ import { User, Record } from '../dashboard/dashboard.component';
 })
 export class SummaryComponent {
   currency: string = "zł";
-  priceSum: number = 0;
   @Input() users: User[] = [];
   @Input() records: Record[] = [];
 
-  ngOnInit(): void {
-    this.priceSum = this.records.map(record => record.price).reduce((sum, current) => sum + current, 0);
-  }
-
   getUserRatio(user: User) {
+    const priceSum = this.records.map(record => record.price).reduce((sum, current) => sum + current, 0);
     if (user.balance == 0) {
       return 0;
     }
-    return (-user.balance / this.priceSum) * 100;
+    return (-user.balance / priceSum) * 100;
   }
 }

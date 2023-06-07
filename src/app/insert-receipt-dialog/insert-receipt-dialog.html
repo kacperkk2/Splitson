@@ -1,4 +1,9 @@
-<h2 mat-dialog-title>Wklej treść paragonu</h2>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <h2 mat-dialog-title> Wklej treść paragonu </h2>
+    <button  mat-icon-button (click)="onBackClick()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
 <mat-dialog-content>
     <form [formGroup]="receiptForm">
         <mat-form-field style="width: 100%;" >
@@ -6,7 +11,6 @@
         </mat-form-field>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="onBackClick()">Wróć</button>
-  <button mat-button [disabled]="!receiptForm.valid" (click)="processReceipt()">Dalej</button>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-stroked-button color="primary" [disabled]="!receiptForm.valid" (click)="processReceipt()">Dalej</button>
 </mat-dialog-actions>

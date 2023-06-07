@@ -1,4 +1,9 @@
-<h2 mat-dialog-title> Kto kupił <strong> {{ data.recordName }} </strong> </h2>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <h2 mat-dialog-title> Kto kupił <strong> {{ data.recordName }} </strong> </h2>
+    <button  mat-icon-button (click)="onBackClick()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
 <mat-dialog-content>
     <div *ngIf="data.allUsers.length > 0">
         <mat-checkbox fxLayout="column" fxLayoutAlign="center end"
@@ -16,8 +21,7 @@
         Brak użytkowników do przypisania
     </div>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button (click)="onBackClick()">Wróć</button>
-  <button *ngIf="data.allUsers.length > 0" mat-button (click)="onConfirmClick(usersList.selectedOptions.selected)" cdkFocusInitial>Potwierdz</button>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-stroked-button color="primary" *ngIf="data.allUsers.length > 0" (click)="onConfirmClick(usersList.selectedOptions.selected)" cdkFocusInitial>Potwierdz</button>
 </mat-dialog-actions>
 <!-- https://stackoverflow.com/questions/59873777/mat-selection-list-selectall-not-working -->

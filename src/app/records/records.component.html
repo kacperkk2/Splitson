@@ -1,29 +1,31 @@
 <mat-list #recordsList>
-    <mat-card class="record" *ngFor="let record of records" fxLayout="row" fxLayoutAlign="center center"
+    <div *ngFor="let record of records; let lastItem = last;">
+        <mat-card class="record" fxLayout="column" fxLayoutAlign="center center"
                 (click)="recordsDeleteState || recordsEditState ? null : assignUsers(record.id)">
-        <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
-            <div style="width:100%">
-                <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
-                    <div class="highlight"> {{ record.name }} </div>
-                    <div class="highlight"> {{ record.price | number : '1.2-2' }} {{ currency }} </div>
+            <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
+                <div style="width:100%">
+                    <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
+                        <div class="highlight"> {{ record.name }} </div>
+                        <div class="highlight"> {{ record.price | number : '1.2-2' }} {{ currency }} </div>
+                    </div>
+                    <div class="small-letters greyed" fxFlexFill *ngIf="record.boughtBy.length > 0" fxLayout="row" fxLayoutAlign="space-between center">
+                        <div> {{ boughtByPrefix }} {{ getUsersNames(record.boughtBy) }} </div>
+                        <div> {{ record.boughtBy.length }} * {{ (record.price / record.boughtBy.length) | number : '1.2-2' }} {{ currency }} </div>
+                    </div>
                 </div>
-                <div class="small-letters greyed" fxFlexFill *ngIf="record.boughtBy.length > 0" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div> {{ boughtByPrefix }} {{ getUsersNames(record.boughtBy) }} </div>
-                    <div> {{ record.boughtBy.length }} * {{ (record.price / record.boughtBy.length) | number : '1.2-2' }} {{ currency }} </div>
-                </div>
-            </div>
 
-            <button *ngIf="recordsDeleteState" mat-icon-button 
-                    (click)="deleteRecord(record)">
-                <mat-icon>delete_outline</mat-icon>
-            </button>
-            <button *ngIf="recordsEditState" mat-icon-button 
-                    (click)="editRecord(record)">
-                <mat-icon>edit</mat-icon>
-            </button>
-        </div>
-        <mat-divider style="border-top-color: white"></mat-divider>
-    </mat-card>
+                <button *ngIf="recordsDeleteState" mat-icon-button 
+                        (click)="deleteRecord(record)">
+                    <mat-icon>delete_outline</mat-icon>
+                </button>
+                <button *ngIf="recordsEditState" mat-icon-button 
+                        (click)="editRecord(record)">
+                    <mat-icon>edit</mat-icon>
+                </button>
+            </div>
+        </mat-card>
+        <mat-divider *ngIf="!lastItem" class="divider"></mat-divider>
+    </div>
 </mat-list>
 <div fxLayout="row" fxLayoutAlign="center center"> 
     <div class="records-bottom-panel" fxLayoutAlign="center center">

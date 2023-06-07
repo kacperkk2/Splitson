@@ -1,4 +1,9 @@
-<h2 mat-dialog-title>Wczytane rekordy</h2>
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <h2 mat-dialog-title> Wczytane rekordy </h2>
+    <button [mat-dialog-close]="false" mat-icon-button>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
 <mat-dialog-content>
     <mat-list #recordsList>
         <mat-card *ngFor="let record of records" fxLayout="row" fxLayoutAlign="center center">
@@ -15,7 +20,6 @@
         </div>
     </div>
 </mat-dialog-content>
-<mat-dialog-actions>
-  <button mat-button [mat-dialog-close]="false">Wróć</button>
-  <button mat-button [mat-dialog-close]="true">Dodaj rekordy</button>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-stroked-button color="primary" [mat-dialog-close]="true">Dodaj rekordy</button>
 </mat-dialog-actions>

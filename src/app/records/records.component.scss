@@ -5,18 +5,24 @@
 
 .record-inside {
     width: 92%;
-    height: 90%;
-    // background-color: aqua;
 }
 
 .sum {
     padding-right: 25px;
 }
 
+.records-count {
+    padding-left: 25px;
+}
+
 .highlight {
-    color: green;
+    color: lightgreen;
 }
 
 .test {
     position: relative;
+}
+
+.mat-list {
+    height: 10vh;
 }

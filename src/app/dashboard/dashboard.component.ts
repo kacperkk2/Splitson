@@ -22,7 +22,7 @@ export class DashboardComponent {
   constructor(public dialog: MatDialog) {}
 
   editUsers() {
-    const dialogRef = this.dialog.open(EditUsersDialog, {data: this.users});
+    const dialogRef = this.dialog.open(EditUsersDialog, {data: this.users, width: '90%', maxWidth: '650px'});
   }
 
   getUsersNamesLabel(users: User[]) {

@@ -1,16 +1,25 @@
-<h2 mat-dialog-title>Przypisz</h2>
+<h2 mat-dialog-title>Edytuj użytkowników</h2>
 <mat-dialog-content>
-    <mat-card *ngFor="let user of users">
-        <div> {{ user.name }} </div>
-        <button mat-button (click)="deleteUser(user)">Usuń</button>
+    <mat-card *ngFor="let user of users" fxLayout="row" fxLayoutAlign="center center">
+        <div style="width: 100%" fxLayoutAlign="space-between center">
+            <div fxFlex="85" style="padding-left: 25px;"> {{ user.name }} </div>
+            <div fxFlex="15" fxLayoutAlign="center center">
+                <button mat-icon-button (click)="deleteUser(user)">
+                    <mat-icon>delete_outline</mat-icon>
+                </button>
+            </div>
+        </div>
     </mat-card>
-    <form [formGroup]="newUserForm">
-        <mat-form-field>
-            <mat-label>Nowy użytkownik</mat-label>
-            <input matInput placeholder="Podaj imię" formControlName="user" autocomplete="off">
-        </mat-form-field>
-    </form>
-    <button mat-button [disabled]="!newUserForm.valid" (click)="addUser()">Dodaj</button>
+    <div fxLayout="row" fxLayoutAlign="center start">
+        <form [formGroup]="newUserForm" fxFlex="85">
+            <mat-form-field style="width:100%">
+                <mat-label>Nowy użytkownik</mat-label>
+                <input matInput placeholder="Podaj imię" formControlName="user" autocomplete="off">
+            </mat-form-field>
+        </form>
+        <button style="height: 55px" fxFlex="15" mat-raised-button color="primary" 
+                [disabled]="!newUserForm.valid" (click)="addUser()">Dodaj</button>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="onBackClick()">Wróć</button>

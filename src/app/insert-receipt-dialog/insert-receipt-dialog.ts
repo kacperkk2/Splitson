@@ -26,7 +26,7 @@ export class InsertReceiptDialog {
     processReceipt() {
         const receiptContent = this.receiptForm.get('content')!.value as string;
         let records = this.parseReceiptContent(receiptContent);
-        const dialogRef = this.dialog.open(RecordsProposalDialog, {data: records});
+        const dialogRef = this.dialog.open(RecordsProposalDialog, {data: records, width: '90%', maxWidth: '650px'});
         dialogRef.afterClosed().subscribe(result => {
             if (result == true) {
                 this.dialogRef.close(new InsertReceiptDialogResult(records));

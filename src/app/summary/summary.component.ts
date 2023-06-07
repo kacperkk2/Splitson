@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { User } from '../dashboard/dashboard.component';
 
 @Component({
   selector: 'app-summary',
@@ -6,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./summary.component.scss']
 })
 export class SummaryComponent {
+  @Input() users: User[] = [];
 
 }

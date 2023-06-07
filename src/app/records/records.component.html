@@ -1,32 +1,44 @@
 <mat-list #recordsList>
     <mat-card class="record" *ngFor="let record of records" fxLayout="row" fxLayoutAlign="center center"
                 (click)="recordsDeleteState || recordsEditState ? null : assignUsers(record.id)">
-        <div class="record-inside" fxLayout="column" fxLayoutAlign="center center">
+        <div class="record-inside big-letters" fxLayout="column" fxLayoutAlign="center start">
             <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
                 <div class="highlight"> {{ record.name }} </div>
-                <div class="highlight"> {{ record.price }} {{ currency }} </div>
+                <div fxLayout="row" fxLayoutAlign="center center">
+                    <div class="highlight"> {{ record.price }} {{ currency }} </div>
+                    <button *ngIf="recordsDeleteState" mat-icon-button 
+                            (click)="deleteRecord(record)">
+                        <mat-icon>delete_outline</mat-icon>
+                    </button>
+                    <button *ngIf="recordsEditState" mat-icon-button 
+                            (click)="editRecord(record)">
+                        <mat-icon>edit</mat-icon>
+                    </button>
+                </div>
             </div>
-            <div *ngIf="record.boughtBy.length > 0"> {{ boughtByPrefix }} {{ getUsersNames(record.boughtBy) }} </div>
-    
-            <button *ngIf="recordsDeleteState" mat-icon-button 
-            (click)="deleteRecord(record)">
-                <mat-icon>delete_outline</mat-icon>
-            </button>
-            <button *ngIf="recordsEditState" mat-icon-button 
-            (click)="editRecord(record)">
-                <mat-icon>edit</mat-icon>
-            </button>
+            <div class="small-letters" fxFlexFill *ngIf="record.boughtBy.length > 0" fxLayout="row" fxLayoutAlign="space-between center">
+                <div> {{ boughtByPrefix }} {{ getUsersNames(record.boughtBy) }} </div>
+                <div> {{ record.boughtBy.length }} * {{ record.price / record.boughtBy.length }} {{ currency }} </div>
+            </div>
         </div>
     </mat-card>
 </mat-list>
 <div fxLayout="row" fxLayoutAlign="center center"> 
-    <div fxFlex="49"> </div>
+    <div fxFlex="49" class="records-count"> 
+        <div fxLayout="column" fxLayoutAlign="center start">
+            <div class="big-letters"> {{ records.length }} </div>
+            <div class="small-letters"> {{ "Liczba rekordów" | uppercase }} </div>
+        </div>
+    </div>
     <div fxFlex="2">
         <button mat-mini-fab color="primary" (click)="addRecords()">
             <mat-icon>add</mat-icon>
         </button>
     </div>
-    <div fxFlex="49" class="sum" fxLayoutAlign="end center">
-        Suma: {{ getPriceSum() }} {{ currency }}
+    <div fxFlex="49" class="sum">
+        <div fxLayout="column" fxLayoutAlign="center end">
+            <div class="big-letters"> {{ getPriceSum() }} {{ currency }} </div>
+            <div class="small-letters"> {{ "Całkowity koszt" | uppercase }} </div>
+        </div>
     </div>
 </div>

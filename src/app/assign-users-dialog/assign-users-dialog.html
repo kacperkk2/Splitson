@@ -1,15 +1,20 @@
-<h2 mat-dialog-title> {{ data.allUsers.length > 0 ? "Przypisz" : "Brak użytkowników" }}</h2>
-<mat-dialog-content *ngIf="data.allUsers.length > 0">  
-    <mat-checkbox fxLayout="column" fxLayoutAlign="center end"
-            color="primary" [(ngModel)]="allSelected" ngDefaultControl (click)="toggleAllSelection()">
-        Wszyscy
-    </mat-checkbox>
-    <mat-divider></mat-divider>
-    <mat-selection-list #usersList>
-        <mat-list-option color="primary" *ngFor="let user of data.allUsers" [value]="user" [selected]="isUserSelected(user)" (click)="optionClick()">
-            {{user.name}}
-        </mat-list-option>
-    </mat-selection-list>
+<h2 mat-dialog-title> Kto kupił <strong> {{ data.recordName }} </strong> </h2>
+<mat-dialog-content>
+    <div *ngIf="data.allUsers.length > 0">
+        <mat-checkbox fxLayout="column" fxLayoutAlign="center end"
+                color="primary" [(ngModel)]="allSelected" ngDefaultControl (click)="toggleAllSelection()">
+            Wszyscy
+        </mat-checkbox>
+        <mat-divider></mat-divider>
+        <mat-selection-list #usersList>
+            <mat-list-option color="primary" *ngFor="let user of data.allUsers" [value]="user" [selected]="isUserSelected(user)" (click)="optionClick()">
+                {{user.name}}
+            </mat-list-option>
+        </mat-selection-list>
+    </div>
+    <div *ngIf="data.allUsers.length == 0">
+        Brak użytkowników do przypisania
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="onBackClick()">Wróć</button>

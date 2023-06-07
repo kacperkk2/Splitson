@@ -37,7 +37,6 @@ export class AssignUsersDialog {
     }
 
     toggleAllSelection() {
-        console.log(this.allSelected)
         if (this.allSelected) {
             this.usersList.options.forEach((item: MatListOption) => item.selected = true)
         } else {
@@ -57,7 +56,7 @@ export class AssignUsersDialog {
 }
 
 export class AssignUsersDialogInput {
-    constructor(public allUsers: User[], public selectedUsers: User[]) {}
+    constructor(public allUsers: User[], public selectedUsers: User[], public recordName: string) {}
 }
 
 export class AssignUsersDialogResult {

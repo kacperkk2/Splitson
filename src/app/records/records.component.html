@@ -5,11 +5,11 @@
             <div style="width:100%">
                 <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
                     <div class="highlight"> {{ record.name }} </div>
-                    <div class="highlight"> {{ record.price }} {{ currency }} </div>
+                    <div class="highlight"> {{ record.price | number : '1.2-2' }} {{ currency }} </div>
                 </div>
-                <div class="small-letters" fxFlexFill *ngIf="record.boughtBy.length > 0" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="small-letters greyed" fxFlexFill *ngIf="record.boughtBy.length > 0" fxLayout="row" fxLayoutAlign="space-between center">
                     <div> {{ boughtByPrefix }} {{ getUsersNames(record.boughtBy) }} </div>
-                    <div> {{ record.boughtBy.length }} * {{ record.price / record.boughtBy.length }} {{ currency }} </div>
+                    <div> {{ record.boughtBy.length }} * {{ (record.price / record.boughtBy.length) | number : '1.2-2' }} {{ currency }} </div>
                 </div>
             </div>
 
@@ -30,8 +30,8 @@
         <div class="record-inside">
             <div fxFlex="49"> 
                 <div fxLayout="column" fxLayoutAlign="center start">
-                    <div class="big-letters"> {{ records.length }} </div>
-                    <div class="small-letters"> {{ "Liczba rekordów" | uppercase }} </div>
+                    <div class="big-letters"> {{ getAssignedRecordsNumber() }} / {{ records.length }} </div>
+                    <div class="small-letters"> {{ "Rozliczone rekordy" | uppercase }} </div>
                 </div>
             </div>
             <div class="add-button" fxFlex="2" fxLayoutAlign="center center">
@@ -41,7 +41,7 @@
             </div>
             <div fxFlex="49">
                 <div fxLayout="column" fxLayoutAlign="center end">
-                    <div class="big-letters"> {{ getPriceSum() }} {{ currency }} </div>
+                    <div class="big-letters"> {{ getPriceSum() | number : '1.2-2' }} {{ currency }} </div>
                     <div class="small-letters"> {{ "Całkowity koszt" | uppercase }} </div>
                 </div>
             </div>

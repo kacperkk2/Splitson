@@ -34,7 +34,7 @@ export class RecordsComponent {
 
   assignUsers(recordId: string) {
     let record = this.records.filter(record => record.id == recordId)[0];
-    const data = new AssignUsersDialogInput(this.users, record.boughtBy)
+    const data = new AssignUsersDialogInput(this.users, record.boughtBy, record.name);
     const dialogRef = this.dialog.open(AssignUsersDialog, {data: data, width: '90%', maxWidth: '650px'});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
@@ -88,5 +88,9 @@ export class RecordsComponent {
 
   getPriceSum() {
     return this.records.map(record => record.price).reduce((sum, current) => sum + current, 0);
+  }
+
+  getAssignedRecordsNumber() {
+    return this.records.filter(record => record.boughtBy.length > 0).length;
   }
 }

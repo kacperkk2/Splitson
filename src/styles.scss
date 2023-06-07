@@ -68,3 +68,13 @@ body {
 .highlight {
   color: map-get($splitson-primary, 500);
 }
+
+$grey: mat.define-palette(mat.$grey-palette, 500);
+
+.greyed {
+  color: map-get($grey, 500);
+}
+
+.highlight-background {
+  background-color: map-get($splitson-primary, 500);
+}

@@ -1,3 +1,14 @@
-<div>
-    <p *ngFor="let user of users"> {{ user.name }} : {{ user.balance }} </p>
-</div>
+<mat-list #recordsList>
+    <mat-card class="record" *ngFor="let user of users" fxLayout="row" fxLayoutAlign="center center">
+        <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxFlex="65" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="highlight"> {{ user.name }} </div>
+                <div class="highlight"> {{ user.balance | number : '1.2-2' }} {{ currency }} </div>
+            </div>
+            <div fxFlex="30" fxLayout="row" fxLayoutAlign="space-between center">
+                <div class="highlight-background indicator" [style.width.%]="getUserRatio(user)"></div>
+                <div class="indicator-background indicator"[style.width.%]="100-getUserRatio(user)"></div>
+            </div>
+        </div>
+    </mat-card>
+</mat-list>

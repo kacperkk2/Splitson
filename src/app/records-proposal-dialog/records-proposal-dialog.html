@@ -4,14 +4,14 @@
         <mat-card *ngFor="let record of records" fxLayout="row" fxLayoutAlign="center center">
             <div style="width: 90%" fxLayoutAlign="space-between center">
                 <div> {{ record.name }} </div>
-                <div> {{ record.price }} </div>
+                <div> {{ record.price | number : '1.2-2' }} </div>
             </div>
         </mat-card>
     </mat-list>
     <div fxLayout="row" fxLayoutAlign="center center">
         <div style="width: 90%" fxLayoutAlign="space-between center">
             <div> {{ "Suma" | uppercase }} </div>
-            <div> {{ priceSum }} </div>
+            <div> {{ priceSum | number : '1.2-2' }} </div>
         </div>
     </div>
 </mat-dialog-content>

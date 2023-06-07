@@ -11,8 +11,8 @@ export class DashboardComponent {
   recordsDeleteState: boolean = false;
   recordsEditState: boolean = false;
   users: User[] = [
-    {"name": "kacper", "balance": 0},
-    {"name": "drugityp", "balance": 0},
+    {"name": "Kacpix", "balance": 0},
+    {"name": "Klaudix", "balance": 0},
   ];
   records: Record[] = [
     {"id": "a", "name": "costam", "price": 109, "boughtBy": []},

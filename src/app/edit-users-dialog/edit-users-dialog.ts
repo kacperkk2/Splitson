@@ -4,6 +4,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { User } from '../dashboard/dashboard.component';
 import { MatListOption } from '@angular/material/list';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 
 @Component({
   selector: 'edit-users-dialog',
@@ -14,7 +15,8 @@ export class EditUsersDialog {
 
     constructor(
         public dialogRef: MatDialogRef<EditUsersDialog>, 
-        @Inject(MAT_DIALOG_DATA) public users: User[]
+        @Inject(MAT_DIALOG_DATA) public users: User[],
+        public dialog: MatDialog
         ) {
         this.newUserForm = new FormGroup({
             user: new FormControl("", [Validators.required])
@@ -37,4 +39,14 @@ export class EditUsersDialog {
     onBackClick(): void {
         this.dialogRef.close();
     }
+
+    clearAllData() {
+        const message = "Czy na pewno chcesz usunąć wszystkie dane?"
+        const dialogRef = this.dialog.open(ConfirmDialog, {data: message, width: '90%', maxWidth: '650px', autoFocus: false});
+        dialogRef.afterClosed().subscribe(result => {
+          if (result) {
+            this.dialogRef.close(true);
+          }
+        });
+      }
 }

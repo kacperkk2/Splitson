@@ -27,6 +27,9 @@ import { RecordsProposalDialog } from './records-proposal-dialog/records-proposa
 import { EditRecordDialog } from './edit-record-dialog/edit-record-dialog';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
+import { ConfirmDialog } from './confirm-dialog/confirm-dialog';
+import {MatExpansionModule} from '@angular/material/expansion';
+
 
 @NgModule({
   declarations: [
@@ -38,7 +41,8 @@ import {MatIconModule} from '@angular/material/icon';
     EditUsersDialog,
     InsertReceiptDialog,
     RecordsProposalDialog,
-    EditRecordDialog
+    EditRecordDialog,
+    ConfirmDialog
   ],
   imports: [
     BrowserModule,
@@ -59,7 +63,8 @@ import {MatIconModule} from '@angular/material/icon';
     MatCheckboxModule,
     TextFieldModule,
     MatToolbarModule,
-    MatIconModule
+    MatIconModule,
+    MatExpansionModule
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -18,4 +18,12 @@ export class SummaryComponent {
     }
     return (-user.balance / priceSum) * 100;
   }
+
+  getPriceSum() {
+    return this.records.map(record => record.price).reduce((sum, current) => sum + current, 0);
+  }
+
+  getPaidSum() {
+    return this.users.map(user => user.balance).reduce((sum, current) => sum + current, 0);
+  } 
 }

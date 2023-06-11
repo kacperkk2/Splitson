@@ -16,14 +16,15 @@
     position: relative;
 }
 
-.mat-list {
-    height: 10vh;
+mat-list {
+    height: calc(100vh - 190px);
+    overflow: auto;
 }
 
 .records-bottom-panel {
     padding-top: 10px;
     padding-bottom: 10px;
-    position: fixed;
+    position: sticky;
     bottom: 0;
     width: 100%;
     max-width: 625px;

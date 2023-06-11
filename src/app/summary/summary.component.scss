@@ -14,3 +14,18 @@
 .indicator-background {
   background-color: #282828;
 }
+
+mat-list {
+    height: calc(100vh - 190px);
+    overflow: auto;
+}
+
+.records-bottom-panel {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    position: sticky;
+    bottom: 0;
+    width: 100%;
+    max-width: 625px;
+    background-color: black;
+}

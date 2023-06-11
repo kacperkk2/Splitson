@@ -15,3 +15,22 @@
         <mat-divider *ngIf="!lastItem" class="divider"></mat-divider>
     </div>
 </mat-list>
+<div fxLayout="row" fxLayoutAlign="center center"> 
+    <div class="records-bottom-panel" fxLayoutAlign="center center">
+        <div class="record-inside">
+            <div fxFlex="50"> 
+                <div fxLayout="column" fxLayoutAlign="center start">
+                    <div class="big-letters"> {{ getPaidSum() | number : '1.2-2' }} {{ currency }} </div>
+                    <div class="small-letters"> {{ "Suma wydatków osób" | uppercase }} </div>
+                </div>
+            </div>
+            <div fxFlex="50">
+                <div fxLayout="column" fxLayoutAlign="center end">
+                    <div class="big-letters"> {{ getPriceSum() | number : '1.2-2' }} {{ currency }} </div>
+                    <div class="small-letters"> {{ "Całkowity koszt" | uppercase }} </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>

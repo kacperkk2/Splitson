@@ -5,6 +5,7 @@ import { Record, User } from '../dashboard/dashboard.component';
 import { EditRecordDialog, EditRecordDialogResult } from '../edit-record-dialog/edit-record-dialog';
 import { InsertReceiptDialog, InsertReceiptDialogResult } from '../insert-receipt-dialog/insert-receipt-dialog';
 import { v4 as uuid } from 'uuid';
+import { StorageService } from '../services/storage/storage.service';
 
 @Component({
   selector: 'app-records',
@@ -19,7 +20,7 @@ export class RecordsComponent {
   @Input() recordsDeleteState: boolean = false;
   @Input() recordsEditState: boolean = false;
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private storageService: StorageService) {}
 
   addRecords() {
     const dialogRef = this.dialog.open(InsertReceiptDialog, {data: "", width: '90%', maxWidth: '650px', height: '90%', autoFocus: false});
@@ -28,6 +29,7 @@ export class RecordsComponent {
         result.records.forEach(newRecord => {
           this.records.push({id: uuid(), "name": newRecord.name, price: newRecord.price, "boughtBy": []});
         });
+        this.storageService.storeRecords(this.records);
       }
     });
   }
@@ -41,6 +43,7 @@ export class RecordsComponent {
         this.returnOldAmout(record);
         record.boughtBy = result.selectedUsers;
         this.subtractNewAmout(record);
+        this.storageService.storeRecords(this.records);
       }
     });
   }
@@ -61,6 +64,7 @@ export class RecordsComponent {
     if (index > -1) {
       this.returnOldAmout(record);
       this.records.splice(index, 1);
+      this.storageService.storeRecords(this.records);
     }
   }
 
@@ -72,6 +76,7 @@ export class RecordsComponent {
         record.name = result.recordName;
         record.price = Number(result.recordPrice);
         this.subtractNewAmout(record);
+        this.storageService.storeRecords(this.records);
       }
     });
   }

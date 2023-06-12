@@ -24,6 +24,6 @@ export class SummaryComponent {
   }
 
   getPaidSum() {
-    return this.users.map(user => user.balance).reduce((sum, current) => sum + current, 0);
+    return this.users.map(user => user.balance).reduce((sum, current) => sum - current, 0);
   } 
 }

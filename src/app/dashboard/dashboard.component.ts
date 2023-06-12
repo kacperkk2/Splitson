@@ -24,13 +24,27 @@ export class DashboardComponent {
   }
   
   editUsers() {
+    const previousUserNames = this.users.map(user => user.name);
     const dialogRef = this.dialog.open(EditUsersDialog, {data: this.users, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
         this.clearAllData();
       }
+      const currentUserNames = this.users.map(user => user.name);
+      let deletedUsers = previousUserNames.filter(item => currentUserNames.indexOf(item) < 0);
+      if (deletedUsers.length > 0) {
+        this.removeDeletedUsersFromRecords(deletedUsers);
+      }
       this.storageService.storeAll(this.users, this.records);
     });
+  }
+
+  removeDeletedUsersFromRecords(deletedUsers: string[]) {
+    this.records
+      .forEach(record => {
+        const filteredOut = record.boughtBy.filter(user => !deletedUsers.includes(user.name));
+        record.boughtBy = filteredOut;
+    })
   }
 
   getUsersNamesLabel(users: User[]) {

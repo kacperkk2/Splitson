@@ -6,10 +6,11 @@
 </div>
 <mat-dialog-content>
     <div *ngIf="data.allUsers.length > 0">
-        <mat-checkbox fxLayout="column" fxLayoutAlign="center end"
-                color="primary" [(ngModel)]="allSelected" ngDefaultControl (click)="toggleAllSelection()">
-            Wszyscy
-        </mat-checkbox>
+        <mat-selection-list>
+            <mat-list-option color="primary" [selected]="allSelected" (click)="toggleAllSelection()">
+                Wszyscy
+            </mat-list-option>
+        </mat-selection-list>
         <mat-divider></mat-divider>
         <mat-selection-list #usersList>
             <mat-list-option color="primary" *ngFor="let user of data.allUsers" [value]="user" [selected]="isUserSelected(user)" (click)="optionClick()">
@@ -24,4 +25,3 @@
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
   <button mat-stroked-button color="primary" *ngIf="data.allUsers.length > 0" (click)="onConfirmClick(usersList.selectedOptions.selected)" cdkFocusInitial>Potwierdz</button>
 </mat-dialog-actions>
-<!-- https://stackoverflow.com/questions/59873777/mat-selection-list-selectall-not-working -->

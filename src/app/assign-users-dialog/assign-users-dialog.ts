@@ -37,6 +37,7 @@ export class AssignUsersDialog {
     }
 
     toggleAllSelection() {
+        this.allSelected = !this.allSelected;
         if (this.allSelected) {
             this.usersList.options.forEach((item: MatListOption) => item.selected = true)
         } else {

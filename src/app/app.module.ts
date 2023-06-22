@@ -29,6 +29,9 @@ import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatIconModule} from '@angular/material/icon';
 import { ConfirmDialog } from './confirm-dialog/confirm-dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { LoadedSplitsonDialog } from './loaded-splitson-dialog/loaded-splitson-dialog';
+import { ShareLinkDialog } from './share-link-dialog/share-link-dialog';
+import {ClipboardModule} from '@angular/cdk/clipboard';
 
 
 @NgModule({
@@ -42,7 +45,9 @@ import {MatExpansionModule} from '@angular/material/expansion';
     InsertReceiptDialog,
     RecordsProposalDialog,
     EditRecordDialog,
-    ConfirmDialog
+    ConfirmDialog,
+    LoadedSplitsonDialog,
+    ShareLinkDialog
   ],
   imports: [
     BrowserModule,
@@ -64,7 +69,8 @@ import {MatExpansionModule} from '@angular/material/expansion';
     TextFieldModule,
     MatToolbarModule,
     MatIconModule,
-    MatExpansionModule
+    MatExpansionModule,
+    ClipboardModule
   ],
   providers: [],
   bootstrap: [AppComponent]

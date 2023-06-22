@@ -2,14 +2,18 @@ import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 
 @Component({
-  selector: 'confirm-dialog',
-  templateUrl: 'confirm-dialog.html'
+  selector: 'share-link-dialog',
+  templateUrl: 'share-link-dialog.html'
 })
-export class ConfirmDialog {
-  priceSum: number = 0;
+export class ShareLinkDialog {
+  copied: boolean = false;
 
   constructor(
-      public dialogRef: MatDialogRef<ConfirmDialog>, 
+      public dialogRef: MatDialogRef<ShareLinkDialog>, 
       @Inject(MAT_DIALOG_DATA) public text: string
       ) {}
+  
+  copy() {
+    this.copied = true;
+  }
 }

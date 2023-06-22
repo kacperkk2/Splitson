@@ -6,6 +6,7 @@ import { EditRecordDialog, EditRecordDialogResult } from '../edit-record-dialog/
 import { InsertReceiptDialog, InsertReceiptDialogResult } from '../insert-receipt-dialog/insert-receipt-dialog';
 import { v4 as uuid } from 'uuid';
 import { StorageService } from '../services/storage/storage.service';
+import { IdManagerService } from '../services/id-manager/id-manager.service';
 
 @Component({
   selector: 'app-records',
@@ -20,21 +21,26 @@ export class RecordsComponent {
   @Input() recordsDeleteState: boolean = false;
   @Input() recordsEditState: boolean = false;
 
-  constructor(public dialog: MatDialog, private storageService: StorageService) {}
+  constructor(public dialog: MatDialog, private storageService: StorageService, private idManager: IdManagerService) {}
 
   addRecords() {
     const dialogRef = this.dialog.open(InsertReceiptDialog, {data: "", width: '90%', maxWidth: '650px', height: '90%', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: InsertReceiptDialogResult) => {
       if (result) {
         result.records.forEach(newRecord => {
-          this.records.push({id: uuid(), "name": newRecord.name, price: newRecord.price, "boughtBy": []});
+          this.records.push({
+            id: this.idManager.incrementAndGet(), 
+            "name": newRecord.name, 
+            price: newRecord.price, 
+            "boughtBy": []
+          });
         });
         this.storageService.storeRecords(this.records);
       }
     });
   }
 
-  assignUsers(recordId: string) {
+  assignUsers(recordId: number) {
     let record = this.records.filter(record => record.id == recordId)[0];
     const data = new AssignUsersDialogInput(this.users, record.boughtBy, record.name);
     const dialogRef = this.dialog.open(AssignUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
@@ -43,7 +49,7 @@ export class RecordsComponent {
         this.returnOldAmout(record);
         record.boughtBy = result.selectedUsers;
         this.subtractNewAmout(record);
-        this.storageService.storeRecords(this.records);
+        this.storageService.storeAll(this.users, this.records);
       }
     });
   }
@@ -55,8 +61,11 @@ export class RecordsComponent {
     return Number((price / boughtBy.length).toFixed(2));
   }
 
-  getUsersNames(users: User[]) {
-    return users.map(user => user.name).join(", ")
+  getUsersNames(boughtBy: User[]) {
+    if (boughtBy.length == this.users.length) {
+      return "wszyscy";
+    }
+    return boughtBy.map(user => user.name).join(", ")
   }
 
   deleteRecord(record: Record) {

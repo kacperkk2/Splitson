@@ -1,9 +1,12 @@
 <mat-toolbar class="toolbar" fxLayout="row" fxLayoutAlign="space-between center">
-    <div fxFlex="40" fxLayout="column" (click)="editUsers()">
-        <span class="x-big-letters letters-spacing">Splitson</span>
-        <span class="small-letters"> {{ getUsersNamesLabel(users) }} </span>
+    <div fxLayout="column" (click)="editUsers()" style="max-width: 200px">
+        <span class="x-big-letters letters-spacing hide-overflow">Splitson</span>
+        <span class="small-letters hide-overflow"> {{ getUsersNamesLabel(users) }} </span>
     </div>
     <div>
+        <button mat-icon-button (click)="share()" [disabled]="recordsDeleteState || recordsEditState">
+            <mat-icon>share</mat-icon>
+        </button>
         <button mat-icon-button (click)="toggleRecordsEditState()" [disabled]="recordsDeleteState">
             <mat-icon>edit_note</mat-icon>
         </button>

@@ -46,12 +46,18 @@ export class InsertReceiptDialog {
                     if (price.length == 1 && !Number(price)) { // its not the price, its char at the end
                         price = data.pop();
                     }
+                    console.log(price)
                     price = price?.split(",").join(".");
+                    console.log(price)
                     if (!Number(price)) { // char at the end is at the end of number without space
                         price = price?.slice(0, -1)
                     }
                     else if (price?.split(".")[1]?.length == 3) { // char at the end was loaded wrong (as a number like B as 8)
                         price = price?.slice(0, -1)
+                    }
+
+                    if (!Number(price)) {
+                        return; // if its not a number then give up
                     }
                     records.push({"name": data.join(" "), "price": Number(price)})
                 }

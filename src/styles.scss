@@ -49,6 +49,10 @@ body {
   font-size: large;
 }
 
+.medium-letters {
+  font-size: medium;
+}
+
 .x-big-letters {
   font-size: larger;
 }
@@ -81,4 +85,10 @@ $grey: mat.define-palette(mat.$grey-palette, 500);
 
 .highlight-background {
   background-color: map-get($splitson-primary, 500);
+}
+
+.hide-overflow {
+  text-overflow: ellipsis; 
+  white-space: nowrap; 
+  overflow: hidden;
 }

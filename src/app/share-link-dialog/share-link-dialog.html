@@ -1,0 +1,12 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <h2 mat-dialog-title> Skopiuj link żeby udostępnić </h2>
+    <button [mat-dialog-close]="false" mat-icon-button>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content fxLayout="row" fxLayoutAlign="center center">
+    <div style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"> {{ text }} </div>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+  <button mat-stroked-button [cdkCopyToClipboard]="text" color="primary" (click)="copy()"> {{ copied ? "Skopiowano!" : "Kopiuj" }}</button>
+</mat-dialog-actions>

@@ -74,7 +74,8 @@ export class DashboardComponent {
     const compressedRecords = compressToBase64(recordsText);
     const users = encodeURIComponent(compressedUsers);
     const records = encodeURIComponent(compressedRecords);
-    const shareUrl = location.origin + "?users=" + users + "&records=" + records;
+    const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages 
+    const shareUrl = baseUrl + "?users=" + users + "&records=" + records;
     const dialogRef = this.dialog.open(ShareLinkDialog, {data: shareUrl, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe();
   }

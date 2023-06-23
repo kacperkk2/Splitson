@@ -52,19 +52,29 @@ export class EditUsersDialog {
     }
 
     onBackClick(): void {
-      const result: EditUsersDialogResult = new EditUsersDialogResult(this.users, this.mainName, false);
+      const result: EditUsersDialogResult = new EditUsersDialogResult(this.users, this.mainName, false, false);
       this.dialogRef.close(result);
     }
 
     clearAllData() {
-        const message = "Czy na pewno chcesz usunąć wszystkie dane?"
-        const dialogRef = this.dialog.open(ConfirmDialog, {data: message, width: '90%', maxWidth: '650px', autoFocus: false});
-        dialogRef.afterClosed().subscribe(result => {
-          if (result) {
-            this.dialogRef.close(new EditUsersDialogResult([], "", true));
-          }
-        });
-      }
+      const message = "Czy na pewno chcesz usunąć wszystkie dane?"
+      const dialogRef = this.dialog.open(ConfirmDialog, {data: message, width: '90%', maxWidth: '650px', autoFocus: false});
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.dialogRef.close(new EditUsersDialogResult([], "", true, false));
+        }
+      });
+    }
+
+    clearRecords() {
+      const message = "Czy na pewno chcesz usunąć wszystkie rekordy?"
+      const dialogRef = this.dialog.open(ConfirmDialog, {data: message, width: '90%', maxWidth: '650px', autoFocus: false});
+      dialogRef.afterClosed().subscribe(result => {
+        if (result) {
+          this.dialogRef.close(new EditUsersDialogResult([], "", false, true));
+        }
+      });
+    }
 }
 
 export class EditUsersDialogInput {
@@ -72,5 +82,5 @@ export class EditUsersDialogInput {
 }
 
 export class EditUsersDialogResult {
-  constructor(public users: User[], public mainName: string, public resetApp: boolean) {}
+  constructor(public users: User[], public mainName: string, public clearAllData: boolean, public clearRecords: boolean, ) {}
 }

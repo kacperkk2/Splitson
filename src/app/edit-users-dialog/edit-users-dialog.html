@@ -1,17 +1,23 @@
+
 <div fxLayout="row" fxLayoutAlign="space-between center">
-    <div mat-dialog-title style="font-size: larger;"> 
+    <h2 mat-dialog-title> Edycja użytkowników i tytułu </h2>
+    <div fxLayout="row" fxLayoutAlign="end center">
+        <button mat-icon-button (click)="onBackClick()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+    <p>Tytuł:</p>
+    <div mat-dialog-title fxLayout="row" fxLayoutAlign="start center"> 
         {{ mainName }}
         <button mat-icon-button (click)="changeName()">
             <mat-icon fxLayoutAlign="center center" style="font-size: large;">edit</mat-icon>
         </button>
     </div>
-    <button mat-icon-button (click)="onBackClick()">
-        <mat-icon>close</mat-icon>
-    </button>
-</div>
-<mat-divider></mat-divider>
-<mat-dialog-content>
-    <!-- <p>Użytkownicy:</p> -->
+
+    <p>Użytkownicy:</p>
     <mat-card *ngFor="let user of users" fxLayout="row" fxLayoutAlign="center center">
         <div style="width: 100%" fxLayoutAlign="space-between center">
             <div fxFlex="85" style="padding-left: 25px;"> {{ user.name }} </div>
@@ -41,8 +47,9 @@
             Resetuj dane aplikacji
           </mat-panel-description>
         </mat-expansion-panel-header>
-        <div fxLayoutAlign="center center">
-            <button mat-stroked-button color="warn" (click)="clearAllData()">Usuń rekordy i użytkowników</button>
+        <div fxLayoutAlign="space-evenly center">
+            <button mat-stroked-button color="warn" (click)="clearAllData()"> Wszystkie dane </button>
+            <button mat-stroked-button color="warn" (click)="clearRecords()"> Rekordy </button>
         </div>
     </mat-expansion-panel>
 </mat-dialog-content>

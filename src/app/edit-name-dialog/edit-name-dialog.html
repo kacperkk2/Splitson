@@ -7,7 +7,8 @@
 <mat-dialog-content>
     <form [formGroup]="nameForm" fxFlexFill>
         <mat-form-field style="width: 100%;">
-            <input matInput formControlName="name" autocomplete="off">
+            <input matInput #input formControlName="name" autocomplete="off">
+            <mat-hint align="end"> {{ input.value.length }}/{{ maxLength }} </mat-hint>
         </mat-form-field>
     </form>
 </mat-dialog-content>

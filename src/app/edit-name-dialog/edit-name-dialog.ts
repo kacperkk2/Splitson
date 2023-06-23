@@ -1,8 +1,5 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
-import { Record, User } from '../dashboard/dashboard.component';
-import { MatListOption } from '@angular/material/list';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
@@ -11,13 +8,14 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 })
 export class EditNameDialog {
     nameForm: FormGroup;
+    maxLength: number = 40;
 
     constructor(
         public dialogRef: MatDialogRef<EditNameDialog>, 
         @Inject(MAT_DIALOG_DATA) public name: string
         ) {
         this.nameForm = new FormGroup({
-            name: new FormControl(name, [Validators.required]),
+            name: new FormControl(name, [Validators.required, Validators.maxLength(this.maxLength)]),
         });
     }
 

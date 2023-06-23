@@ -92,8 +92,11 @@ export class DashboardComponent {
     const data = new EditUsersDialogInput(this.users, this.mainName)
     const dialogRef = this.dialog.open(EditUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: EditUsersDialogResult) => {
-      if (result.resetApp) {
+      if (result.clearAllData) {
         this.clearAllData();
+      }
+      else if (result.clearRecords) {
+        this.clearRecords();
       }
       else {
         this.users = result.users;
@@ -135,6 +138,12 @@ export class DashboardComponent {
     this.records = [];
     this.users = [];
     this.mainName = this.defaultName;
+    this.idManager.clear();
+  }
+
+  clearRecords() {
+    this.records = [];
+    this.users.forEach(user => user.balance = 0);
     this.idManager.clear();
   }
 }

@@ -12,6 +12,7 @@ import { RecordProposal, RecordsProposalDialog } from '../records-proposal-dialo
 })
 export class InsertReceiptDialog {
     receiptForm: FormGroup;
+    dataFormat: string = "Pierwszy produkt [spacja] cena \nDrugi produkt [spacja] cena\n...";
 
     constructor(
         public dialogRef: MatDialogRef<InsertReceiptDialog>, 

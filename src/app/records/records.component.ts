@@ -49,7 +49,7 @@ export class RecordsComponent {
         this.returnOldAmout(record);
         record.boughtBy = result.selectedUsers;
         this.subtractNewAmout(record);
-        this.storageService.storeAll(this.users, this.records);
+        this.storageService.storeData(this.users, this.records);
       }
     });
   }

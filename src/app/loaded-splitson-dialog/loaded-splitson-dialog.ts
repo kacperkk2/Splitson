@@ -25,5 +25,5 @@ export class LoadedSplitsonDialog {
 }
 
 export class LoadedSplitsonDialogInput {
-  constructor(public users: User[], public records: Record[]) {}
+  constructor(public users: User[], public records: Record[], public name: string) {}
 }

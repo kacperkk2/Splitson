@@ -32,6 +32,7 @@ import {MatExpansionModule} from '@angular/material/expansion';
 import { LoadedSplitsonDialog } from './loaded-splitson-dialog/loaded-splitson-dialog';
 import { ShareLinkDialog } from './share-link-dialog/share-link-dialog';
 import {ClipboardModule} from '@angular/cdk/clipboard';
+import { EditNameDialog } from './edit-name-dialog/edit-name-dialog';
 
 
 @NgModule({
@@ -47,7 +48,8 @@ import {ClipboardModule} from '@angular/cdk/clipboard';
     EditRecordDialog,
     ConfirmDialog,
     LoadedSplitsonDialog,
-    ShareLinkDialog
+    ShareLinkDialog,
+    EditNameDialog
   ],
   imports: [
     BrowserModule,

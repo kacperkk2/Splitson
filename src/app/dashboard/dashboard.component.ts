@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
-import { EditUsersDialog } from '../edit-users-dialog/edit-users-dialog';
+import { EditUsersDialog, EditUsersDialogInput, EditUsersDialogResult } from '../edit-users-dialog/edit-users-dialog';
 import { StorageService, StorageServiceModel } from '../services/storage/storage.service';
 import { Buffer } from "buffer";
 import { compressToBase64, decompressFromBase64 } from 'lz-string';
@@ -21,6 +21,8 @@ export class DashboardComponent {
   recordsEditState: boolean = false;
   users: User[] = [];
   records: Record[] = [];
+  defaultName: string = "Splitson";
+  mainName: string = this.defaultName;
 
   constructor(public dialog: MatDialog, 
     private storageService: StorageService, 
@@ -31,8 +33,8 @@ export class DashboardComponent {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=> {
-      if (params['users'] && params['records']){
-        this.loadFromUrlAfterDialog(params['users'], params['records']);
+      if (params['users'] && params['records'] && params['name']) {
+        this.loadFromUrlAfterDialog(params['users'], params['records'], params['name']);
       }
       else {
         this.loadFromStore();
@@ -45,26 +47,29 @@ export class DashboardComponent {
     let data: StorageServiceModel = this.storageService.load();
     this.users = data.users;
     this.records = data.records;
+    this.mainName = data.name;
   }
 
-  loadFromUrlAfterDialog(usersText: string, recordsText: string) {
-    const data: LoadedSplitsonDialogInput = this.loadFromUrl(usersText, recordsText);
+  loadFromUrlAfterDialog(usersText: string, recordsText: string, nameText: string) {
+    const data: LoadedSplitsonDialogInput = this.loadFromUrl(usersText, recordsText, nameText);
     const dialogRef = this.dialog.open(LoadedSplitsonDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
-          this.storageService.storeAll(data.users, data.records);
-          this.router.navigate([], { queryParams: {} });
+          this.storageService.storeAll(data.users, data.records, data.name);
         }
+        this.router.navigate([], { queryParams: {} });
     });
   }
 
-  loadFromUrl(usersText: string, recordsText: string) {
+  loadFromUrl(usersText: string, recordsText: string, nameText: string) {
     const decompressedUsers = decompressFromBase64(usersText);
     const decompressedRecords = decompressFromBase64(recordsText);
+    const name = decompressFromBase64(nameText);
     const users = this.codec.decodeUsers(decompressedUsers);
     return new LoadedSplitsonDialogInput(
       users, 
-      this.codec.decodeRecords(decompressedRecords, users))
+      this.codec.decodeRecords(decompressedRecords, users),
+      name)
   }
 
   share() {
@@ -72,27 +77,34 @@ export class DashboardComponent {
     const usersText = this.codec.encodeUsers(this.users);
     const compressedUsers = compressToBase64(usersText);
     const compressedRecords = compressToBase64(recordsText);
+    const compressedName = compressToBase64(this.mainName);
     const users = encodeURIComponent(compressedUsers);
     const records = encodeURIComponent(compressedRecords);
+    const name = encodeURIComponent(compressedName);
     const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages 
-    const shareUrl = baseUrl + "?users=" + users + "&records=" + records;
+    const shareUrl = baseUrl + "?name=" + name + "&users=" + users + "&records=" + records;
     const dialogRef = this.dialog.open(ShareLinkDialog, {data: shareUrl, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe();
   }
   
   editUsers() {
     const previousUserNames = this.users.map(user => user.name);
-    const dialogRef = this.dialog.open(EditUsersDialog, {data: this.users, width: '90%', maxWidth: '650px', autoFocus: false});
-    dialogRef.afterClosed().subscribe(result => {
-      if (result) {
+    const data = new EditUsersDialogInput(this.users, this.mainName)
+    const dialogRef = this.dialog.open(EditUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
+    dialogRef.afterClosed().subscribe((result: EditUsersDialogResult) => {
+      if (result.resetApp) {
         this.clearAllData();
       }
-      const currentUserNames = this.users.map(user => user.name);
-      let deletedUsers = previousUserNames.filter(item => currentUserNames.indexOf(item) < 0);
-      if (deletedUsers.length > 0) {
-        this.removeDeletedUsersFromRecords(deletedUsers);
+      else {
+        this.users = result.users;
+        this.mainName = result.mainName;
+        const currentUserNames = this.users.map(user => user.name);
+        let deletedUsers = previousUserNames.filter(item => currentUserNames.indexOf(item) < 0);
+        if (deletedUsers.length > 0) {
+          this.removeDeletedUsersFromRecords(deletedUsers);
+        }
       }
-      this.storageService.storeAll(this.users, this.records);
+      this.storageService.storeAll(this.users, this.records, this.mainName);
     });
   }
 
@@ -122,6 +134,7 @@ export class DashboardComponent {
   clearAllData() {
     this.records = [];
     this.users = [];
+    this.mainName = this.defaultName;
     this.idManager.clear();
   }
 }

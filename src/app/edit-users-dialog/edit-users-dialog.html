@@ -1,10 +1,17 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 mat-dialog-title> Splitson </h2>
-    <button  mat-icon-button (click)="onBackClick()">
+    <div mat-dialog-title style="font-size: larger;"> 
+        {{ mainName }}
+        <button mat-icon-button (click)="changeName()">
+            <mat-icon fxLayoutAlign="center center" style="font-size: large;">edit</mat-icon>
+        </button>
+    </div>
+    <button mat-icon-button (click)="onBackClick()">
         <mat-icon>close</mat-icon>
     </button>
 </div>
+<mat-divider></mat-divider>
 <mat-dialog-content>
+    <!-- <p>Użytkownicy:</p> -->
     <mat-card *ngFor="let user of users" fxLayout="row" fxLayoutAlign="center center">
         <div style="width: 100%" fxLayoutAlign="space-between center">
             <div fxFlex="85" style="padding-left: 25px;"> {{ user.name }} </div>

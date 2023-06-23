@@ -7,13 +7,10 @@
     </div>
 </div>
 <mat-dialog-content>
-    <p>Użytkownicy:</p>
-    <!-- <mat-card fxLayout="row" fxLayoutAlign="center center">
-        <div style="width: 90%" fxLayoutAlign="space-between center">
-            <div > {{ getUsersSummary(data.users) }} </div>
-        </div>
-    </mat-card> -->
+    <div fxLayoutAlign="center center" style="font-size: large"> {{ data.name }} </div>
+    <mat-divider></mat-divider>
 
+    <p>Użytkownicy:</p>
     <mat-list>
         <mat-card *ngFor="let user of data.users; let i = index" fxLayout="row" fxLayoutAlign="center center">
             <div style="width: 90%" fxLayoutAlign="space-between center">
@@ -22,6 +19,11 @@
             </div>
         </mat-card>
     </mat-list>
+    <div fxLayout="row" *ngIf="data.users.length == 0" fxLayoutAlign="center center">
+        <div style="width: 90%" fxLayoutAlign="space-between center">
+            Brak użytkowników
+        </div>
+    </div>
 
     <p>Rekordy:</p>
     <mat-list #recordsList>
@@ -45,5 +47,5 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
-  <button mat-stroked-button color="primary" [mat-dialog-close]="true">Zapisz (Bieżące dane zostaną utracone)</button>
+  <button mat-stroked-button color="primary" [mat-dialog-close]="true">Zapisz (istniejące dane zostaną nadpisane)</button>
 </mat-dialog-actions>

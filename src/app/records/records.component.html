@@ -1,4 +1,5 @@
 <mat-list #recordsList>
+    <div *ngIf="records.length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div>
     <div *ngFor="let record of records; let lastItem = last;">
         <mat-card class="record" fxLayout="column" fxLayoutAlign="center center"
                 (click)="recordsDeleteState || recordsEditState ? null : assignUsers(record.id)">

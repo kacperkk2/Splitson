@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { Record, User } from 'src/app/dashboard/dashboard.component';
+import { CurrencySettings } from 'src/app/app.component';
+import { CurrencyProfile, Record, User } from 'src/app/dashboard/dashboard.component';
 
 @Injectable({
   providedIn: 'root'
@@ -81,6 +82,11 @@ export class CodecService {
     return usersList;
   }
 
+  decodeCurrencyProfile(currencyProfile: string) {
+    let currencyProfileList: string[] = currencyProfile.split(this.entityDelimiter)
+    return this.getCurrencyProfile(currencyProfileList[0], Number(currencyProfileList[1]), currencyProfileList[2])
+  }
+
   encodeUsers(users: User[]) {
     if (users.length == 0) {
       return "[]";
@@ -91,5 +97,18 @@ export class CodecService {
         user.balance
       ));
     return usersList.join(this.entityDelimiter);
+  }
+
+  encodeCurrencyProfile(currencyProfile: CurrencyProfile) {
+    let curencyProfileList: string[] = [currencyProfile.paidCurrency.name, String(currencyProfile.exchangeRate), currencyProfile.targetCurrency.name]
+    return curencyProfileList.join(this.entityDelimiter);
+  }
+
+  getCurrencyProfile(paidCurrencyName: string, exchangeRate: number, targetCurrencyName: string) {
+    return {
+      paidCurrency: CurrencySettings.all.get(paidCurrencyName)!,
+      exchangeRate: exchangeRate,
+      targetCurrency: CurrencySettings.all.get(targetCurrencyName)!,
+    };
   }
 }

@@ -5,7 +5,13 @@
             <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
                 <div fxFlex="65" fxLayout="row" fxLayoutAlign="space-between center">
                     <div class="highlight"> {{ user.name }} </div>
-                    <div class="highlight"> {{ user.balance | number : '1.2-2' }} {{ currency }} </div>
+                    <div fxLayout="column" fxLayoutAlign="center center">
+                        <div class="highlight"> {{ user.balance * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }} </div>
+                        <div class="small-letters greyed" fxFlexFill fxLayoutAlign="end center"
+                        *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name">
+                            <div> ({{ user.balance | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }}) </div>
+                        </div>
+                    </div>
                 </div>
                 <div fxFlex="30" fxLayout="row" fxLayoutAlign="space-between center">
                     <div class="highlight-background indicator" [style.width.%]="getUserRatio(user)"></div>
@@ -21,13 +27,25 @@
         <div class="record-inside">
             <div fxFlex="50"> 
                 <div fxLayout="column" fxLayoutAlign="center start">
-                    <div class="big-letters"> {{ getPaidSum() | number : '1.2-2' }} {{ currency }} </div>
+                    <div fxLayout="row">
+                        <div class="big-letters"> {{ getPriceSum() * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }} </div>
+                        <div class="small-letters greyed small-sum" fxLayoutAlign="center center"
+                        *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name">
+                            ({{ getPriceSum() | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }})
+                        </div>
+                    </div>
                     <div class="small-letters"> {{ "Suma wydatków osób" | uppercase }} </div>
                 </div>
             </div>
             <div fxFlex="50">
                 <div fxLayout="column" fxLayoutAlign="center end">
-                    <div class="big-letters"> {{ getPriceSum() | number : '1.2-2' }} {{ currency }} </div>
+                    <div fxLayout="row">
+                        <div class="small-letters greyed small-sum" fxLayoutAlign="center center"
+                        *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name">
+                            ({{ getPriceSum() | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }})
+                        </div>
+                        <div class="big-letters"> {{ getPriceSum() * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }} </div>
+                    </div>
                     <div class="small-letters"> {{ "Całkowity koszt" | uppercase }} </div>
                 </div>
             </div>

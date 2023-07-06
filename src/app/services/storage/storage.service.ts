@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { User, Record } from 'src/app/dashboard/dashboard.component';
+import { CurrencySettings, DEFAULT_NAME } from 'src/app/app.component';
+import { User, Record, CurrencyProfile } from 'src/app/dashboard/dashboard.component';
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,7 @@ export class StorageService {
   usersKey: string = "splitsonUsersKey";
   recordsKey: string = "splitsonRecordsKey";
   nameKey: string = "splitsonNameKey";
+  currencyProfileKey: string = "currencyProfileKey";
 
   constructor() { }
 
@@ -16,9 +18,19 @@ export class StorageService {
     localStorage.setItem(this.recordsKey, JSON.stringify(records));
   }
 
-  public storeAll(users: User[], records: Record[], name: string) {
+  public storeAll(users: User[], records: Record[], name: string, currencyProfile: CurrencyProfile) {
     this.storeData(users, records);
-    localStorage.setItem(this.nameKey, name);
+    this.storeName(name);
+    this.storeCurrencyProfile(currencyProfile);
+  }
+
+  public storeCurrencyProfile(currencyProfile: CurrencyProfile) {
+    const currencyProfileStore: CurrencyProfileStore = {
+      paidCurrencyName: currencyProfile.paidCurrency.name,
+      targetCurrencyName: currencyProfile.targetCurrency.name,
+      exchangeRate: currencyProfile.exchangeRate,
+    }
+    localStorage.setItem(this.currencyProfileKey, JSON.stringify(currencyProfileStore));
   }
 
   public storeName(name: string) {
@@ -36,11 +48,33 @@ export class StorageService {
   public load(): StorageServiceModel {
     const records = JSON.parse(localStorage.getItem(this.recordsKey) || '[]');
     const users = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
-    const name = localStorage.getItem(this.nameKey) || "";
-    return new StorageServiceModel(users, records, name);
+    const name = localStorage.getItem(this.nameKey) || DEFAULT_NAME;
+    const currencyProfile = this.loadCurrencyProfile();
+    return new StorageServiceModel(users, records, name, currencyProfile);
+  }
+
+  loadCurrencyProfile() {
+    let currencyProfileStore: CurrencyProfileStore = JSON.parse(localStorage.getItem(this.currencyProfileKey) || "{}");
+    return Object.keys(currencyProfileStore).length == 0 
+              ? this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default) 
+              : this.getCurrencyProfile(currencyProfileStore.paidCurrencyName, currencyProfileStore.exchangeRate, currencyProfileStore.targetCurrencyName);
+  }
+
+  getCurrencyProfile(paidCurrencyName: string, exchangeRate: number, targetCurrencyName: string) {
+    return {
+      paidCurrency: CurrencySettings.all.get(paidCurrencyName)!,
+      exchangeRate: exchangeRate,
+      targetCurrency: CurrencySettings.all.get(targetCurrencyName)!,
+    };
   }
 }
 
 export class StorageServiceModel {
-  constructor(public users: User[], public records: Record[], public name: string) {}
+  constructor(public users: User[], public records: Record[], public name: string, public currencyProfile: CurrencyProfile) {}
+}
+
+export interface CurrencyProfileStore {
+  paidCurrencyName: string;
+  targetCurrencyName: string;
+  exchangeRate: number;
 }

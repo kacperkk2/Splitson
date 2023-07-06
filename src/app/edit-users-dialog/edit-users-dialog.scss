@@ -1,0 +1,22 @@
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    margin: 0; 
+}
+
+::ng-deep .mat-form-field-wrapper{
+  margin-bottom: -1.25em;
+  width: 90px;
+  height: 80px;
+}
+
+.input-text-center {
+  text-align: center;
+}
+
+.margin-sides {
+  margin-left: 5px;
+  margin-right: 5px;
+}

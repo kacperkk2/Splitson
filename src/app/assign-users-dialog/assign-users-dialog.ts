@@ -1,7 +1,7 @@
 import {Component, Inject, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import { User } from '../dashboard/dashboard.component';
+import { User, Record } from '../dashboard/dashboard.component';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
@@ -19,7 +19,7 @@ export class AssignUsersDialog {
         @Inject(MAT_DIALOG_DATA) public data: AssignUsersDialogInput) {}
 
     ngOnInit(): void {
-        if (this.data.allUsers.length == this.data.selectedUsers.length) {
+        if (this.data.allUsers.length == this.data.record.boughtBy.length) {
             this.allSelected = true;
         }
     }
@@ -33,7 +33,7 @@ export class AssignUsersDialog {
     }
 
     isUserSelected(user: User) {
-        return this.data.selectedUsers.filter(selectedUser => selectedUser.name == user.name).length > 0;
+        return this.data.record.boughtBy.filter(selectedUser => selectedUser.name == user.name).length > 0;
     }
 
     toggleAllSelection() {
@@ -53,11 +53,11 @@ export class AssignUsersDialog {
             }
         });
         this.allSelected = newStatus;
-      }
+    }
 }
 
 export class AssignUsersDialogInput {
-    constructor(public allUsers: User[], public selectedUsers: User[], public recordName: string) {}
+    constructor(public allUsers: User[], public record: Record, public currencyShort: string) {}
 }
 
 export class AssignUsersDialogResult {

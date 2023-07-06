@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 fxFlex="80" mat-dialog-title> Kto kupił <strong> {{ data.recordName }} </strong> </h2>
+    <h2 fxFlex="80" mat-dialog-title> Kto kupił <strong> {{ data.record.name }} {{ data.record.price }} {{ data.currencyShort }} </strong> </h2>
     <div fxFlex="20" fxLayoutAlign="center center">
         <button  mat-icon-button (click)="onBackClick()">
             <mat-icon>close</mat-icon>

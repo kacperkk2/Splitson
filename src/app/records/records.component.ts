@@ -1,12 +1,13 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AssignUsersDialog, AssignUsersDialogInput } from '../assign-users-dialog/assign-users-dialog';
-import { Record, User } from '../dashboard/dashboard.component';
+import { CurrencyProfile, Record, User } from '../dashboard/dashboard.component';
 import { EditRecordDialog, EditRecordDialogResult } from '../edit-record-dialog/edit-record-dialog';
 import { InsertReceiptDialog, InsertReceiptDialogResult } from '../insert-receipt-dialog/insert-receipt-dialog';
 import { v4 as uuid } from 'uuid';
 import { StorageService } from '../services/storage/storage.service';
 import { IdManagerService } from '../services/id-manager/id-manager.service';
+import { Currency } from '../app.component';
 
 @Component({
   selector: 'app-records',
@@ -14,10 +15,10 @@ import { IdManagerService } from '../services/id-manager/id-manager.service';
   styleUrls: ['./records.component.scss']
 })
 export class RecordsComponent {
-  currency: string = "zł";
   boughtByPrefix: string = "Kupione przez: ";
   @Input() users: User[] = [];
   @Input() records: Record[] = [];
+  @Input() currencyProfile: CurrencyProfile;
   @Input() recordsDeleteState: boolean = false;
   @Input() recordsEditState: boolean = false;
 
@@ -42,7 +43,7 @@ export class RecordsComponent {
 
   assignUsers(recordId: number) {
     let record = this.records.filter(record => record.id == recordId)[0];
-    const data = new AssignUsersDialogInput(this.users, record.boughtBy, record.name);
+    const data = new AssignUsersDialogInput(this.users, record, this.currencyProfile.paidCurrency.short);
     const dialogRef = this.dialog.open(AssignUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
       if (result) {

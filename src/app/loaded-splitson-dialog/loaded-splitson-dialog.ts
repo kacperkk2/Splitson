@@ -1,6 +1,6 @@
 import {Component, Inject} from '@angular/core';
 import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { User, Record } from '../dashboard/dashboard.component';
+import { User, Record, CurrencyProfile } from '../dashboard/dashboard.component';
 
 @Component({
   selector: 'loaded-splitson-dialog',
@@ -25,5 +25,5 @@ export class LoadedSplitsonDialog {
 }
 
 export class LoadedSplitsonDialogInput {
-  constructor(public users: User[], public records: Record[], public name: string) {}
+  constructor(public users: User[], public records: Record[], public name: string, public currencyProfile: CurrencyProfile) {}
 }

@@ -10,6 +10,7 @@ import { CodecService } from '../services/codec/codec.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadedSplitsonDialog, LoadedSplitsonDialogInput } from '../loaded-splitson-dialog/loaded-splitson-dialog';
 import { ShareLinkDialog } from '../share-link-dialog/share-link-dialog';
+import { Currency, CurrencySettings, DEFAULT_NAME } from '../app.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,8 +22,8 @@ export class DashboardComponent {
   recordsEditState: boolean = false;
   users: User[] = [];
   records: Record[] = [];
-  defaultName: string = "Splitson";
-  mainName: string = this.defaultName;
+  currencyProfile: CurrencyProfile = this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default);
+  mainName: string = DEFAULT_NAME;
 
   constructor(public dialog: MatDialog, 
     private storageService: StorageService, 
@@ -33,8 +34,8 @@ export class DashboardComponent {
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=> {
-      if (params['users'] && params['records'] && params['name']) {
-        this.loadFromUrlAfterDialog(params['users'], params['records'], params['name']);
+      if (params['users'] && params['records'] && params['name'] && params['currency']) {
+        this.loadFromUrlAfterDialog(params['users'], params['records'], params['name'], params['currency']);
       }
       else {
         this.loadFromStore();
@@ -48,48 +49,55 @@ export class DashboardComponent {
     this.users = data.users;
     this.records = data.records;
     this.mainName = data.name;
+    this.currencyProfile = data.currencyProfile;
   }
 
-  loadFromUrlAfterDialog(usersText: string, recordsText: string, nameText: string) {
-    const data: LoadedSplitsonDialogInput = this.loadFromUrl(usersText, recordsText, nameText);
+  loadFromUrlAfterDialog(usersText: string, recordsText: string, nameText: string, currencyProfileText: string) {
+    const data: LoadedSplitsonDialogInput = this.loadFromUrl(usersText, recordsText, nameText, currencyProfileText);
+    console.log(data)
     const dialogRef = this.dialog.open(LoadedSplitsonDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
-          this.storageService.storeAll(data.users, data.records, data.name);
+          this.storageService.storeAll(data.users, data.records, data.name, data.currencyProfile);
         }
         this.router.navigate([], { queryParams: {} });
     });
   }
 
-  loadFromUrl(usersText: string, recordsText: string, nameText: string) {
+  loadFromUrl(usersText: string, recordsText: string, nameText: string, currencyProfileText: string) {
     const decompressedUsers = decompressFromBase64(usersText);
     const decompressedRecords = decompressFromBase64(recordsText);
+    const decompressedCurrencyProfile = decompressFromBase64(currencyProfileText);
     const name = decompressFromBase64(nameText);
     const users = this.codec.decodeUsers(decompressedUsers);
     return new LoadedSplitsonDialogInput(
       users, 
       this.codec.decodeRecords(decompressedRecords, users),
-      name)
+      name,
+      this.codec.decodeCurrencyProfile(decompressedCurrencyProfile))
   }
 
   share() {
     const recordsText = this.codec.encodeRecords(this.records, this.users);
     const usersText = this.codec.encodeUsers(this.users);
+    const currencyProfileText = this.codec.encodeCurrencyProfile(this.currencyProfile);
     const compressedUsers = compressToBase64(usersText);
     const compressedRecords = compressToBase64(recordsText);
     const compressedName = compressToBase64(this.mainName);
+    const compressedCurrencyProfile = compressToBase64(currencyProfileText);
     const users = encodeURIComponent(compressedUsers);
     const records = encodeURIComponent(compressedRecords);
     const name = encodeURIComponent(compressedName);
+    const currencyProfile = encodeURIComponent(compressedCurrencyProfile);
     const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages 
-    const shareUrl = baseUrl + "?name=" + name + "&users=" + users + "&records=" + records;
+    const shareUrl = baseUrl + "?name=" + name + "&users=" + users + "&records=" + records + "&currency=" + currencyProfile;
     const dialogRef = this.dialog.open(ShareLinkDialog, {data: shareUrl, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe();
   }
   
   editUsers() {
     const previousUserNames = this.users.map(user => user.name);
-    const data = new EditUsersDialogInput(this.users, this.mainName)
+    const data = new EditUsersDialogInput(this.users, this.mainName, this.currencyProfile)
     const dialogRef = this.dialog.open(EditUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: EditUsersDialogResult) => {
       if (result.clearAllData) {
@@ -107,7 +115,7 @@ export class DashboardComponent {
           this.removeDeletedUsersFromRecords(deletedUsers);
         }
       }
-      this.storageService.storeAll(this.users, this.records, this.mainName);
+      this.storageService.storeAll(this.users, this.records, this.mainName, this.currencyProfile);
     });
   }
 
@@ -137,7 +145,8 @@ export class DashboardComponent {
   clearAllData() {
     this.records = [];
     this.users = [];
-    this.mainName = this.defaultName;
+    this.mainName = DEFAULT_NAME;
+    this.currencyProfile = this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default);
     this.idManager.clear();
   }
 
@@ -145,6 +154,14 @@ export class DashboardComponent {
     this.records = [];
     this.users.forEach(user => user.balance = 0);
     this.idManager.clear();
+  }
+
+  getCurrencyProfile(paidCurrencyName: string, exchangeRate: number, targetCurrencyName: string) {
+    return {
+      paidCurrency: CurrencySettings.all.get(paidCurrencyName)!,
+      exchangeRate: exchangeRate,
+      targetCurrency: CurrencySettings.all.get(targetCurrencyName)!,
+    };
   }
 }
 
@@ -158,4 +175,10 @@ export interface Record {
   name: string;
   price: number;
   boughtBy: User[];
+}
+
+export interface CurrencyProfile {
+  paidCurrency: Currency;
+  exchangeRate: number;
+  targetCurrency: Currency;
 }

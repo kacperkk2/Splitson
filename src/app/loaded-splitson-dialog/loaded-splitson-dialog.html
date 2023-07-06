@@ -45,6 +45,25 @@
             Brak rekordów
         </div>
     </div>
+
+
+    <p>Waluty:</p>
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div style="width: 100%" fxLayoutAlign="space-between center">
+            <div fxFlex="33" fxLayout="column"  fxLayoutAlign="space-between center">
+                <div> Kupno </div> 
+                <div> {{ data.currencyProfile.paidCurrency.name }} </div>
+            </div>
+            <div fxFlex="33" fxLayout="column"  fxLayoutAlign="space-between center">
+                <div> Kurs </div> 
+                <div> {{ data.currencyProfile.exchangeRate }} </div>
+            </div>
+            <div fxFlex="33" fxLayout="column"  fxLayoutAlign="space-between center">
+                <div> Docelowa </div> 
+                <div> {{ data.currencyProfile.targetCurrency.name }} </div>
+            </div>
+        </div>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
   <button mat-stroked-button color="primary" [mat-dialog-close]="true">Zapisz (istniejące dane zostaną nadpisane)</button>

@@ -1,6 +1,6 @@
 
 <div fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 mat-dialog-title> Edycja użytkowników i tytułu </h2>
+    <h2 mat-dialog-title> Zarządzaj Splitsonem </h2>
     <div fxLayout="row" fxLayoutAlign="end center">
         <button mat-icon-button (click)="onBackClick()">
             <mat-icon>close</mat-icon>
@@ -37,6 +37,33 @@
         </form>
         <button style="height: 55px" fxFlex="15" mat-flat-button color="primary" 
                 [disabled]="!newUserForm.valid" (click)="addUser()">Dodaj</button>
+    </div>
+
+    <p>Waluty:</p>
+    <div fxLayout="row" fxLayoutAlign="space-between center">
+        <mat-form-field style="width: 49%">
+            <mat-label> Waluta kupna </mat-label>
+            <mat-select [(value)]="data.currencyProfile.paidCurrency">
+                <mat-option *ngFor="let currency of currencies" [value]="currency"> {{ currency.name }} </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field style="width: 49%">
+            <mat-label> Waluta rozliczenia </mat-label>
+            <mat-select [(value)]="data.currencyProfile.targetCurrency">
+                <mat-option *ngFor="let currency of currencies" [value]="currency"> {{ currency.name }} </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutAlign="center center">
+        <div class="big-letters margin-sides"> 1 {{ data.currencyProfile.paidCurrency.short }} = </div>
+        <mat-form-field class="mat-form-field-wrapper" *ngIf="data.currencyProfile.paidCurrency.name !== data.currencyProfile.targetCurrency.name">
+            <input class="input-text-center" matInput type="number" [(ngModel)]="data.currencyProfile.exchangeRate">
+        </mat-form-field>
+        <mat-form-field class="mat-form-field-wrapper" *ngIf="data.currencyProfile.paidCurrency.name === data.currencyProfile.targetCurrency.name">
+            <input class="input-text-center" matInput type="number" value="1" disabled="true">
+        </mat-form-field>
+        <div class="big-letters margin-sides"> {{ data.currencyProfile.targetCurrency.short }} </div>
     </div>
 
     <mat-divider style="margin-top: 20px"></mat-divider>

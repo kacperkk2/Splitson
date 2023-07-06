@@ -1,17 +1,20 @@
 import {Component, Inject, Output} from '@angular/core';
 import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
-import { User } from '../dashboard/dashboard.component';
+import { CurrencyProfile, User } from '../dashboard/dashboard.component';
 import { MatListOption } from '@angular/material/list';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
 import { EditNameDialog } from '../edit-name-dialog/edit-name-dialog';
+import { Currency, CurrencySettings } from '../app.component';
 
 @Component({
   selector: 'edit-users-dialog',
-  templateUrl: 'edit-users-dialog.html'
+  templateUrl: 'edit-users-dialog.html',
+  styleUrls: ['./edit-users-dialog.scss']
 })
 export class EditUsersDialog {
+    currencies: Currency[];
     newUserForm: FormGroup;
     mainName: string = "";
     users: User[] = [];
@@ -21,11 +24,12 @@ export class EditUsersDialog {
         @Inject(MAT_DIALOG_DATA) public data: EditUsersDialogInput,
         public dialog: MatDialog
         ) {
-        this.mainName = data.mainName;
-        this.users = data.users;
-        this.newUserForm = new FormGroup({
-            user: new FormControl("", [Validators.required])
-        });
+          this.currencies = Array.from(CurrencySettings.all.values());
+          this.mainName = data.mainName;
+          this.users = data.users;
+          this.newUserForm = new FormGroup({
+              user: new FormControl("", [Validators.required])
+          });
     }
 
     changeName() {
@@ -75,10 +79,14 @@ export class EditUsersDialog {
         }
       });
     }
+
+    compareObjects(o1: any, o2: any): boolean {
+      return o1.name === o2.name;
+    }
 }
 
 export class EditUsersDialogInput {
-  constructor(public users: User[], public mainName: string) {}
+  constructor(public users: User[], public mainName: string, public currencyProfile: CurrencyProfile) {}
 }
 
 export class EditUsersDialogResult {

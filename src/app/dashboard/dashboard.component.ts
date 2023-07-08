@@ -89,7 +89,7 @@ export class DashboardComponent {
     const records = encodeURIComponent(compressedRecords);
     const name = encodeURIComponent(compressedName);
     const currencyProfile = encodeURIComponent(compressedCurrencyProfile);
-    const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages 
+    const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages
     const shareUrl = baseUrl + "?name=" + name + "&users=" + users + "&records=" + records + "&currency=" + currencyProfile;
     const dialogRef = this.dialog.open(ShareLinkDialog, {data: shareUrl, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe();

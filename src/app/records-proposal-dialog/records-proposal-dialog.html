@@ -7,25 +7,25 @@
 <mat-divider></mat-divider>
 <mat-dialog-content>
     <mat-list #recordsList>
-        <mat-card *ngFor="let record of records; let i = index" fxLayout="row" fxLayoutAlign="center center">
+        <mat-card *ngFor="let record of data.records; let i = index" fxLayout="row" fxLayoutAlign="center center">
             <div style="width: 90%" fxLayoutAlign="space-between center">
                 <div> {{ (i+1) + ". " + record.name }} </div>
-                <div> {{ record.price | number : '1.2-2' }} </div>
+                <div> {{ record.price | number : '1.2-2' }} {{ data.currencyShort }} </div>
             </div>
         </mat-card>
     </mat-list>
-    <div fxLayout="row" *ngIf="records.length > 0" fxLayoutAlign="center center">
+    <div fxLayout="row" *ngIf="data.records.length > 0" fxLayoutAlign="center center">
         <div style="width: 90%" fxLayoutAlign="space-between center">
             <div> {{ "Suma" | uppercase }} </div>
-            <div> {{ priceSum | number : '1.2-2' }} </div>
+            <div> {{ priceSum | number : '1.2-2' }} {{ data.currencyShort }} </div>
         </div>
     </div>
-    <div fxLayout="row" *ngIf="records.length == 0" fxLayoutAlign="center center">
+    <div fxLayout="row" *ngIf="data.records.length == 0" fxLayoutAlign="center center">
         <div style="width: 90%" fxLayoutAlign="space-between center">
             Brak rekordów
         </div>
     </div>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-  <button mat-stroked-button color="primary" [disabled]="records.length == 0" [mat-dialog-close]="true">Dodaj rekordy</button>
+  <button mat-stroked-button color="primary" [disabled]="data.records.length == 0" [mat-dialog-close]="true">Dodaj rekordy</button>
 </mat-dialog-actions>

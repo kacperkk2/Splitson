@@ -28,10 +28,10 @@
             <div fxFlex="50"> 
                 <div fxLayout="column" fxLayoutAlign="center start">
                     <div fxLayout="row">
-                        <div class="big-letters"> {{ getPriceSum() * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }} </div>
+                        <div class="big-letters"> {{ getPaidSum() * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }} </div>
                         <div class="small-letters greyed small-sum" fxLayoutAlign="center center"
                         *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name">
-                            ({{ getPriceSum() | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }})
+                            ({{ getPaidSum() | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }})
                         </div>
                     </div>
                     <div class="small-letters"> {{ "Suma wydatków osób" | uppercase }} </div>

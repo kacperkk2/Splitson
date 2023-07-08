@@ -14,10 +14,14 @@ export class RecordsProposalDialog {
 
   constructor(
       public dialogRef: MatDialogRef<RecordsProposalDialog>, 
-      @Inject(MAT_DIALOG_DATA) public records: RecordProposal[]
+      @Inject(MAT_DIALOG_DATA) public data: RecordsProposalDialogInput
       ) {
-        records.forEach(record => this.priceSum += record.price);
+        data.records.forEach(record => this.priceSum += record.price);
   }
+}
+
+export class RecordsProposalDialogInput {
+  constructor(public records: RecordProposal[], public currencyShort: string) {}
 }
 
 export interface RecordProposal {

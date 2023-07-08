@@ -25,7 +25,7 @@ export class RecordsComponent {
   constructor(public dialog: MatDialog, private storageService: StorageService, private idManager: IdManagerService) {}
 
   addRecords() {
-    const dialogRef = this.dialog.open(InsertReceiptDialog, {data: "", width: '90%', maxWidth: '650px', height: '90%', autoFocus: false});
+    const dialogRef = this.dialog.open(InsertReceiptDialog, {data: this.currencyProfile.paidCurrency.short, width: '90%', maxWidth: '650px', height: '90%', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: InsertReceiptDialogResult) => {
       if (result) {
         result.records.forEach(newRecord => {

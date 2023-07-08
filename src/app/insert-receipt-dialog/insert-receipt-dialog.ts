@@ -4,7 +4,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { User } from '../dashboard/dashboard.component';
 import { MatListOption } from '@angular/material/list';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { RecordProposal, RecordsProposalDialog } from '../records-proposal-dialog/records-proposal-dialog';
+import { RecordProposal, RecordsProposalDialog, RecordsProposalDialogInput } from '../records-proposal-dialog/records-proposal-dialog';
 
 @Component({
   selector: 'insert-receipt-dialog',
@@ -16,18 +16,19 @@ export class InsertReceiptDialog {
 
     constructor(
         public dialogRef: MatDialogRef<InsertReceiptDialog>, 
-        @Inject(MAT_DIALOG_DATA) public content: string,
+        @Inject(MAT_DIALOG_DATA) public currencyShort: string,
         public dialog: MatDialog
         ) {
         this.receiptForm = new FormGroup({
-            content: new FormControl(content, [Validators.required])
+            content: new FormControl("", [Validators.required])
         });
     }
 
     processReceipt() {
         const receiptContent = this.receiptForm.get('content')!.value as string;
         let records = this.parseReceiptContent(receiptContent);
-        const dialogRef = this.dialog.open(RecordsProposalDialog, {data: records, width: '90%', maxWidth: '650px', autoFocus: false});
+        const data = new RecordsProposalDialogInput(records, this.currencyShort);
+        const dialogRef = this.dialog.open(RecordsProposalDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
         dialogRef.afterClosed().subscribe(result => {
             if (result == true) {
                 this.dialogRef.close(new InsertReceiptDialogResult(records));

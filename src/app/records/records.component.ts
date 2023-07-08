@@ -74,7 +74,7 @@ export class RecordsComponent {
     if (index > -1) {
       this.returnOldAmout(record);
       this.records.splice(index, 1);
-      this.storageService.storeRecords(this.records);
+      this.storageService.storeData(this.users, this.records);
     }
   }
 
@@ -86,14 +86,18 @@ export class RecordsComponent {
         record.name = result.recordName;
         record.price = Number(result.recordPrice);
         this.subtractNewAmout(record);
-        this.storageService.storeRecords(this.records);
+        this.storageService.storeData(this.users, this.records);
       }
     });
   }
 
   returnOldAmout(record: Record) {
     let amount = this.getAmountPerPerson(record.price, record.boughtBy);
-    record.boughtBy.forEach(user => user.balance = user.balance + amount);
+    console.log("returning : " + amount)
+    console.log("record.boughtBy : " + record.boughtBy)
+    record.boughtBy.forEach(user => {
+      user.balance = user.balance + amount
+    });
   }
 
   subtractNewAmout(record: Record) {

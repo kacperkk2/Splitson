@@ -48,9 +48,20 @@ export class StorageService {
   public load(): StorageServiceModel {
     const records = JSON.parse(localStorage.getItem(this.recordsKey) || '[]');
     const users = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
+    this.connectRecordsWithUsers(records, users);
     const name = localStorage.getItem(this.nameKey) || DEFAULT_NAME;
     const currencyProfile = this.loadCurrencyProfile();
     return new StorageServiceModel(users, records, name, currencyProfile);
+  }
+
+  connectRecordsWithUsers(records: Record[], users: User[]) {
+    records.forEach(record => {
+      let boughtByList: User[] = [];
+      record.boughtBy.forEach(boughtBy => {
+        boughtByList.push(users.find(user => user.name === boughtBy.name)!)
+      })
+      record.boughtBy = boughtByList;
+    })
   }
 
   loadCurrencyProfile() {

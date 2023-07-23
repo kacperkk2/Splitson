@@ -1,0 +1,30 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <h2 mat-dialog-title> Kupione przez <strong> {{ data.user.name }} </strong> </h2>
+    <button [mat-dialog-close]="false" mat-icon-button>
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-divider></mat-divider>
+<mat-dialog-content>
+    <mat-list #recordsList>
+        <mat-card *ngFor="let record of data.records; let i = index" fxLayout="row" fxLayoutAlign="center center">
+            <div style="width: 90%" fxLayoutAlign="space-between center">
+                <div> {{ (i+1) + ". " + record.name }} </div>
+                <div> ({{ record.price | number : '1.2-2' }}/{{ record.boughtBy.length }}) 
+                    {{ (record.price / record.boughtBy.length) | number : '1.2-2' }} 
+                    {{ data.currencyShort }} </div>
+            </div>
+        </mat-card>
+    </mat-list>
+    <div fxLayout="row" *ngIf="data.records.length > 0" fxLayoutAlign="center center">
+        <div style="width: 90%" fxLayoutAlign="space-between center">
+            <div> {{ "Suma" | uppercase }} </div>
+            <div> {{ priceSum | number : '1.2-2' }} {{ data.currencyShort }} </div>
+        </div>
+    </div>
+    <div fxLayout="row" *ngIf="data.records.length == 0" fxLayoutAlign="center center">
+        <div style="width: 90%" fxLayoutAlign="space-between center">
+            Brak rekordów
+        </div>
+    </div>
+</mat-dialog-content>

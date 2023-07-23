@@ -15,7 +15,7 @@ import { Currency } from '../app.component';
   styleUrls: ['./records.component.scss']
 })
 export class RecordsComponent {
-  boughtByPrefix: string = "Kupione przez: ";
+  boughtByPrefix: string = "Podzielone na: ";
   @Input() users: User[] = [];
   @Input() records: Record[] = [];
   @Input() currencyProfile: CurrencyProfile;
@@ -62,11 +62,19 @@ export class RecordsComponent {
     return Number((price / boughtBy.length).toFixed(2));
   }
 
-  getUsersNames(boughtBy: User[]) {
+  getUsersCountLabel(boughtBy: User[]) {
     if (boughtBy.length == this.users.length) {
-      return "wszyscy";
+      return "wszystkich";
     }
-    return boughtBy.map(user => user.name).join(", ")
+    if (boughtBy.length == 1) {
+      return boughtBy.length + " osobę";
+    }
+    else if (boughtBy.length <= 4) {
+      return boughtBy.length + " osoby";
+    }
+    else {
+      return boughtBy.length + " osób";
+    }
   }
 
   deleteRecord(record: Record) {

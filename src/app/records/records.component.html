@@ -10,7 +10,7 @@
                         <div class="highlight"> {{ record.price | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }} </div>
                     </div>
                     <div class="small-letters greyed" fxFlexFill *ngIf="record.boughtBy.length > 0" fxLayout="row" fxLayoutAlign="space-between center">
-                        <div> {{ boughtByPrefix }} {{ getUsersNames(record.boughtBy) }} </div>
+                        <div> {{ boughtByPrefix }} {{ getUsersCountLabel(record.boughtBy) }} </div>
                         <div> {{ record.boughtBy.length }} * {{ (record.price / record.boughtBy.length) | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }} </div>
                     </div>
                 </div>

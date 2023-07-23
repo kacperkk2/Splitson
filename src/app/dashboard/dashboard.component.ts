@@ -54,7 +54,6 @@ export class DashboardComponent {
 
   loadFromUrlAfterDialog(usersText: string, recordsText: string, nameText: string, currencyProfileText: string) {
     const data: LoadedSplitsonDialogInput = this.loadFromUrl(usersText, recordsText, nameText, currencyProfileText);
-    console.log(data)
     const dialogRef = this.dialog.open(LoadedSplitsonDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
         if (result == true) {

@@ -1,7 +1,7 @@
 <mat-list #recordsList>
     <div *ngIf="users.length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak użytkowników </div>
     <div *ngFor="let user of users; let lastItem = last;">
-        <mat-card class="record" fxLayout="row" fxLayoutAlign="center center">
+        <mat-card class="record" fxLayout="row" fxLayoutAlign="center center" (click)="showBoughtRecords(user)">
             <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
                 <div fxFlex="65" fxLayout="row" fxLayoutAlign="space-between center">
                     <div class="highlight"> {{ user.name }} </div>

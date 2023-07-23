@@ -9,10 +9,12 @@
     <mat-list #recordsList>
         <mat-card *ngFor="let record of data.records; let i = index" fxLayout="row" fxLayoutAlign="center center">
             <div style="width: 90%" fxLayoutAlign="space-between center">
-                <div> {{ (i+1) + ". " + record.name }} </div>
-                <div> ({{ record.price | number : '1.2-2' }}/{{ record.boughtBy.length }}) 
-                    {{ (record.price / record.boughtBy.length) | number : '1.2-2' }} 
-                    {{ data.currencyShort }} </div>
+                <div class="hide-overflow"> {{ (i+1) + ". " + record.name }} </div>
+                <div fxLayout="column" fxLayoutAlign="center end">
+                    <div> ({{ record.price | number : '1.2-2' }}/{{ record.boughtBy.length }}) </div>
+                    <div> {{ (record.price / record.boughtBy.length) | number : '1.2-2' }} 
+                        {{ data.currencyShort }} </div>
+                </div>
             </div>
         </mat-card>
     </mat-list>

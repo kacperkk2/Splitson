@@ -14,10 +14,9 @@
     <mat-list>
         <mat-card *ngFor="let user of data.users; let i = index" fxLayout="row" fxLayoutAlign="center center">
             <div style="width: 90%" fxLayoutAlign="space-between center">
-                <div style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"> {{ (i+1) + ". " + user.name }} </div>
-                <div fxLayout="row">
-                    <div *ngIf="data.currencyProfile.paidCurrency.name !== data.currencyProfile.targetCurrency.name"
-                    style="margin-right: 10px">
+                <div class="hide-overflow"> {{ (i+1) + ". " + user.name }} </div>
+                <div fxLayout="column" fxLayoutAlign="center end">
+                    <div *ngIf="data.currencyProfile.paidCurrency.name !== data.currencyProfile.targetCurrency.name">
                         ({{ user.balance * data.currencyProfile.exchangeRate | number : '1.2-2' }} {{ data.currencyProfile.targetCurrency.short }}) </div>
                     <div> {{ user.balance | number : '1.2-2' }} {{ data.currencyProfile.paidCurrency.short }} </div>
                 </div>
@@ -34,12 +33,11 @@
     <mat-list #recordsList>
         <mat-card *ngFor="let record of data.records; let i = index" fxLayout="row" fxLayoutAlign="center center">
             <div style="width: 90%" fxLayoutAlign="space-between center">
-                <div style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"> {{ (i+1) + ". " + record.name }} </div>
-                <div fxLayout="row">
-                    <div *ngIf="data.currencyProfile.paidCurrency.name !== data.currencyProfile.targetCurrency.name"
-                    style="margin-right: 10px">
+                <div fxFlex="70" class="hide-overflow"> {{ (i+1) + ". " + record.name }} </div>
+                <div fxLayout="column" fxLayoutAlign="center end">
+                    <div *ngIf="data.currencyProfile.paidCurrency.name !== data.currencyProfile.targetCurrency.name">
                         ({{ record.price * data.currencyProfile.exchangeRate | number : '1.2-2' }} {{ data.currencyProfile.targetCurrency.short }}) </div>
-                        <div> {{ record.price | number : '1.2-2' }} {{ data.currencyProfile.paidCurrency.short }} </div>
+                    <div> {{ record.price | number : '1.2-2' }} {{ data.currencyProfile.paidCurrency.short }} </div>
                 </div>
             </div>
         </mat-card>
@@ -47,9 +45,8 @@
     <div *ngIf="data.records.length > 0" fxLayout="row" fxLayoutAlign="center center">
         <div style="width: 90%" fxLayoutAlign="space-between center">
             <div> {{ "Suma" | uppercase }} </div>
-            <div fxLayout="row">
-                <div *ngIf="data.currencyProfile.paidCurrency.name !== data.currencyProfile.targetCurrency.name"
-                style="margin-right: 10px">
+            <div fxLayout="column" fxLayoutAlign="center end">
+                <div *ngIf="data.currencyProfile.paidCurrency.name !== data.currencyProfile.targetCurrency.name">
                     ({{ priceSum * data.currencyProfile.exchangeRate | number : '1.2-2' }} {{ data.currencyProfile.targetCurrency.short }}) </div>
                     <div> {{ priceSum | number : '1.2-2' }} {{ data.currencyProfile.paidCurrency.short }} </div>
             </div>
@@ -81,5 +78,5 @@
     </div>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
-  <button mat-stroked-button color="primary" [mat-dialog-close]="true">Zapisz (istniejące dane zostaną nadpisane)</button>
+  <button mat-stroked-button color="primary" [mat-dialog-close]="true">Wczytaj dane (istniejące zostaną nadpisane)</button>
 </mat-dialog-actions>

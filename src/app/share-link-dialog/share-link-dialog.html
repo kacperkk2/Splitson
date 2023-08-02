@@ -5,9 +5,31 @@
     </button>
 </div>
 <mat-divider></mat-divider>
-<mat-dialog-content fxLayout="row" fxLayoutAlign="center center">
-    <div style="text-overflow: ellipsis; white-space: nowrap; overflow: hidden;"> {{ text }} </div>
+<mat-dialog-content fxLayout="column" fxLayoutAlign="center center">
+    <mat-slide-toggle
+          color="primary"
+          [(ngModel)]="shortUrlPicked"
+          [disabled]="false"
+          (change)="toggleClick()">
+        {{ shortUrlPicked ? 'Skrócony link' : 'Domyślny link' }}
+    </mat-slide-toggle>
+
+    <div fxLayout="row" style="margin-top: 25px; max-width: 300px;" class="hide-overflow">
+        <div *ngIf="!shortUrlPicked" class="hide-overflow">
+            <div class="hide-overflow"> {{ data.longUrl }} </div>
+        </div>
+    
+        <div *ngIf="shortUrlPicked" class="hide-overflow">
+            <div class="hide-overflow"> {{ data.shortUrl }} </div>
+        </div>
+    </div>
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
-  <button mat-stroked-button [cdkCopyToClipboard]="text" color="primary" (click)="copy()"> {{ copied ? "Skopiowano!" : "Kopiuj" }}</button>
+    <button mat-stroked-button 
+            [cdkCopyToClipboard]="shortUrlPicked ? data.shortUrl : data.longUrl" 
+            color="primary" 
+            (click)="copy()" 
+            [disabled]="shortUrlPicked && shortUrlNotAvailable"> 
+        {{ copied ? "Skopiowano!" : "Kopiuj" }}
+    </button>
 </mat-dialog-actions>

@@ -7,13 +7,25 @@ import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angula
 })
 export class ShareLinkDialog {
   copied: boolean = false;
+  shortUrlPicked: boolean = true;
+  shortUrlNotAvailable: boolean = false;
 
-  constructor(
-      public dialogRef: MatDialogRef<ShareLinkDialog>, 
-      @Inject(MAT_DIALOG_DATA) public text: string
-      ) {}
+  constructor(public dialogRef: MatDialogRef<ShareLinkDialog>, @Inject(MAT_DIALOG_DATA) public data: ShareLinkDialogInput) {
+    if (data.shortUrl === '') {
+      this.shortUrlPicked = false;
+      this.shortUrlNotAvailable = true;
+    }
+  }
   
   copy() {
     this.copied = true;
   }
+
+  toggleClick() {
+    this.copied = false;
+  }
+}
+
+export class ShareLinkDialogInput {
+  constructor(public shortUrl: string, public longUrl: string) {}
 }

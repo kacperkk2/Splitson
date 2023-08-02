@@ -34,6 +34,8 @@ import { ShareLinkDialog } from './share-link-dialog/share-link-dialog';
 import {ClipboardModule} from '@angular/cdk/clipboard';
 import { EditNameDialog } from './edit-name-dialog/edit-name-dialog';
 import { BoughtRecordsSummaryDialog } from './bought-records-summary-dialog/bought-records-summary-dialog';
+import { HttpClientModule } from '@angular/common/http';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 
 
 @NgModule({
@@ -74,7 +76,9 @@ import { BoughtRecordsSummaryDialog } from './bought-records-summary-dialog/boug
     MatToolbarModule,
     MatIconModule,
     MatExpansionModule,
-    ClipboardModule
+    ClipboardModule,
+    HttpClientModule,
+    MatSlideToggleModule
   ],
   providers: [],
   bootstrap: [AppComponent]

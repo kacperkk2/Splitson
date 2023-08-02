@@ -9,8 +9,10 @@ import { IdManagerService } from '../services/id-manager/id-manager.service';
 import { CodecService } from '../services/codec/codec.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LoadedSplitsonDialog, LoadedSplitsonDialogInput } from '../loaded-splitson-dialog/loaded-splitson-dialog';
-import { ShareLinkDialog } from '../share-link-dialog/share-link-dialog';
+import { ShareLinkDialog, ShareLinkDialogInput } from '../share-link-dialog/share-link-dialog';
 import { Currency, CurrencySettings, DEFAULT_NAME } from '../app.component';
+import { ShortUrlServiceService } from '../services/short-url/short-url-service.service';
+import { lastValueFrom } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -30,7 +32,8 @@ export class DashboardComponent {
     private idManager: IdManagerService,
     private codec: CodecService,
     private router: Router,
-    private route: ActivatedRoute) {}
+    private route: ActivatedRoute,
+    private shortUrlService: ShortUrlServiceService) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=> {
@@ -77,6 +80,28 @@ export class DashboardComponent {
   }
 
   share() {
+    const compressedEncodedData = this.getCompressedEncodedData();
+    const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages
+    const longUrl = baseUrl 
+        + "?name=" + compressedEncodedData.name 
+        + "&users=" + compressedEncodedData.users
+        + "&records=" + compressedEncodedData.records
+        + "&currency=" + compressedEncodedData.currencyProfile;
+    
+    const encodedUrl = encodeURIComponent(longUrl);
+    this.shortUrlService.getShortUrl(encodedUrl).subscribe((response) => {
+      console.log(response)
+      let shortUrl = "";
+      if (response.shorturl) {
+        shortUrl = response.shorturl;
+      }
+      const data = new ShareLinkDialogInput(shortUrl, longUrl);
+      const dialogRef = this.dialog.open(ShareLinkDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
+      dialogRef.afterClosed().subscribe();
+    });
+  }
+
+  getCompressedEncodedData() {
     const recordsText = this.codec.encodeRecords(this.records, this.users);
     const usersText = this.codec.encodeUsers(this.users);
     const currencyProfileText = this.codec.encodeCurrencyProfile(this.currencyProfile);
@@ -84,14 +109,12 @@ export class DashboardComponent {
     const compressedRecords = compressToBase64(recordsText);
     const compressedName = compressToBase64(this.mainName);
     const compressedCurrencyProfile = compressToBase64(currencyProfileText);
-    const users = encodeURIComponent(compressedUsers);
-    const records = encodeURIComponent(compressedRecords);
-    const name = encodeURIComponent(compressedName);
-    const currencyProfile = encodeURIComponent(compressedCurrencyProfile);
-    const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages
-    const shareUrl = baseUrl + "?name=" + name + "&users=" + users + "&records=" + records + "&currency=" + currencyProfile;
-    const dialogRef = this.dialog.open(ShareLinkDialog, {data: shareUrl, width: '90%', maxWidth: '650px', autoFocus: false});
-    dialogRef.afterClosed().subscribe();
+    return {
+      users: encodeURIComponent(compressedUsers),
+      records: encodeURIComponent(compressedRecords),
+      name: encodeURIComponent(compressedName),
+      currencyProfile: encodeURIComponent(compressedCurrencyProfile),
+    }
   }
   
   editUsers() {

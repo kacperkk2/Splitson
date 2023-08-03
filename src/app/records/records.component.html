@@ -4,14 +4,21 @@
         <mat-card class="record" fxLayout="column" fxLayoutAlign="center center"
                 (click)="recordsDeleteState || recordsEditState ? null : assignUsers(record.id)">
             <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
-                <div style="width:100%">
-                    <div fxFlexFill fxLayout="row" fxLayoutAlign="space-between center">
-                        <div class="highlight"> {{ record.name }} </div>
-                        <div class="highlight"> {{ record.price | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }} </div>
-                    </div>
-                    <div class="small-letters greyed" fxFlexFill *ngIf="record.boughtBy.length > 0" fxLayout="row" fxLayoutAlign="space-between center">
-                        <div> {{ boughtByPrefix }} {{ getUsersCountLabel(record.boughtBy) }} </div>
+                <div fxLayout="column" fxLayoutAlign="center start" fxFlex="75">
+                    <div class="highlight"> {{ record.name }} </div>
+                    <div class="small-letters greyed" *ngIf="record.boughtBy.length > 0" fxLayout="row"> 
                         <div> {{ record.boughtBy.length }} * {{ (record.price / record.boughtBy.length) | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }} </div>
+                        <div style="margin-left: 4px"
+                                *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name"> 
+                            ({{ (record.price / record.boughtBy.length) * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }}) 
+                        </div>
+                    </div>
+                </div>
+                <div fxLayout="column" fxLayoutAlign="center end" fxFlex="25">
+                    <div class="highlight"> {{ record.price | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }} </div>
+                    <div class="small-letters greyed" 
+                            *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name"> 
+                        ({{ record.price * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }}) 
                     </div>
                 </div>
 

@@ -20,7 +20,8 @@
         </div>
     
         <div *ngIf="shortUrlPicked" class="hide-overflow">
-            <div class="hide-overflow"> {{ data.shortUrl }} </div>
+            <div *ngIf="shortUrlNotAvailable" class="hide-overflow"> Skrócony link niedostępny </div>
+            <div *ngIf="!shortUrlNotAvailable" class="hide-overflow"> {{ data.shortUrl }} </div>
         </div>
     </div>
 </mat-dialog-content>

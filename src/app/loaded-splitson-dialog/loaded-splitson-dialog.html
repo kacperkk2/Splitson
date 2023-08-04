@@ -8,11 +8,12 @@
 </div>
 <mat-dialog-content>
     <div fxLayoutAlign="center center" style="font-size: large"> {{ data.name }} </div>
+
     <mat-divider></mat-divider>
 
     <p>Użytkownicy:</p>
     <mat-list>
-        <mat-card *ngFor="let user of data.users; let i = index" fxLayout="row" fxLayoutAlign="center center">
+        <div *ngFor="let user of data.users; let i = index; let lastItem = last" fxLayout="column" fxLayoutAlign="center center">
             <div style="width: 90%" fxLayoutAlign="space-between center">
                 <div class="hide-overflow"> {{ (i+1) + ". " + user.name }} </div>
                 <div fxLayout="column" fxLayoutAlign="center end">
@@ -21,7 +22,8 @@
                     <div> {{ user.balance | number : '1.2-2' }} {{ data.currencyProfile.paidCurrency.short }} </div>
                 </div>
             </div>
-        </mat-card>
+            <mat-divider *ngIf="!lastItem" style="width: 90%"></mat-divider>
+        </div>
     </mat-list>
     <div fxLayout="row" *ngIf="data.users.length == 0" fxLayoutAlign="center center">
         <div style="width: 90%" fxLayoutAlign="space-between center">
@@ -29,9 +31,11 @@
         </div>
     </div>
 
+    <mat-divider></mat-divider>
+
     <p>Rekordy:</p>
     <mat-list #recordsList>
-        <mat-card *ngFor="let record of data.records; let i = index" fxLayout="row" fxLayoutAlign="center center">
+        <div *ngFor="let record of data.records; let i = index" fxLayout="column" fxLayoutAlign="center center">
             <div style="width: 90%" fxLayoutAlign="space-between center">
                 <div fxFlex="70" class="hide-overflow"> {{ (i+1) + ". " + record.name }} </div>
                 <div fxLayout="column" fxLayoutAlign="center end">
@@ -40,7 +44,8 @@
                     <div> {{ record.price | number : '1.2-2' }} {{ data.currencyProfile.paidCurrency.short }} </div>
                 </div>
             </div>
-        </mat-card>
+            <mat-divider style="width: 90%"></mat-divider>
+        </div>
     </mat-list>
     <div *ngIf="data.records.length > 0" fxLayout="row" fxLayoutAlign="center center">
         <div style="width: 90%" fxLayoutAlign="space-between center">
@@ -58,6 +63,7 @@
         </div>
     </div>
 
+    <mat-divider></mat-divider>
 
     <p>Waluty:</p>
     <div fxLayout="row" fxLayoutAlign="center center">

@@ -7,7 +7,7 @@
 <mat-divider></mat-divider>
 <mat-dialog-content>
     <mat-list #recordsList>
-        <mat-card *ngFor="let record of data.records; let i = index" fxLayout="row" fxLayoutAlign="center center">
+        <div *ngFor="let record of data.records; let i = index; let lastItem = last" fxLayout="column" fxLayoutAlign="center center">
             <div style="width: 90%" fxLayoutAlign="space-between center">
                 <div class="hide-overflow"> {{ (i+1) + ". " + record.name }} </div>
                 <div fxLayout="column" fxLayoutAlign="center end">
@@ -16,8 +16,12 @@
                         {{ data.currencyShort }} </div>
                 </div>
             </div>
-        </mat-card>
+            <mat-divider *ngIf="!lastItem" style="width: 90%"></mat-divider>
+        </div>
     </mat-list>
+
+    <mat-divider style="margin-bottom: 10px"></mat-divider>
+
     <div fxLayout="row" *ngIf="data.records.length > 0" fxLayoutAlign="center center">
         <div style="width: 90%" fxLayoutAlign="space-between center">
             <div> {{ "Suma" | uppercase }} </div>
@@ -26,7 +30,7 @@
     </div>
     <div fxLayout="row" *ngIf="data.records.length == 0" fxLayoutAlign="center center">
         <div style="width: 90%" fxLayoutAlign="space-between center">
-            Brak rekordów
+            Brak wydatków
         </div>
     </div>
 </mat-dialog-content>

@@ -17,6 +17,8 @@
         </button>
     </div>
 
+    <mat-divider></mat-divider>
+
     <p>Użytkownicy:</p>
     <mat-card *ngFor="let user of users" fxLayout="row" fxLayoutAlign="center center">
         <div style="width: 100%" fxLayoutAlign="space-between center">
@@ -38,6 +40,8 @@
         <button style="height: 55px" fxFlex="15" mat-flat-button color="primary" 
                 [disabled]="!newUserForm.valid" (click)="addUser()">Dodaj</button>
     </div>
+
+    <mat-divider></mat-divider>
 
     <p>Waluty:</p>
     <div fxLayout="row" fxLayoutAlign="space-between center">

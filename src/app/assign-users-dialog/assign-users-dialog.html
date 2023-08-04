@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 fxFlex="80" mat-dialog-title> Kto kupił <strong> {{ data.record.name }} {{ data.record.price }} {{ data.currencyShort }} </strong> </h2>
+    <h2 fxFlex="80" mat-dialog-title> Kto kupił <strong> {{ data.record.name }} {{ data.record.price | number : '1.2-2' }} {{ data.currencyShort }} </strong> </h2>
     <div fxFlex="20" fxLayoutAlign="center center">
         <button  mat-icon-button (click)="onBackClick()">
             <mat-icon>close</mat-icon>
@@ -9,15 +9,15 @@
 <mat-divider></mat-divider>
 <mat-dialog-content>
     <div *ngIf="data.allUsers.length > 0">
-        <mat-selection-list>
-            <mat-list-option color="primary" [selected]="allSelected" (click)="toggleAllSelection()">
-                Wszyscy
-            </mat-list-option>
-        </mat-selection-list>
-        <mat-divider></mat-divider>
         <mat-selection-list #usersList>
             <mat-list-option color="primary" *ngFor="let user of data.allUsers" [value]="user" [selected]="isUserSelected(user)" (click)="optionClick()">
                 {{user.name}}
+            </mat-list-option>
+        </mat-selection-list>
+        <mat-divider></mat-divider>
+        <mat-selection-list>
+            <mat-list-option color="primary" [selected]="allSelected" (click)="toggleAllSelection()">
+                Wszyscy
             </mat-list-option>
         </mat-selection-list>
     </div>

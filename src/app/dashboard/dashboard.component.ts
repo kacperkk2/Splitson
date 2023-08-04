@@ -81,8 +81,7 @@ export class DashboardComponent {
 
   share() {
     const compressedEncodedData = this.getCompressedEncodedData();
-    // const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages
-    const baseUrl = location.origin; // need to add splitson because of github pages
+    const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages
     const longUrl = baseUrl 
         + "?name=" + compressedEncodedData.name 
         + "&users=" + compressedEncodedData.users

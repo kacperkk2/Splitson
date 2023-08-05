@@ -1,4 +1,4 @@
-# Splitson
+# Splitson https://kacperkk2.github.io/Splitson/
 
 $\textcolor{green}{\textsf{Splitson}}$ to aplikacja bezserwerowa służąca do podziału jakiegokolwiek paragonu lub wydatku pomiędzy grupę ludzi.
 

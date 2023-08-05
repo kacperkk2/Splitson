@@ -22,6 +22,7 @@ $\textcolor{green}{\textsf{Splitson}}$ to aplikacja bezserwerowa służąca do p
 <p float="left">
   <img src="readme-images/3_1.png" width="24%"> 
   <img src="readme-images/3_2.png" width="24%">
+  <img src="readme-images/3_3.png" width="24%">
 </p>
 4. Zatwierdz dodane rekordy i sprawdź ich listę oraz finalną kwotę w następnym okienku - wszystko powinno zgadzać się z paragonem)  
 <p float="left">

@@ -44,6 +44,15 @@ $\textcolor{green}{\textsf{Splitson}}$ to aplikacja bezserwerowa służąca do p
   <img src="readme-images/7_3.png" width="24%">
 </p>
 
+## Zakupy w innej walucie
+
+W ustawieniach Splitsona można wybrać inną walutę dla zakupów a inną dla rozliczenia. Splitson automatycznie przeliczy każdą cenę po podanym kursie, finalny biland pokaże kwotę w walucie rozliczenia.
+<p float="left">
+  <img src="readme-images/waluty_1.png" width="24%"> 
+  <img src="readme-images/waluty_2.png" width="24%"> 
+  <img src="readme-images/waluty_3.png" width="24%">
+</p>
+
 ## Korzyści
 
 1. Jako że Splitson to aplikacja bezserwerowa i jest hostowana przez `Github Pages` to jest dostępna dla każdego 24/7 bez żadnych opłat

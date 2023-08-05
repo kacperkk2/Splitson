@@ -1,27 +1,33 @@
 # Splitson
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.0.3.
+$\textcolor{green}{\textsf{Splitson}}$ to aplikacja bezserwerowa służąca do podziału jakiegokolwiek paragonu lub wydatku pomiędzy grupę ludzi.
 
-## Development server
+## Jak to działa?
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+1. Nadaj nazwę Splitsonowi (powinna kojarzyć się z momentem kiedy odbyła się płatność)
+3. Dodaj użytkowników, pomiędzy których rozliczona powinna zostać płatność
+4. Dodaj treść paragonu - pojedyncze rekordy zakończone ceną (dobrze jest skorzystać z innej aplikacji z `OCR image to text` - polecam "Notebloc Scanner")
+5. Zatwierdz dodane rekordy i sprawdź ich listę oraz finalną kwotę w następnym okienku - wszystko powinno zgadzać się z paragonem)
+6. Przejdź przez wszystkie rekordy i przypisz do nich odpowiednich użytkowników
+7. Przejdź do zakładki `Bilans` i sprawdź kto powinien ile oddać osobie kupującej
+8. Zarchiwizuj Splitsona klikając w ikonkę udostępniania (link przechowuje snapshot wszystkich dokonanych zmian i jest aktywny do końca świata i jeszcze dłużej, więc jeśli konieczna będzie poprawka poprostu wejdź w udostępniony link, nanieś poprawki i wygeneruj nowy link - pamiętaj o zapisaniu go np. wrzucić na czat na messengerze)
 
-## Code scaffolding
+## Korzyści
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+1. Jako że Splitson to aplikacja bezserwerowa i jest hostowana przez `Github Pages` to jest dostępna dla każdego 24/7 bez żadnych opłat
+2. Udostępniane linki do Splitsona nigdy się nie przedawniają ponieważ każdy link zawiera wszystkie niezbędne dane do odtworzenia Splitsona
+3. Aplikacja nie korzystające z serwera jest szybsza ponieważ dane nie są transferowane przez sieć, dodatkowo aplikacja webowa dostępna jest dla każdego bez konieczności instalacji czegokolwiek
 
-## Build
+## Limitacje 
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+1. Pojedynczy Splitson nie może być edytowany jednocześnie przez wiele użytkowników
+2. Aplikacja na ten moment nie rozwiązuje błędu zaokrąglenia - może zdarzyć się tak że suma wydatków będzie większa lub mniejsza o kilkadziesiąt groszy niż suma na paragonie
 
-## Running unit tests
+## Skracanie linku Splitsona
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+Udostępniane linki przechowują wszystkie niezbędne dane do odtworzenia Splitsona, więc jak można się domyślać jest on długi. W tym celu wykorzystane zostało api serwisu `is.gd` do skracania linków. Ten serwis ma swoje limity i w momencie kiedy zostaną one przekroczone przez aplikację konieczne jest używanie domyślnych linków. 
 
-## Running end-to-end tests
+## Dodatkowe info
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+Inspiracją dla tej aplikacji był Tricount (też do rozliczania ale brakowało mi tam pewnych funkcjonalności)
+Angular w wersji 16.0.3 (https://github.com/angular/angular-cli)

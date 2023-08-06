@@ -5,6 +5,8 @@ import { User, Record } from '../dashboard/dashboard.component';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
 import { MatSelect } from '@angular/material/select';
 import { MatOption } from '@angular/material/core';
+import { EditRecordDialog, EditRecordDialogResult } from '../edit-record-dialog/edit-record-dialog';
+import { StorageService } from '../services/storage/storage.service';
 
 @Component({
   selector: 'assign-users-dialog',
@@ -15,6 +17,7 @@ export class AssignUsersDialog {
     allSelected: boolean = false;
     
     constructor(
+        public dialog: MatDialog,
         public dialogRef: MatDialogRef<AssignUsersDialog>,
         @Inject(MAT_DIALOG_DATA) public data: AssignUsersDialogInput) {}
 
@@ -24,12 +27,46 @@ export class AssignUsersDialog {
         }
     }
 
+    editRecord(record: Record) {
+      const dialogRef = this.dialog.open(EditRecordDialog, {data: record, width: '90%', maxWidth: '650px', autoFocus: false});
+      dialogRef.afterClosed().subscribe((result: EditRecordDialogResult) => {
+        if (result) {
+          if (result.deleteRecord) {
+            this.dialogRef.close(new AssignUsersDialogResult([], true));
+          }
+          this.returnOldAmout(record);
+          record.name = result.recordName;
+          record.price = Number(result.recordPrice);
+          this.subtractNewAmout(record);
+        }
+      });
+    }
+
+    returnOldAmout(record: Record) {
+      let amount = this.getAmountPerPerson(record.price, record.boughtBy);
+      record.boughtBy.forEach(user => {
+        user.balance = user.balance + amount
+      });
+    }
+  
+    subtractNewAmout(record: Record) {
+      let amount = this.getAmountPerPerson(record.price, record.boughtBy);
+      record.boughtBy.forEach(user => user.balance = user.balance - amount);
+    }
+
+    getAmountPerPerson(price: number, boughtBy: User[]) {
+      if (boughtBy.length == 0) {
+        return 0;
+      }
+      return Number((price / boughtBy.length).toFixed(2));
+    }
+
     onBackClick(): void {
         this.dialogRef.close();
     }
 
     onConfirmClick(data: MatListOption[]) {
-        this.dialogRef.close(new AssignUsersDialogResult(data.map(element => element.value)));
+        this.dialogRef.close(new AssignUsersDialogResult(data.map(element => element.value), false));
     }
 
     isUserSelected(user: User) {
@@ -61,5 +98,5 @@ export class AssignUsersDialogInput {
 }
 
 export class AssignUsersDialogResult {
-    constructor(public selectedUsers: User[]) {}
+    constructor(public selectedUsers: User[], public deleteRecord: boolean) {}
 }

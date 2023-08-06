@@ -1,6 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { AssignUsersDialog, AssignUsersDialogInput } from '../assign-users-dialog/assign-users-dialog';
+import { AssignUsersDialog, AssignUsersDialogInput, AssignUsersDialogResult } from '../assign-users-dialog/assign-users-dialog';
 import { CurrencyProfile, Record, User } from '../dashboard/dashboard.component';
 import { EditRecordDialog, EditRecordDialogResult } from '../edit-record-dialog/edit-record-dialog';
 import { InsertReceiptDialog, InsertReceiptDialogResult } from '../insert-receipt-dialog/insert-receipt-dialog';
@@ -19,8 +19,6 @@ export class RecordsComponent {
   @Input() users: User[] = [];
   @Input() records: Record[] = [];
   @Input() currencyProfile: CurrencyProfile;
-  @Input() recordsDeleteState: boolean = false;
-  @Input() recordsEditState: boolean = false;
 
   constructor(public dialog: MatDialog, private storageService: StorageService, private idManager: IdManagerService) {}
 
@@ -45,13 +43,17 @@ export class RecordsComponent {
     let record = this.records.filter(record => record.id == recordId)[0];
     const data = new AssignUsersDialogInput(this.users, record, this.currencyProfile.paidCurrency.short);
     const dialogRef = this.dialog.open(AssignUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe((result: AssignUsersDialogResult) => {
       if (result) {
+        if (result.deleteRecord) {
+          this.deleteRecord(record);
+          return;
+        }
         this.returnOldAmout(record);
         record.boughtBy = result.selectedUsers;
         this.subtractNewAmout(record);
-        this.storageService.storeData(this.users, this.records);
       }
+      this.storageService.storeData(this.users, this.records);
     });
   }
 
@@ -60,21 +62,6 @@ export class RecordsComponent {
       return 0;
     }
     return Number((price / boughtBy.length).toFixed(2));
-  }
-
-  getUsersCountLabel(boughtBy: User[]) {
-    if (boughtBy.length == this.users.length) {
-      return "wszystkich";
-    }
-    if (boughtBy.length == 1) {
-      return boughtBy.length + " osobę";
-    }
-    else if (boughtBy.length <= 4) {
-      return boughtBy.length + " osoby";
-    }
-    else {
-      return boughtBy.length + " osób";
-    }
   }
 
   deleteRecord(record: Record) {
@@ -86,23 +73,8 @@ export class RecordsComponent {
     }
   }
 
-  editRecord(record: Record) {
-    const dialogRef = this.dialog.open(EditRecordDialog, {data: record, width: '90%', maxWidth: '650px', autoFocus: false});
-    dialogRef.afterClosed().subscribe((result: EditRecordDialogResult) => {
-      if (result) {
-        this.returnOldAmout(record);
-        record.name = result.recordName;
-        record.price = Number(result.recordPrice);
-        this.subtractNewAmout(record);
-        this.storageService.storeData(this.users, this.records);
-      }
-    });
-  }
-
   returnOldAmout(record: Record) {
     let amount = this.getAmountPerPerson(record.price, record.boughtBy);
-    console.log("returning : " + amount)
-    console.log("record.boughtBy : " + record.boughtBy)
     record.boughtBy.forEach(user => {
       user.balance = user.balance + amount
     });

@@ -4,20 +4,14 @@
         <span class="small-letters hide-overflow"> {{ getUsersNamesLabel(users) }} </span>
     </div>
     <div>
-        <button mat-icon-button (click)="share()" [disabled]="recordsDeleteState || recordsEditState">
+        <button mat-icon-button (click)="share()">
             <mat-icon>share</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleRecordsEditState()" [disabled]="recordsDeleteState">
-            <mat-icon>edit_note</mat-icon>
-        </button>
-        <button mat-icon-button (click)="toggleRecordsDeleteState()" [disabled]="recordsEditState">
-            <mat-icon>delete_sweep</mat-icon>
         </button>
     </div>
   </mat-toolbar>
 <mat-tab-group dynamicHeight>
     <mat-tab label="Wydatki"> 
-        <app-records [users]="users" [records]="records" [currencyProfile]="currencyProfile" [recordsDeleteState]="recordsDeleteState" [recordsEditState]="recordsEditState"></app-records>
+        <app-records [users]="users" [records]="records" [currencyProfile]="currencyProfile"></app-records>
     </mat-tab>
     <mat-tab label="Bilans">
         <app-summary [users]="users" [records]="records" [currencyProfile]="currencyProfile"></app-summary>

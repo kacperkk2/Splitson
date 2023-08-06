@@ -25,6 +25,7 @@
         Brak użytkowników do przypisania
     </div>
 </mat-dialog-content>
-<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+  <button mat-stroked-button (click)="editRecord(data.record)"> Edytuj </button>
   <button mat-stroked-button color="primary" *ngIf="data.allUsers.length > 0" (click)="onConfirmClick(usersList.selectedOptions.selected)" cdkFocusInitial>Potwierdz</button>
 </mat-dialog-actions>

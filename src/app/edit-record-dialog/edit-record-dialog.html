@@ -1,5 +1,5 @@
 <div fxLayout="row" fxLayoutAlign="space-between center">
-    <h2 mat-dialog-title> Edycja rekordu </h2>
+    <h2 mat-dialog-title> Edycja wydatku </h2>
     <button  mat-icon-button (click)="onBackClick()">
         <mat-icon>close</mat-icon>
     </button>
@@ -7,7 +7,7 @@
 <mat-dialog-content>
     <form [formGroup]="recordForm" fxFlexFill>
         <mat-form-field fxFlex="70">
-            <mat-label>Nazwa rekordu</mat-label>
+            <mat-label>Nazwa wydatku</mat-label>
             <input matInput formControlName="name" autocomplete="off">
         </mat-form-field>
         <mat-form-field fxFlex="30">
@@ -16,6 +16,7 @@
         </mat-form-field>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+  <button mat-stroked-button color="warn" (click)="delete()"> Usuń </button>
   <button mat-stroked-button color="primary" [disabled]="!recordForm.valid" (click)="save()">Zapisz</button>
 </mat-dialog-actions>

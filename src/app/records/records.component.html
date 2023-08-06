@@ -1,8 +1,7 @@
 <mat-list #recordsList>
     <div *ngIf="records.length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div>
     <div *ngFor="let record of records; let lastItem = last;">
-        <mat-card class="record" fxLayout="column" fxLayoutAlign="center center"
-                (click)="recordsDeleteState || recordsEditState ? null : assignUsers(record.id)">
+        <mat-card class="record" fxLayout="column" fxLayoutAlign="center center" (click)="assignUsers(record.id)">
             <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
                 <div fxLayout="column" fxLayoutAlign="center start" fxFlex="75">
                     <div class="highlight"> {{ record.name }} </div>
@@ -21,15 +20,6 @@
                         ({{ record.price * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }}) 
                     </div>
                 </div>
-
-                <button *ngIf="recordsDeleteState" mat-icon-button 
-                        (click)="deleteRecord(record)">
-                    <mat-icon>delete_outline</mat-icon>
-                </button>
-                <button *ngIf="recordsEditState" mat-icon-button 
-                        (click)="editRecord(record)">
-                    <mat-icon>edit</mat-icon>
-                </button>
             </div>
         </mat-card>
         <mat-divider *ngIf="!lastItem" class="divider"></mat-divider>
@@ -55,7 +45,6 @@
                     <div class="small-letters"> {{ "Całkowity koszt" | uppercase }} </div>
                 </div>
             </div>
-
         </div>
     </div>
 </div>

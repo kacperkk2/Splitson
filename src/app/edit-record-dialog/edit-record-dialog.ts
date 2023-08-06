@@ -28,14 +28,18 @@ export class EditRecordDialog {
         price = price.trim();
         let name = this.recordForm.get('name')!.value;
         name = name.trim();
-        this.dialogRef.close(new EditRecordDialogResult(name, Number(price)));
+        this.dialogRef.close(new EditRecordDialogResult(name, Number(price), false));
     }
 
     onBackClick(): void {
         this.dialogRef.close();
     }
+
+    delete() {
+        this.dialogRef.close(new EditRecordDialogResult("", 0, true));
+    }
 }
 
 export class EditRecordDialogResult {
-    constructor(public recordName: string, public recordPrice: number) {}
+    constructor(public recordName: string, public recordPrice: number, public deleteRecord: boolean) {}
 }

@@ -36,7 +36,6 @@ export class EditUsersDialog {
       const dialogRef = this.dialog.open(EditNameDialog, {data: this.mainName, width: '90%', maxWidth: '650px', autoFocus: false});
       dialogRef.afterClosed().subscribe((result: string) => {
         if (result) {
-          console.log(result)
           this.mainName = result;
         }
       });

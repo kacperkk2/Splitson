@@ -20,8 +20,6 @@ import { lastValueFrom } from 'rxjs';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  recordsDeleteState: boolean = false;
-  recordsEditState: boolean = false;
   users: User[] = [];
   records: Record[] = [];
   currencyProfile: CurrencyProfile = this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default);
@@ -90,7 +88,6 @@ export class DashboardComponent {
     
     const encodedUrl = encodeURIComponent(longUrl);
     this.shortUrlService.getShortUrl(encodedUrl).subscribe((response) => {
-      console.log(response)
       let shortUrl = "";
       if (response.shorturl) {
         shortUrl = response.shorturl;
@@ -154,14 +151,6 @@ export class DashboardComponent {
       return "Kliknij żeby dodać użytkowników"
     }
     return users.map(user => user.name).join(", ")
-  }
-
-  toggleRecordsDeleteState() {
-    this.recordsDeleteState = !this.recordsDeleteState;
-  }
-
-  toggleRecordsEditState() {
-    this.recordsEditState = !this.recordsEditState;
   }
 
   clearAllData() {

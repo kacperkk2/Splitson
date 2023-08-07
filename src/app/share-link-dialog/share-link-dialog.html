@@ -7,27 +7,38 @@
 <mat-divider></mat-divider>
 <mat-dialog-content fxLayout="column" fxLayoutAlign="center center">
     <mat-slide-toggle
-          color="primary"
-          [(ngModel)]="shortUrlPicked"
-          [disabled]="false"
-          (change)="toggleClick()">
+        color="primary"
+        [(ngModel)]="shortUrlPicked"
+        (change)="toggleClick()">
         {{ shortUrlPicked ? 'Skrócony link' : 'Domyślny link' }}
     </mat-slide-toggle>
 
-    <div fxLayout="row" style="margin-top: 25px; max-width: 300px;" class="hide-overflow">
-        <div *ngIf="!shortUrlPicked" class="hide-overflow">
-            <div class="hide-overflow"> {{ data.longUrl }} </div>
-        </div>
-    
-        <div *ngIf="shortUrlPicked" class="hide-overflow">
-            <div *ngIf="shortUrlNotAvailable" class="hide-overflow"> Skrócony link niedostępny </div>
-            <div *ngIf="!shortUrlNotAvailable" class="hide-overflow"> {{ data.shortUrl }} </div>
+    <mat-slide-toggle style="margin-top: 10px"
+        color="primary"
+        [(ngModel)]="copyWithName"
+        (change)="toggleClick()">
+        {{ copyWithName ? 'Z nazwą' : 'Bez nazwy' }}
+    </mat-slide-toggle>
+
+    <div fxLayout="column" fxLayoutAlign="center center" class="hide-overflow" style="margin-top: 20px">
+        <div *ngIf="copyWithName && !(shortUrlPicked && shortUrlNotAvailable)"> {{ data.splitsonName }}: </div>
+        <div *ngIf="!copyWithName || shortUrlPicked && shortUrlNotAvailable" style="height: 24px"> </div>
+        <div fxLayout="row" style="max-width: 300px;">
+            <div *ngIf="!shortUrlPicked" class="hide-overflow">
+                <div class="hide-overflow"> {{ data.longUrl }} </div>
+            </div>
+        
+            <div *ngIf="shortUrlPicked" class="hide-overflow">
+                <div *ngIf="shortUrlNotAvailable" class="hide-overflow"> Skrócony link niedostępny </div>
+                <div *ngIf="!shortUrlNotAvailable" class="hide-overflow"> {{ data.shortUrl }} </div>
+            </div>
         </div>
     </div>
+
 </mat-dialog-content>
 <mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
     <button mat-stroked-button 
-            [cdkCopyToClipboard]="shortUrlPicked ? data.shortUrl : data.longUrl" 
+            [cdkCopyToClipboard]="getDataToCopy()" 
             color="primary" 
             (click)="copy()" 
             [disabled]="shortUrlPicked && shortUrlNotAvailable"> 

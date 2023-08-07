@@ -92,7 +92,7 @@ export class DashboardComponent {
       if (response.shorturl) {
         shortUrl = response.shorturl;
       }
-      const data = new ShareLinkDialogInput(shortUrl, longUrl);
+      const data = new ShareLinkDialogInput(this.mainName, shortUrl, longUrl);
       const dialogRef = this.dialog.open(ShareLinkDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
       dialogRef.afterClosed().subscribe();
     });

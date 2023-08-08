@@ -69,18 +69,4 @@
         </mat-form-field>
         <div class="big-letters margin-sides"> {{ data.currencyProfile.targetCurrency.short }} </div>
     </div>
-
-    <mat-divider style="margin-top: 20px"></mat-divider>
-
-    <mat-expansion-panel style="margin-top: 20px">
-        <mat-expansion-panel-header>
-          <mat-panel-description>
-            Resetuj dane aplikacji
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <div fxLayoutAlign="space-evenly center">
-            <button mat-stroked-button color="warn" (click)="clearAllData()"> Wszystkie dane </button>
-            <button mat-stroked-button color="warn" (click)="clearRecords()"> Rekordy </button>
-        </div>
-    </mat-expansion-panel>
 </mat-dialog-content>

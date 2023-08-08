@@ -1,0 +1,30 @@
+<div fxLayout="row" fxLayoutAlign="space-between center">
+    <h2 mat-dialog-title> Nowy Splitson </h2>
+    <button  mat-icon-button (click)="onBackClick()">
+        <mat-icon>close</mat-icon>
+    </button>
+</div>
+<mat-dialog-content>
+    <form [formGroup]="newSplitsonForm">
+        <mat-form-field style="width: 100%;">
+            <input matInput #input formControlName="name" autocomplete="off">
+            <button *ngIf="input.value" matSuffix mat-icon-button (click)="clear()">
+                <mat-icon>close</mat-icon>
+              </button>
+            <mat-hint align="end"> {{ input.value.length }}/{{ maxLength }} </mat-hint>
+        </mat-form-field>
+        <div fxLayout="row" fxLayoutAlign="center center" >
+            <mat-selection-list>
+                <mat-list-option color="primary" [selected]="removeUsers" (click)="toggleRemoveUsers()"> 
+                    Usuń użytkowników 
+                </mat-list-option>
+                <mat-list-option color="primary" [selected]="removeCurrencies" (click)="toggleRemoveCurrencies()"> 
+                    Usuń ustawienia walut 
+                </mat-list-option>
+            </mat-selection-list>
+        </div>
+    </form>
+</mat-dialog-content>
+<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+  <button mat-stroked-button color="primary" [disabled]="!newSplitsonForm.valid" (click)="save()">Zapisz</button>
+</mat-dialog-actions>

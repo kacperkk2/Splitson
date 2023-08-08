@@ -36,6 +36,8 @@ import { EditNameDialog } from './edit-name-dialog/edit-name-dialog';
 import { BoughtRecordsSummaryDialog } from './bought-records-summary-dialog/bought-records-summary-dialog';
 import { HttpClientModule } from '@angular/common/http';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatMenuModule} from '@angular/material/menu';
+import { NewSplitsonDialog } from './new-splitson-dialog/new-splitson-dialog';
 
 
 @NgModule({
@@ -53,7 +55,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     LoadedSplitsonDialog,
     ShareLinkDialog,
     EditNameDialog,
-    BoughtRecordsSummaryDialog
+    BoughtRecordsSummaryDialog,
+    NewSplitsonDialog
   ],
   imports: [
     BrowserModule,
@@ -78,7 +81,8 @@ import {MatSlideToggleModule} from '@angular/material/slide-toggle';
     MatExpansionModule,
     ClipboardModule,
     HttpClientModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
+    MatMenuModule
   ],
   providers: [],
   bootstrap: [AppComponent]

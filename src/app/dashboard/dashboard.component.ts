@@ -13,6 +13,7 @@ import { ShareLinkDialog, ShareLinkDialogInput } from '../share-link-dialog/shar
 import { Currency, CurrencySettings, DEFAULT_NAME } from '../app.component';
 import { ShortUrlServiceService } from '../services/short-url/short-url-service.service';
 import { lastValueFrom } from 'rxjs';
+import { NewSplitsonDialog, NewSplitsonDialogResult } from '../new-splitson-dialog/new-splitson-dialog';
 
 @Component({
   selector: 'app-dashboard',
@@ -119,13 +120,7 @@ export class DashboardComponent {
     const data = new EditUsersDialogInput(this.users, this.mainName, this.currencyProfile)
     const dialogRef = this.dialog.open(EditUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: EditUsersDialogResult) => {
-      if (result.clearAllData) {
-        this.clearAllData();
-      }
-      else if (result.clearRecords) {
-        this.clearRecords();
-      }
-      else {
+      if (result) {
         this.users = result.users;
         this.mainName = result.mainName;
         const currentUserNames = this.users.map(user => user.name);
@@ -133,8 +128,8 @@ export class DashboardComponent {
         if (deletedUsers.length > 0) {
           this.removeDeletedUsersFromRecords(deletedUsers);
         }
+        this.storageService.storeAll(this.users, this.records, this.mainName, this.currencyProfile);
       }
-      this.storageService.storeAll(this.users, this.records, this.mainName, this.currencyProfile);
     });
   }
 
@@ -153,14 +148,6 @@ export class DashboardComponent {
     return users.map(user => user.name).join(", ")
   }
 
-  clearAllData() {
-    this.records = [];
-    this.users = [];
-    this.mainName = DEFAULT_NAME;
-    this.currencyProfile = this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default);
-    this.idManager.clear();
-  }
-
   clearRecords() {
     this.records = [];
     this.users.forEach(user => user.balance = 0);
@@ -173,6 +160,23 @@ export class DashboardComponent {
       exchangeRate: exchangeRate,
       targetCurrency: CurrencySettings.all.get(targetCurrencyName)!,
     };
+  }
+
+  newSplitson() {
+    const dialogRef = this.dialog.open(NewSplitsonDialog, {width: '90%', maxWidth: '650px', autoFocus: false});
+    dialogRef.afterClosed().subscribe((result: NewSplitsonDialogResult) => {
+      if (result) {
+        this.mainName = result.name;
+        if (result.removeUsers) { 
+          this.users = [];
+        }
+        if (result.removeCurrencies) {
+          this.currencyProfile = this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default);
+        }
+        this.clearRecords();
+        this.storageService.storeAll(this.users, this.records, this.mainName, this.currencyProfile);
+      }
+    });
   }
 }
 

@@ -4,6 +4,7 @@
         <mat-icon>close</mat-icon>
     </button>
 </div>
+<mat-divider></mat-divider>
 <mat-dialog-content>
     <form [formGroup]="newSplitsonForm">
         <mat-form-field style="width: 100%;">
@@ -25,6 +26,6 @@
         </div>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
-  <button mat-stroked-button color="primary" [disabled]="!newSplitsonForm.valid" (click)="save()">Zapisz</button>
+<mat-dialog-actions fxLayout="column" fxLayoutAlign="center center">
+    <button mat-stroked-button color="primary" [disabled]="!newSplitsonForm.valid" (click)="save()"> Stwórz </button>
 </mat-dialog-actions>

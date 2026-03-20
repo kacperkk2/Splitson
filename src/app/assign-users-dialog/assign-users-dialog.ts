@@ -10,7 +10,8 @@ import { StorageService } from '../services/storage/storage.service';
 
 @Component({
   selector: 'assign-users-dialog',
-  templateUrl: 'assign-users-dialog.html'
+  templateUrl: 'assign-users-dialog.html',
+  styleUrls: ['assign-users-dialog.scss']
 })
 export class AssignUsersDialog {
     @ViewChild('usersList') usersList: MatSelectionList;

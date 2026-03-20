@@ -1,55 +1,19 @@
-<mat-list #recordsList>
+<div class="users-container">
+<mat-list>
     <div *ngIf="users.length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak użytkowników </div>
-    <div *ngFor="let user of users; let lastItem = last;">
-        <mat-card class="record" fxLayout="row" fxLayoutAlign="center center" (click)="showBoughtRecords(user)">
-            <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
-                <div fxFlex="65" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div class="highlight"> {{ user.name }} </div>
-                    <div fxLayout="column" fxLayoutAlign="center center">
-                        <div class="highlight"> {{ user.balance * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }} </div>
-                        <div class="small-letters greyed" fxFlexFill fxLayoutAlign="end center"
-                        *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name">
-                            <div> ({{ user.balance | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }}) </div>
-                        </div>
-                    </div>
-                </div>
-                <div fxFlex="30" fxLayout="row" fxLayoutAlign="space-between center">
-                    <div class="highlight-background indicator" [style.width.%]="getUserRatio(user)"></div>
-                    <div class="indicator-background indicator"[style.width.%]="100-getUserRatio(user)"></div>
-                </div>
-            </div>
-        </mat-card>
-        <mat-divider *ngIf="!lastItem" class="divider"></mat-divider>
+    <div *ngFor="let user of users; let firstItem = first;">
+        <mat-divider *ngIf="!firstItem" class="divider"></mat-divider>
+        <app-balance-tile
+            [user]="user"
+            [records]="records"
+            [currencyProfile]="currencyProfile">
+        </app-balance-tile>
     </div>
 </mat-list>
-<div fxLayout="row" fxLayoutAlign="center center"> 
-    <div class="records-bottom-panel" fxLayoutAlign="center center">
-        <div class="record-inside">
-            <div fxFlex="50"> 
-                <div fxLayout="column" fxLayoutAlign="center start">
-                    <div fxLayout="row">
-                        <div class="big-letters"> {{ getPaidSum() * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }} </div>
-                        <div class="small-letters greyed small-sum" fxLayoutAlign="center center"
-                        *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name">
-                            ({{ getPaidSum() | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }})
-                        </div>
-                    </div>
-                    <div class="small-letters"> {{ "Suma wydatków osób" | uppercase }} </div>
-                </div>
-            </div>
-            <div fxFlex="50">
-                <div fxLayout="column" fxLayoutAlign="center end">
-                    <div fxLayout="row">
-                        <div class="small-letters greyed small-sum" fxLayoutAlign="center center"
-                        *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name">
-                            ({{ getPriceSum() | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }})
-                        </div>
-                        <div class="big-letters"> {{ getPriceSum() * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }} </div>
-                    </div>
-                    <div class="small-letters"> {{ "Całkowity koszt" | uppercase }} </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
+<app-bottom-panel
+    [leftLabel]="'Suma wydatków osób' | uppercase"
+    [leftValue]="(getPaidSum() * currencyProfile.exchangeRate | number:'1.2-2') + ' ' + currencyProfile.targetCurrency.short"
+    [rightLabel]="'Całkowity koszt' | uppercase"
+    [rightValue]="(getTotalPriceSum() * currencyProfile.exchangeRate | number:'1.2-2') + ' ' + currencyProfile.targetCurrency.short">
+</app-bottom-panel>
 </div>

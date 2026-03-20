@@ -7,7 +7,8 @@ import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'edit-record-dialog',
-  templateUrl: 'edit-record-dialog.html'
+  templateUrl: 'edit-record-dialog.html',
+  styleUrls: ['edit-record-dialog.scss']
 })
 export class EditRecordDialog {
     recordForm: FormGroup;

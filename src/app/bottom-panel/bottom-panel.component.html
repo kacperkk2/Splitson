@@ -1,0 +1,21 @@
+<div class="bottom-panel-anchor" fxLayout="row" fxLayoutAlign="center center">
+  <div class="bottom-panel" fxLayoutAlign="center center">
+    <button *ngIf="showAddButton" mat-mini-fab color="primary" class="add-button" (click)="addClick.emit()">
+      <mat-icon>add</mat-icon>
+    </button>
+    <div class="panel-inside">
+      <div fxFlex="50">
+        <div fxLayout="column" fxLayoutAlign="center start">
+          <div class="big-letters">{{ leftValue }}</div>
+          <div class="small-letters">{{ leftLabel }}</div>
+        </div>
+      </div>
+      <div fxFlex="50">
+        <div fxLayout="column" fxLayoutAlign="center end">
+          <div class="big-letters">{{ rightValue }}</div>
+          <div class="small-letters">{{ rightLabel }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

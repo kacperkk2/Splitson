@@ -1,4 +1,4 @@
-import {Component, Inject} from '@angular/core';
+import {AfterViewInit, Component, ElementRef, Inject, ViewChild} from '@angular/core';
 import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
 import {MatButtonModule} from '@angular/material/button';
 import { User } from '../dashboard/dashboard.component';
@@ -8,9 +8,11 @@ import { RecordProposal, RecordsProposalDialog, RecordsProposalDialogInput } fro
 
 @Component({
   selector: 'insert-receipt-dialog',
-  templateUrl: 'insert-receipt-dialog.html'
+  templateUrl: 'insert-receipt-dialog.html',
+  styleUrls: ['insert-receipt-dialog.scss']
 })
-export class InsertReceiptDialog {
+export class InsertReceiptDialog implements AfterViewInit {
+    @ViewChild('contentInput') contentInput: ElementRef;
     receiptForm: FormGroup;
     dataFormat: string = "Pierwszy produkt [spacja] cena \nDrugi produkt [spacja] cena\n...";
 
@@ -22,6 +24,10 @@ export class InsertReceiptDialog {
         this.receiptForm = new FormGroup({
             content: new FormControl("", [Validators.required])
         });
+    }
+
+    ngAfterViewInit() {
+        setTimeout(() => this.contentInput.nativeElement.focus());
     }
 
     processReceipt() {

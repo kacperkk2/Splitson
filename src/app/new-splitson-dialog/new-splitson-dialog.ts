@@ -5,13 +5,14 @@ import { DEFAULT_NAME } from '../app.component';
 
 @Component({
   selector: 'new-splitson-dialog',
-  templateUrl: 'new-splitson-dialog.html'
+  templateUrl: 'new-splitson-dialog.html',
+  styleUrls: ['new-splitson-dialog.scss']
 })
 export class NewSplitsonDialog {
     newSplitsonForm: FormGroup;
     maxLength: number = 40;
-    removeUsers: boolean = false;
-    removeCurrencies: boolean = false;
+    keepUsers: boolean = true;
+    keepCurrencies: boolean = true;
 
     constructor(
         public dialogRef: MatDialogRef<NewSplitsonDialog>
@@ -28,8 +29,8 @@ export class NewSplitsonDialog {
     save() {
         const result = new NewSplitsonDialogResult(
             this.newSplitsonForm.get('name')!.value,
-            this.removeUsers,
-            this.removeCurrencies
+            this.keepUsers,
+            this.keepCurrencies
         );
         this.dialogRef.close(result);
     }
@@ -38,15 +39,15 @@ export class NewSplitsonDialog {
         this.dialogRef.close();
     }
 
-    toggleRemoveUsers() {
-        this.removeUsers = !this.removeUsers;
+    toggleKeepUsers() {
+        this.keepUsers = !this.keepUsers;
     }
 
-    toggleRemoveCurrencies() {
-        this.removeCurrencies = !this.removeCurrencies;
+    toggleKeepCurrencies() {
+        this.keepCurrencies = !this.keepCurrencies;
     }
 }
 
 export class NewSplitsonDialogResult {
-    constructor(public name: string, public removeUsers: boolean, public removeCurrencies: boolean) {}
+    constructor(public name: string, public keepUsers: boolean, public keepCurrencies: boolean) {}
 }

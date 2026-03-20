@@ -4,7 +4,7 @@
         <mat-icon>close</mat-icon>
     </button>
 </div>
-<mat-dialog-content>
+<mat-dialog-content class="dialog-content">
     <form [formGroup]="recordForm" fxFlexFill>
         <mat-form-field fxFlex="70">
             <mat-label>Nazwa wydatku</mat-label>
@@ -16,7 +16,7 @@
         </mat-form-field>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions fxLayout="row" fxLayoutAlign="space-between center">
+<mat-dialog-actions class="dialog-actions" fxLayout="row" fxLayoutAlign="space-between center">
   <button mat-stroked-button color="warn" (click)="delete()"> Usuń </button>
   <button mat-stroked-button color="primary" [disabled]="!recordForm.valid" (click)="save()">Zapisz</button>
 </mat-dialog-actions>

@@ -12,7 +12,7 @@ import { LoadedSplitsonDialog, LoadedSplitsonDialogInput } from '../loaded-split
 import { ShareLinkDialog, ShareLinkDialogInput } from '../share-link-dialog/share-link-dialog';
 import { Currency, CurrencySettings, DEFAULT_NAME } from '../app.component';
 import { ShortUrlServiceService } from '../services/short-url/short-url-service.service';
-import { lastValueFrom } from 'rxjs';
+import { lastValueFrom, timeout, catchError, of } from 'rxjs';
 import { NewSplitsonDialog, NewSplitsonDialogResult } from '../new-splitson-dialog/new-splitson-dialog';
 
 @Component({
@@ -88,11 +88,11 @@ export class DashboardComponent {
         + "&currency=" + compressedEncodedData.currencyProfile;
     
     const encodedUrl = encodeURIComponent(longUrl);
-    this.shortUrlService.getShortUrl(encodedUrl).subscribe((response) => {
-      let shortUrl = "";
-      if (response.shorturl) {
-        shortUrl = response.shorturl;
-      }
+    this.shortUrlService.getShortUrl(encodedUrl).pipe(
+      timeout(2000),
+      catchError(() => of(null))
+    ).subscribe((response) => {
+      const shortUrl = response?.shorturl ?? "";
       const data = new ShareLinkDialogInput(this.mainName, shortUrl, longUrl);
       const dialogRef = this.dialog.open(ShareLinkDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
       dialogRef.afterClosed().subscribe();
@@ -117,7 +117,7 @@ export class DashboardComponent {
   
   editUsers() {
     const previousUserNames = this.users.map(user => user.name);
-    const data = new EditUsersDialogInput(this.users, this.mainName, this.currencyProfile)
+    const data = new EditUsersDialogInput(this.users, this.mainName, this.currencyProfile, (name: string) => this.mainName = name)
     const dialogRef = this.dialog.open(EditUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: EditUsersDialogResult) => {
       if (result) {
@@ -167,10 +167,10 @@ export class DashboardComponent {
     dialogRef.afterClosed().subscribe((result: NewSplitsonDialogResult) => {
       if (result) {
         this.mainName = result.name;
-        if (result.removeUsers) { 
+        if (!result.keepUsers) {
           this.users = [];
         }
-        if (result.removeCurrencies) {
+        if (!result.keepCurrencies) {
           this.currencyProfile = this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default);
         }
         this.clearRecords();

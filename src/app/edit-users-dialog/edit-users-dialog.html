@@ -9,18 +9,12 @@
 </div>
 <mat-divider></mat-divider>
 <mat-dialog-content>
-    <p>Tytuł:</p>
-    <div mat-dialog-title fxLayout="row" fxLayoutAlign="start center"> 
-        {{ mainName }}
-        <button mat-icon-button (click)="changeName()">
-            <mat-icon fxLayoutAlign="center center" style="font-size: large;">edit</mat-icon>
-        </button>
-    </div>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Tytuł</mat-label>
+        <input matInput [ngModel]="mainName" (input)="onNameInput($event)" autocomplete="off">
+    </mat-form-field>
 
-    <mat-divider></mat-divider>
-
-    <p>Użytkownicy:</p>
-    <mat-card *ngFor="let user of users" fxLayout="row" fxLayoutAlign="center center">
+<mat-card *ngFor="let user of users" fxLayout="row" fxLayoutAlign="center center">
         <div style="width: 100%" fxLayoutAlign="space-between center">
             <div fxFlex="85" style="padding-left: 25px;"> {{ user.name }} </div>
             <div fxFlex="15" fxLayoutAlign="center center">
@@ -41,10 +35,7 @@
                 [disabled]="!newUserForm.valid" (click)="addUser()">Dodaj</button>
     </div>
 
-    <mat-divider></mat-divider>
-
-    <p>Waluty:</p>
-    <div fxLayout="row" fxLayoutAlign="space-between center">
+<div fxLayout="row" fxLayoutAlign="space-between center">
         <mat-form-field style="width: 49%">
             <mat-label> Waluta kupna </mat-label>
             <mat-select [(value)]="data.currencyProfile.paidCurrency">
@@ -59,7 +50,7 @@
         </mat-form-field>
     </div>
 
-    <div fxLayout="row" fxLayoutAlign="center center">
+    <div fxLayout="row" fxLayoutAlign="center center" style="margin-top: -8px;">
         <div class="big-letters margin-sides"> 1 {{ data.currencyProfile.paidCurrency.short }} = </div>
         <mat-form-field class="mat-form-field-wrapper" *ngIf="data.currencyProfile.paidCurrency.name !== data.currencyProfile.targetCurrency.name">
             <input class="input-text-center" matInput type="number" [(ngModel)]="data.currencyProfile.exchangeRate">

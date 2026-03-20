@@ -1,10 +1,32 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+}
+
 .toolbar {
-  background-color: #202020;
-  color: #F5F5F4; 
-  padding-top: 30px;
-  padding-bottom: 30px;
+    background-color: #202020;
+    color: #F5F5F4;
+    padding-top: 30px;
+    padding-bottom: 30px;
+}
+
+mat-tab-group {
+    flex: 1;
+    min-height: 0;
+}
+
+::ng-deep .mat-mdc-tab-body-wrapper {
+    flex: 1;
+    min-height: 0;
+}
+
+::ng-deep .mat-mdc-tab-body,
+::ng-deep .mat-mdc-tab-body-content {
+    height: 100%;
+    overflow: hidden;
 }
 
 .mat-tab-label-active {
-  color: #F5F5F4 !important; 
+    color: #F5F5F4 !important;
 }

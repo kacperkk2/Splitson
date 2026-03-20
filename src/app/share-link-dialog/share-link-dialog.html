@@ -5,25 +5,35 @@
     </button>
 </div>
 <mat-divider></mat-divider>
-<mat-dialog-content fxLayout="column" fxLayoutAlign="center center">
-    <mat-slide-toggle
-        color="primary"
-        [(ngModel)]="shortUrlPicked"
-        (change)="toggleClick()">
-        {{ shortUrlPicked ? 'Skrócony link' : 'Domyślny link' }}
-    </mat-slide-toggle>
-
-    <mat-slide-toggle style="margin-top: 10px"
-        color="primary"
-        [(ngModel)]="copyWithName"
-        (change)="toggleClick()">
-        {{ copyWithName ? 'Z nazwą' : 'Bez nazwy' }}
-    </mat-slide-toggle>
+<mat-dialog-content class="dialog-content" fxLayout="column" fxLayoutAlign="center center" style="overflow-x: hidden">
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="24px" style="width: 100%">
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px" style="width: 120px">
+            <span class="small-letters greyed">Typ linku</span>
+            <mat-slide-toggle
+                class="no-icon-toggle"
+                color="primary"
+                [(ngModel)]="shortUrlPicked"
+                [disabled]="shortUrlNotAvailable"
+                (change)="toggleClick()">
+                {{ shortUrlPicked ? 'Skrócony' : 'Domyślny' }}
+            </mat-slide-toggle>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="8px" style="width: 120px">
+            <span class="small-letters greyed">Nazwa</span>
+            <mat-slide-toggle
+                class="no-icon-toggle"
+                color="primary"
+                [(ngModel)]="copyWithName"
+                (change)="toggleClick()">
+                {{ copyWithName ? 'Z nazwą' : 'Bez nazwy' }}
+            </mat-slide-toggle>
+        </div>
+    </div>
 
     <div fxLayout="column" fxLayoutAlign="center center" class="hide-overflow" style="margin-top: 20px">
         <div *ngIf="copyWithName && !(shortUrlPicked && shortUrlNotAvailable)"> {{ data.splitsonName }}: </div>
         <div *ngIf="!copyWithName || shortUrlPicked && shortUrlNotAvailable" style="height: 24px"> </div>
-        <div fxLayout="row" style="max-width: 300px;">
+        <div fxLayout="row" style="max-width: 230px;">
             <div *ngIf="!shortUrlPicked" class="hide-overflow">
                 <div class="hide-overflow"> {{ data.longUrl }} </div>
             </div>
@@ -36,7 +46,7 @@
     </div>
 
 </mat-dialog-content>
-<mat-dialog-actions fxLayout="row" fxLayoutAlign="center center">
+<mat-dialog-actions class="dialog-actions" fxLayout="row" fxLayoutAlign="center center">
     <button mat-stroked-button 
             [cdkCopyToClipboard]="getDataToCopy()" 
             color="primary" 

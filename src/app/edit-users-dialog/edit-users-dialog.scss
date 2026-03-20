@@ -9,11 +9,27 @@ input[type=number]::-webkit-outer-spin-button {
 ::ng-deep .mat-form-field-wrapper{
   margin-bottom: -1.25em;
   width: 90px;
-  height: 80px;
+  height: 60px;
+}
+
+::ng-deep .mat-form-field-wrapper .mat-mdc-text-field-wrapper {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+::ng-deep .mat-form-field-wrapper .mat-mdc-form-field-infix {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  min-height: unset !important;
 }
 
 .input-text-center {
   text-align: center;
+}
+
+::ng-deep mat-dialog-content mat-form-field {
+  font-size: 14px;
 }
 
 .margin-sides {

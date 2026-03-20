@@ -3,7 +3,8 @@ import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angula
 
 @Component({
   selector: 'share-link-dialog',
-  templateUrl: 'share-link-dialog.html'
+  templateUrl: 'share-link-dialog.html',
+  styleUrls: ['share-link-dialog.scss']
 })
 export class ShareLinkDialog {
   copied: boolean = false;

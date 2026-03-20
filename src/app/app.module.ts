@@ -36,8 +36,12 @@ import { EditNameDialog } from './edit-name-dialog/edit-name-dialog';
 import { BoughtRecordsSummaryDialog } from './bought-records-summary-dialog/bought-records-summary-dialog';
 import { HttpClientModule } from '@angular/common/http';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import {MatMenuModule} from '@angular/material/menu';
 import { NewSplitsonDialog } from './new-splitson-dialog/new-splitson-dialog';
+import { ExpenseTileComponent } from './expense-tile/expense-tile.component';
+import { BalanceTileComponent } from './balance-tile/balance-tile.component';
+import { BottomPanelComponent } from './bottom-panel/bottom-panel.component';
 
 
 @NgModule({
@@ -56,7 +60,10 @@ import { NewSplitsonDialog } from './new-splitson-dialog/new-splitson-dialog';
     ShareLinkDialog,
     EditNameDialog,
     BoughtRecordsSummaryDialog,
-    NewSplitsonDialog
+    NewSplitsonDialog,
+    ExpenseTileComponent,
+    BalanceTileComponent,
+    BottomPanelComponent
   ],
   imports: [
     BrowserModule,
@@ -82,6 +89,7 @@ import { NewSplitsonDialog } from './new-splitson-dialog/new-splitson-dialog';
     ClipboardModule,
     HttpClientModule,
     MatSlideToggleModule,
+    MatButtonToggleModule,
     MatMenuModule
   ],
   providers: [],

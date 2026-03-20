@@ -1,0 +1,26 @@
+.bottom-panel-anchor {
+    flex-shrink: 0;
+}
+
+.bottom-panel {
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    max-width: 625px;
+    background-color: black;
+}
+
+.panel-inside {
+    width: 92%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.add-button {
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    transform: translateX(-50%);
+}

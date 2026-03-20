@@ -1,36 +1,84 @@
 .record {
     background-color: #202020;
-    height: 50px
+    height: auto;
+    cursor: pointer;
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+.record-header {
+    height: 50px;
 }
 
 .record-inside {
     width: 92%;
 }
 
-.indicator {
-    height: 5px;
+.expand-icon {
+    transition: transform 0.2s ease;
+    color: #888;
+    flex-shrink: 0;
 }
 
-.small-sum {
-    margin-left: 5px;
-    margin-right: 5px;
+.expand-icon.rotated {
+    transform: rotate(180deg);
 }
 
-.indicator-background {
-  background-color: #282828;
+.expanded-content {
+    display: grid;
+    grid-template-rows: 0fr;
+    transition: grid-template-rows 0.2s ease;
+    overflow: hidden;
+    width: 92%;
+}
+
+.expanded-content.open {
+    grid-template-rows: 1fr;
+}
+
+.expanded-inner {
+    overflow: hidden;
+    padding-bottom: 8px;
+    width: 100%;
+}
+
+.bought-record {
+    height: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.bought-sum {
+    border-top: 1px solid #333;
+    padding-top: 8px;
+}
+
+.bought-price {
+    padding-right: 32px;
+}
+
+.hide-overflow {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 60%;
+}
+
+:host {
+    display: block;
+    height: 100%;
+}
+
+.users-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 mat-list {
-    height: calc(100dvh - 190px);
-    overflow: auto;
+    display: block;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
 }
 
-.records-bottom-panel {
-    padding-top: 10px;
-    padding-bottom: 10px;
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    max-width: 625px;
-    background-color: black;
-}

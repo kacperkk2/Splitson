@@ -1,0 +1,28 @@
+<div>
+    <mat-card class="record" fxLayout="column" fxLayoutAlign="center center" (click)="toggle()">
+        <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
+            <div fxLayout="column" fxLayoutAlign="center start" fxFlex="60">
+                <div class="highlight"> {{ user.name }} </div>
+            </div>
+            <div fxLayout="row" fxLayoutAlign="end center" fxFlex="40" fxLayoutGap="4px">
+                <div class="highlight"> {{ user.balance * currencyProfile.exchangeRate | number:'1.2-2' }} {{ currencyProfile.targetCurrency.short }}</div>
+                <mat-icon *ngIf="getBoughtRecords().length > 0"
+                    [@rotateChevron]="isExpanded ? 'expanded' : 'collapsed'"
+                    class="chevron greyed">
+                    expand_more
+                </mat-icon>
+            </div>
+        </div>
+    </mat-card>
+    <div [@expandCollapse]="isExpanded ? 'expanded' : 'collapsed'" class="items-container">
+        <div fxLayout="column" fxLayoutAlign="center center" *ngFor="let record of getBoughtRecords()">
+            <div class="item-row record-inside small-letters greyed" fxLayout="row" fxLayoutAlign="space-between center">
+                <div fxFlex="60" fxLayout="column" fxLayoutAlign="center start">
+                    <div class="hide-overflow">{{ record.name }}</div>
+                    <div class="small-letters greyed">{{ record.price * currencyProfile.exchangeRate | number:'1.2-2' }} {{ currencyProfile.targetCurrency.short }}</div>
+                </div>
+                <div fxFlex="40" fxLayoutAlign="end center" class="item-price">{{ getPriceForUser(record) * currencyProfile.exchangeRate | number:'1.2-2' }} {{ currencyProfile.targetCurrency.short }}</div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,5 +1,5 @@
 <mat-toolbar class="toolbar" fxLayout="row" fxLayoutAlign="space-between center">
-    <div fxLayout="column" (click)="editUsers()" style="max-width: 220px">
+    <div fxLayout="column" (click)="editUsers()" style="max-width: 240px">
         <span class="x-big-letters letters-spacing hide-overflow"> {{ mainName }} </span>
         <span class="small-letters hide-overflow"> {{ getUsersNamesLabel(users) }} </span>
     </div>
@@ -7,17 +7,12 @@
         <button mat-icon-button (click)="share()">
             <mat-icon>share</mat-icon>
         </button>
-        <button mat-icon-button [matMenuTriggerFor]="menu">
-            <mat-icon> more_vert </mat-icon>
-          </button>
-          <mat-menu #menu="matMenu" xPosition="before">
-            <button mat-menu-item (click)="newSplitson()">
-              <span> Nowy Splitson </span>
-            </button>
-          </mat-menu>
+        <button mat-icon-button (click)="newSplitson()">
+            <mat-icon>post_add</mat-icon>
+        </button>
     </div>
   </mat-toolbar>
-<mat-tab-group dynamicHeight>
+<mat-tab-group>
     <mat-tab label="Wydatki"> 
         <app-records [users]="users" [records]="records" [currencyProfile]="currencyProfile"></app-records>
     </mat-tab>

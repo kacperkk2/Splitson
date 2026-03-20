@@ -5,8 +5,8 @@ import { CurrencyProfile, User } from '../dashboard/dashboard.component';
 import { MatListOption } from '@angular/material/list';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
-import { EditNameDialog } from '../edit-name-dialog/edit-name-dialog';
 import { Currency, CurrencySettings } from '../app.component';
+import { StorageService } from '../services/storage/storage.service';
 
 @Component({
   selector: 'edit-users-dialog',
@@ -20,9 +20,10 @@ export class EditUsersDialog {
     users: User[] = [];
 
     constructor(
-        public dialogRef: MatDialogRef<EditUsersDialog>, 
+        public dialogRef: MatDialogRef<EditUsersDialog>,
         @Inject(MAT_DIALOG_DATA) public data: EditUsersDialogInput,
-        public dialog: MatDialog
+        public dialog: MatDialog,
+        private storageService: StorageService
         ) {
           this.currencies = Array.from(CurrencySettings.all.values());
           this.mainName = data.mainName;
@@ -32,13 +33,11 @@ export class EditUsersDialog {
           });
     }
 
-    changeName() {
-      const dialogRef = this.dialog.open(EditNameDialog, {data: this.mainName, width: '90%', maxWidth: '650px', autoFocus: false});
-      dialogRef.afterClosed().subscribe((result: string) => {
-        if (result) {
-          this.mainName = result;
-        }
-      });
+    onNameInput(event: Event) {
+        const name = (event.target as HTMLInputElement).value;
+        this.mainName = name;
+        this.storageService.storeName(name);
+        this.data.onNameChange?.(name);
     }
 
     addUser() {
@@ -65,7 +64,7 @@ export class EditUsersDialog {
 }
 
 export class EditUsersDialogInput {
-  constructor(public users: User[], public mainName: string, public currencyProfile: CurrencyProfile) {}
+  constructor(public users: User[], public mainName: string, public currencyProfile: CurrencyProfile, public onNameChange?: (name: string) => void) {}
 }
 
 export class EditUsersDialogResult {

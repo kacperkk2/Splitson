@@ -88,7 +88,11 @@ $grey: mat.define-palette(mat.$grey-palette, 500);
 }
 
 .hide-overflow {
-  text-overflow: ellipsis; 
-  white-space: nowrap; 
+  text-overflow: ellipsis;
+  white-space: nowrap;
   overflow: hidden;
+}
+
+.no-icon-toggle .mdc-switch__icon {
+  display: none;
 }

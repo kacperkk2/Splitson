@@ -5,13 +5,13 @@
     </button>
 </div>
 <mat-divider></mat-divider>
-<mat-dialog-content>
+<mat-dialog-content class="dialog-content">
     <form [formGroup]="receiptForm">
         <mat-form-field style="width: 100%;">
-            <textarea matInput rows="50" formControlName="content" [placeholder]="dataFormat"></textarea>
+            <textarea matInput formControlName="content" [placeholder]="dataFormat" #contentInput class="receipt-input"></textarea>
         </mat-form-field>
     </form>
 </mat-dialog-content>
-<mat-dialog-actions fxLayout="row" fxLayoutAlign="end center">
+<mat-dialog-actions class="dialog-actions" fxLayout="row" fxLayoutAlign="end center">
   <button mat-stroked-button color="primary" [disabled]="!receiptForm.valid" (click)="processReceipt()">Dalej</button>
 </mat-dialog-actions>

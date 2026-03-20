@@ -1,50 +1,22 @@
+<div class="records-container">
 <mat-list #recordsList>
     <div *ngIf="records.length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div>
     <div *ngFor="let record of records; let lastItem = last;">
-        <mat-card class="record" fxLayout="column" fxLayoutAlign="center center" (click)="assignUsers(record.id)">
-            <div class="record-inside big-letters" fxLayout="row" fxLayoutAlign="space-between center">
-                <div fxLayout="column" fxLayoutAlign="center start" fxFlex="75">
-                    <div class="highlight"> {{ record.name }} </div>
-                    <div class="small-letters greyed" *ngIf="record.boughtBy.length > 0" fxLayout="row"> 
-                        <div> {{ record.boughtBy.length }} * {{ (record.price / record.boughtBy.length) | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }} </div>
-                        <div style="margin-left: 4px"
-                                *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name"> 
-                            ({{ (record.price / record.boughtBy.length) * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }}) 
-                        </div>
-                    </div>
-                </div>
-                <div fxLayout="column" fxLayoutAlign="center end" fxFlex="25">
-                    <div class="highlight"> {{ record.price | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }} </div>
-                    <div class="small-letters greyed" 
-                            *ngIf="currencyProfile.paidCurrency.name !== currencyProfile.targetCurrency.name"> 
-                        ({{ record.price * currencyProfile.exchangeRate | number : '1.2-2' }} {{ currencyProfile.targetCurrency.short }}) 
-                    </div>
-                </div>
-            </div>
-        </mat-card>
+        <app-expense-tile
+            [record]="record"
+            [currencyProfile]="currencyProfile"
+            (click)="assignUsers(record.id)">
+        </app-expense-tile>
         <mat-divider *ngIf="!lastItem" class="divider"></mat-divider>
     </div>
 </mat-list>
-<div fxLayout="row" fxLayoutAlign="center center"> 
-    <div class="records-bottom-panel" fxLayoutAlign="center center">
-        <div class="record-inside">
-            <div fxFlex="49"> 
-                <div fxLayout="column" fxLayoutAlign="center start">
-                    <div class="big-letters"> {{ getAssignedRecordsNumber() }} / {{ records.length }} </div>
-                    <div class="small-letters"> {{ "Rozliczone rekordy" | uppercase }} </div>
-                </div>
-            </div>
-            <div class="add-button" fxFlex="2" fxLayoutAlign="center center">
-                <button mat-mini-fab color="primary" (click)="addRecords()">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </div>
-            <div fxFlex="49">
-                <div fxLayout="column" fxLayoutAlign="center end">
-                    <div class="big-letters"> {{ getPriceSum() | number : '1.2-2' }} {{ currencyProfile.paidCurrency.short }} </div>
-                    <div class="small-letters"> {{ "Całkowity koszt" | uppercase }} </div>
-                </div>
-            </div>
-        </div>
-    </div>
+
+<app-bottom-panel
+    [leftLabel]="'Rozliczone rekordy' | uppercase"
+    [leftValue]="getAssignedRecordsNumber() + ' / ' + records.length"
+    [rightLabel]="'Całkowity koszt' | uppercase"
+    [rightValue]="(getPriceSum() | number:'1.2-2') + ' ' + currencyProfile.paidCurrency.short"
+    [showAddButton]="true"
+    (addClick)="addRecords()">
+</app-bottom-panel>
 </div>

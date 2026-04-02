@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -42,6 +42,7 @@ import { NewSplitsonDialog } from './new-splitson-dialog/new-splitson-dialog';
 import { ExpenseTileComponent } from './expense-tile/expense-tile.component';
 import { BalanceTileComponent } from './balance-tile/balance-tile.component';
 import { BottomPanelComponent } from './bottom-panel/bottom-panel.component';
+import { ServiceWorkerModule } from '@angular/service-worker';
 
 
 @NgModule({
@@ -90,7 +91,13 @@ import { BottomPanelComponent } from './bottom-panel/bottom-panel.component';
     HttpClientModule,
     MatSlideToggleModule,
     MatButtonToggleModule,
-    MatMenuModule
+    MatMenuModule,
+    ServiceWorkerModule.register('ngsw-worker.js', {
+      enabled: !isDevMode(),
+      // Register the ServiceWorker as soon as the application is stable
+      // or after 30 seconds (whichever comes first).
+      registrationStrategy: 'registerWhenStable:30000'
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

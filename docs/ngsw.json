@@ -1,0 +1,81 @@
+{
+  "configVersion": 1,
+  "timestamp": 1775154206144,
+  "index": "/Splitson/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/Splitson/index.html",
+        "/Splitson/main.81372b3f989eece0.js",
+        "/Splitson/manifest.webmanifest",
+        "/Splitson/polyfills.f84a3b69c6bc7436.js",
+        "/Splitson/runtime.16de5338aa463b92.js",
+        "/Splitson/styles.d725700a8ebbec8d.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/Splitson/assets/icons/icon-128x128.png",
+        "/Splitson/assets/icons/icon-144x144.png",
+        "/Splitson/assets/icons/icon-152x152.png",
+        "/Splitson/assets/icons/icon-192x192.png",
+        "/Splitson/assets/icons/icon-384x384.png",
+        "/Splitson/assets/icons/icon-512x512.png",
+        "/Splitson/assets/icons/icon-72x72.png",
+        "/Splitson/assets/icons/icon-96x96.png",
+        "/Splitson/splitson_icon.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/Splitson/assets/icons/icon-128x128.png": "3ed56a95bf746e227b5aa1d740d14ecfb3b0ffb3",
+    "/Splitson/assets/icons/icon-144x144.png": "b1dfd8780ed328ad9bf585eb3e1cdb20dc8fbc40",
+    "/Splitson/assets/icons/icon-152x152.png": "eacbc2b45c3b9b81f7e885aaf392a50eac3bae6e",
+    "/Splitson/assets/icons/icon-192x192.png": "0f15271ac5aeca99477257002e2a6fa25ac7c321",
+    "/Splitson/assets/icons/icon-384x384.png": "fee2549204167dee2fa34b41d3f34254c10f3b91",
+    "/Splitson/assets/icons/icon-512x512.png": "8dce2d8ff13a6a990b5de5bcd66e123e3459c2ac",
+    "/Splitson/assets/icons/icon-72x72.png": "b89fe2c9eb5e4db714a6119dd83723215b156cb2",
+    "/Splitson/assets/icons/icon-96x96.png": "9814395b56b2607fce242636f8c6abc3bca3ce8f",
+    "/Splitson/index.html": "e6c3d8105c89a023a854b33f3e3ea3591ae1d89f",
+    "/Splitson/main.81372b3f989eece0.js": "630c7fc70fb9e49707f8c662a2512d51cce31afc",
+    "/Splitson/manifest.webmanifest": "be60d874a34e9b0660c3386ae6c0f4ff445210d5",
+    "/Splitson/polyfills.f84a3b69c6bc7436.js": "d36edfa106cf2f7ec0bfc9c688a00d464092caff",
+    "/Splitson/runtime.16de5338aa463b92.js": "462e6a72ebd787e5d6dd84cc884efa2c78c59b3c",
+    "/Splitson/splitson_icon.png": "1183678b6d1b603649dc5703e5d6042d1907409b",
+    "/Splitson/styles.d725700a8ebbec8d.css": "29f45a59d8460f8a3fc3ba7ad453bc8eea3f8200"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}

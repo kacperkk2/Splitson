@@ -1,7 +1,7 @@
 {
   "name": "Splitson",
   "short_name": "Splitson",
-  "theme_color": "#7cb342",
+  "theme_color": "#202020",
   "background_color": "#fafafa",
   "display": "standalone",
   "scope": "./",

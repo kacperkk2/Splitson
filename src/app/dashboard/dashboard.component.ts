@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { catchError, of, timeout } from 'rxjs';
 import { CurrencySettings, DEFAULT_NAME } from '../app.component';
 import { EditUsersDialog, EditUsersDialogInput, EditUsersDialogResult } from '../edit-users-dialog/edit-users-dialog';
-import { LoadedSplitsonDialog } from '../loaded-splitson-dialog/loaded-splitson-dialog';
 import { SplitsonData, User } from '../model/splitson.model';
 import { NewSplitsonDialog, NewSplitsonDialogResult } from '../new-splitson-dialog/new-splitson-dialog';
 import { CompressorService } from '../services/compressor/compressor.service';
@@ -31,17 +30,12 @@ export class DashboardComponent {
     private storageService: StorageService,
     private idManager: IdManagerService,
     private compressor: CompressorService,
-    private router: Router,
     private route: ActivatedRoute,
     private shortUrlService: ShortUrlServiceService) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe((params)=> {
-      if (params['data']) {
-        this.loadFromUrlAfterDialog(params['data']);
-      } else {
-        this.loadFromStore();
-      }
+    this.route.queryParams.subscribe((_params) => {
+      this.loadFromStore();
       this.idManager.init(this.data.records);
     });
   }
@@ -50,20 +44,9 @@ export class DashboardComponent {
     this.data = this.storageService.load();
   }
 
-  loadFromUrlAfterDialog(dataParam: string) {
-    const splitsonData: SplitsonData = this.compressor.decompress(dataParam);
-    const dialogRef = this.dialog.open(LoadedSplitsonDialog, {data: splitsonData, width: '90%', maxWidth: '650px', autoFocus: false});
-    dialogRef.afterClosed().subscribe(result => {
-        if (result == true) {
-          this.storageService.save(splitsonData);
-        }
-        this.router.navigate([], { queryParams: {} });
-    });
-  }
-
   share() {
-    const baseUrl = location.origin + ""; // need to add splitson because of github pages
-    const longUrl = baseUrl + "?data=" + this.compressor.compress(this.data);
+    const basePath = window.location.href.split('?')[0].replace(/\/$/, '');
+    const longUrl = basePath + "/import?data=" + this.compressor.compress(this.data);
 
     const encodedUrl = encodeURIComponent(longUrl);
     this.shortUrlService.getShortUrl(encodedUrl).pipe(
@@ -76,7 +59,7 @@ export class DashboardComponent {
       dialogRef.afterClosed().subscribe();
     });
   }
-  
+
   editUsers() {
     const previousUserNames = this.data.users.map(user => user.name);
     const dialogInput = new EditUsersDialogInput(this.data.users, this.data.name, this.data.currencyProfile, this.data.date, (name: string) => this.data.name = name)

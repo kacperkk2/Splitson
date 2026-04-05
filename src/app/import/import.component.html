@@ -1,0 +1,77 @@
+<ng-container *ngIf="splitsonData">
+<mat-toolbar class="toolbar" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="column" style="max-width: 240px">
+        <span class="x-big-letters letters-spacing hide-overflow"> {{ splitsonData.name }} </span>
+        <span class="small-letters hide-overflow"> {{ getUsersNamesLabel() }} </span>
+        <span class="small-letters hide-overflow greyed" style="margin-top: 5px; font-size: x-small;"> {{ getFormattedDate() }} </span>
+    </div>
+</mat-toolbar>
+<mat-tab-group>
+    <mat-tab label="Wydatki">
+        <div class="records-container">
+            <mat-list>
+                <div *ngIf="splitsonData.records.length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div>
+                <div *ngFor="let record of splitsonData.records; let lastItem = last;">
+                    <app-expense-tile [record]="record" [currencyProfile]="splitsonData.currencyProfile"></app-expense-tile>
+                    <mat-divider *ngIf="!lastItem" class="divider"></mat-divider>
+                </div>
+            </mat-list>
+            <div class="bottom-panel-anchor" fxLayout="row" fxLayoutAlign="center center">
+                <div class="bottom-panel" fxLayout="column" fxLayoutAlign="center center">
+                    <div class="panel-inside">
+                        <div fxFlex="50">
+                            <div fxLayout="column" fxLayoutAlign="center start">
+                                <div class="big-letters">{{ getAssignedCount() + ' / ' + splitsonData.records.length }}</div>
+                                <div class="small-letters">{{ 'Rozliczone rekordy' | uppercase }}</div>
+                            </div>
+                        </div>
+                        <div fxFlex="50">
+                            <div fxLayout="column" fxLayoutAlign="center end">
+                                <div class="big-letters">{{ (priceSum | number:'1.2-2') + ' ' + splitsonData.currencyProfile.paidCurrency.short }}</div>
+                                <div class="small-letters">{{ 'Całkowity koszt' | uppercase }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button mat-stroked-button (click)="reject()"> Odrzuć </button>
+                        <button mat-stroked-button color="primary" (click)="import()"> Wczytaj </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="Bilans">
+        <div class="users-container">
+            <mat-list>
+                <div *ngIf="splitsonData.users.length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak użytkowników </div>
+                <div *ngFor="let user of splitsonData.users; let firstItem = first;">
+                    <mat-divider *ngIf="!firstItem" class="divider"></mat-divider>
+                    <app-balance-tile [user]="user" [records]="splitsonData.records" [currencyProfile]="splitsonData.currencyProfile"></app-balance-tile>
+                </div>
+            </mat-list>
+            <div class="bottom-panel-anchor" fxLayout="row" fxLayoutAlign="center center">
+                <div class="bottom-panel" fxLayout="column" fxLayoutAlign="center center">
+                    <div class="panel-inside">
+                        <div fxFlex="50">
+                            <div fxLayout="column" fxLayoutAlign="center start">
+                                <div class="big-letters">{{ (getPaidSum() * splitsonData.currencyProfile.exchangeRate | number:'1.2-2') + ' ' + splitsonData.currencyProfile.targetCurrency.short }}</div>
+                                <div class="small-letters">{{ 'Suma wydatków osób' | uppercase }}</div>
+                            </div>
+                        </div>
+                        <div fxFlex="50">
+                            <div fxLayout="column" fxLayoutAlign="center end">
+                                <div class="big-letters">{{ (priceSum * splitsonData.currencyProfile.exchangeRate | number:'1.2-2') + ' ' + splitsonData.currencyProfile.targetCurrency.short }}</div>
+                                <div class="small-letters">{{ 'Całkowity koszt' | uppercase }}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="action-buttons">
+                        <button mat-stroked-button (click)="reject()"> Odrzuć </button>
+                        <button mat-stroked-button color="primary" (click)="import()"> Wczytaj </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+</ng-container>

@@ -1,0 +1,75 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100dvh;
+}
+
+.toolbar {
+    background-color: #202020;
+    color: #F5F5F4;
+    padding-top: 36px;
+    padding-bottom: 36px;
+}
+
+mat-tab-group {
+    flex: 1;
+    min-height: 0;
+}
+
+::ng-deep .mat-mdc-tab-body-wrapper {
+    flex: 1;
+    min-height: 0;
+}
+
+::ng-deep .mat-mdc-tab-body,
+::ng-deep .mat-mdc-tab-body-content {
+    height: 100%;
+    overflow: hidden;
+}
+
+.records-container,
+.users-container {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+}
+
+mat-list {
+    display: block;
+    flex: 1;
+    min-height: 0;
+    overflow-y: auto;
+}
+
+.bottom-panel-anchor {
+    flex-shrink: 0;
+}
+
+.bottom-panel {
+    position: relative;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    width: 100%;
+    max-width: 625px;
+    background-color: black;
+}
+
+.panel-inside {
+    width: 92%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.action-buttons {
+    width: 92%;
+    display: flex;
+    flex-direction: row;
+    gap: 12px;
+    margin-top: 12px;
+    margin-bottom: 4px;
+
+    button {
+        flex: 1;
+    }
+}

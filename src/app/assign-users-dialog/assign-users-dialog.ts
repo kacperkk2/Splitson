@@ -1,12 +1,8 @@
-import {Component, Inject, ViewChild} from '@angular/core';
-import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
-import { User, Record } from '../dashboard/dashboard.component';
+import { Component, Inject, ViewChild } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatListOption, MatSelectionList } from '@angular/material/list';
-import { MatSelect } from '@angular/material/select';
-import { MatOption } from '@angular/material/core';
 import { EditRecordDialog, EditRecordDialogResult } from '../edit-record-dialog/edit-record-dialog';
-import { StorageService } from '../services/storage/storage.service';
+import { Record, User } from '../model/splitson.model';
 
 @Component({
   selector: 'assign-users-dialog',

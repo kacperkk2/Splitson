@@ -1,13 +1,10 @@
 import { Component, Input } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { AssignUsersDialog, AssignUsersDialogInput, AssignUsersDialogResult } from '../assign-users-dialog/assign-users-dialog';
-import { CurrencyProfile, Record, User } from '../dashboard/dashboard.component';
-import { EditRecordDialog, EditRecordDialogResult } from '../edit-record-dialog/edit-record-dialog';
 import { InsertReceiptDialog, InsertReceiptDialogResult } from '../insert-receipt-dialog/insert-receipt-dialog';
-import { v4 as uuid } from 'uuid';
-import { StorageService } from '../services/storage/storage.service';
+import { Record, SplitsonData, User } from '../model/splitson.model';
 import { IdManagerService } from '../services/id-manager/id-manager.service';
-import { Currency } from '../app.component';
+import { StorageService } from '../services/storage/storage.service';
 
 @Component({
   selector: 'app-records',
@@ -16,33 +13,31 @@ import { Currency } from '../app.component';
 })
 export class RecordsComponent {
   boughtByPrefix: string = "Podzielone na: ";
-  @Input() users: User[] = [];
-  @Input() records: Record[] = [];
-  @Input() currencyProfile: CurrencyProfile;
+  @Input() data: SplitsonData;
 
   constructor(public dialog: MatDialog, private storageService: StorageService, private idManager: IdManagerService) {}
 
   addRecords() {
-    const dialogRef = this.dialog.open(InsertReceiptDialog, {data: this.currencyProfile.paidCurrency.short, width: '90%', maxWidth: '650px', height: 'auto', autoFocus: false});
+    const dialogRef = this.dialog.open(InsertReceiptDialog, {data: this.data.currencyProfile.paidCurrency.short, width: '90%', maxWidth: '650px', height: 'auto', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: InsertReceiptDialogResult) => {
       if (result) {
         result.records.forEach(newRecord => {
-          this.records.push({
-            id: this.idManager.incrementAndGet(), 
-            "name": newRecord.name, 
-            price: newRecord.price, 
+          this.data.records.push({
+            id: this.idManager.incrementAndGet(),
+            "name": newRecord.name,
+            price: newRecord.price,
             "boughtBy": []
           });
         });
-        this.storageService.storeRecords(this.records);
+        this.storageService.save(this.data);
       }
     });
   }
 
   assignUsers(recordId: number) {
-    let record = this.records.filter(record => record.id == recordId)[0];
-    const data = new AssignUsersDialogInput(this.users, record, this.currencyProfile.paidCurrency.short);
-    const dialogRef = this.dialog.open(AssignUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
+    let record = this.data.records.filter(record => record.id == recordId)[0];
+    const dialogInput = new AssignUsersDialogInput(this.data.users, record, this.data.currencyProfile.paidCurrency.short);
+    const dialogRef = this.dialog.open(AssignUsersDialog, {data: dialogInput, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: AssignUsersDialogResult) => {
       if (result) {
         if (result.deleteRecord) {
@@ -53,7 +48,7 @@ export class RecordsComponent {
         record.boughtBy = result.selectedUsers;
         this.subtractNewAmout(record);
       }
-      this.storageService.storeData(this.users, this.records);
+      this.storageService.save(this.data);
     });
   }
 
@@ -65,11 +60,11 @@ export class RecordsComponent {
   }
 
   deleteRecord(record: Record) {
-    const index = this.records.map(record => record.id).indexOf(record.id, 0);
+    const index = this.data.records.map(record => record.id).indexOf(record.id, 0);
     if (index > -1) {
       this.returnOldAmout(record);
-      this.records.splice(index, 1);
-      this.storageService.storeData(this.users, this.records);
+      this.data.records.splice(index, 1);
+      this.storageService.save(this.data);
     }
   }
 
@@ -86,10 +81,10 @@ export class RecordsComponent {
   }
 
   getPriceSum() {
-    return this.records.map(record => record.price).reduce((sum, current) => sum + current, 0);
+    return this.data.records.map(record => record.price).reduce((sum, current) => sum + current, 0);
   }
 
   getAssignedRecordsNumber() {
-    return this.records.filter(record => record.boughtBy.length > 0).length;
+    return this.data.records.filter(record => record.boughtBy.length > 0).length;
   }
 }

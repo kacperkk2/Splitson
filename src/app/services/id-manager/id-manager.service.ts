@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Record } from 'src/app/dashboard/dashboard.component';
+import { Record } from 'src/app/model/splitson.model';
 
 @Injectable({
   providedIn: 'root'

@@ -1,7 +1,7 @@
 <mat-toolbar class="toolbar" fxLayout="row" fxLayoutAlign="space-between center">
     <div fxLayout="column" (click)="editUsers()" style="max-width: 240px">
-        <span class="x-big-letters letters-spacing hide-overflow"> {{ mainName }} </span>
-        <span class="small-letters hide-overflow"> {{ getUsersNamesLabel(users) }} </span>
+        <span class="x-big-letters letters-spacing hide-overflow"> {{ data.name }} </span>
+        <span class="small-letters hide-overflow"> {{ getUsersNamesLabel(data.users) }} </span>
     </div>
     <div>
         <button mat-icon-button (click)="share()">
@@ -14,9 +14,9 @@
   </mat-toolbar>
 <mat-tab-group>
     <mat-tab label="Wydatki"> 
-        <app-records [users]="users" [records]="records" [currencyProfile]="currencyProfile"></app-records>
+        <app-records [data]="data"></app-records>
     </mat-tab>
     <mat-tab label="Bilans">
-        <app-summary [users]="users" [records]="records" [currencyProfile]="currencyProfile"></app-summary>
+        <app-summary [users]="data.users" [records]="data.records" [currencyProfile]="data.currencyProfile"></app-summary>
     </mat-tab>
 </mat-tab-group>

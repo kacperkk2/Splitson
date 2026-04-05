@@ -1,91 +1,42 @@
 import { Injectable } from '@angular/core';
 import { CurrencySettings, DEFAULT_NAME } from 'src/app/app.component';
-import { User, Record, CurrencyProfile } from 'src/app/dashboard/dashboard.component';
+import { CurrencyProfile, Record, SplitsonData, User } from 'src/app/model/splitson.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class StorageService {
-  usersKey: string = "splitsonUsersKey";
-  recordsKey: string = "splitsonRecordsKey";
-  nameKey: string = "splitsonNameKey";
-  currencyProfileKey: string = "currencyProfileKey";
+  key: string = "kacperkk2.Splitson";
 
   constructor() { }
 
-  public storeData(users: User[], records: Record[]) {
-    localStorage.setItem(this.usersKey, JSON.stringify(users));
-    localStorage.setItem(this.recordsKey, JSON.stringify(records));
+  public save(data: SplitsonData) {
+    localStorage.setItem(this.key, JSON.stringify(data));
   }
 
-  public storeAll(users: User[], records: Record[], name: string, currencyProfile: CurrencyProfile) {
-    this.storeData(users, records);
-    this.storeName(name);
-    this.storeCurrencyProfile(currencyProfile);
-  }
-
-  public storeCurrencyProfile(currencyProfile: CurrencyProfile) {
-    const currencyProfileStore: CurrencyProfileStore = {
-      paidCurrencyName: currencyProfile.paidCurrency.name,
-      targetCurrencyName: currencyProfile.targetCurrency.name,
-      exchangeRate: currencyProfile.exchangeRate,
+  public load(): SplitsonData {
+    const stored = localStorage.getItem(this.key);
+    if (!stored) {
+      return new SplitsonData([], [], DEFAULT_NAME, this.getDefaultCurrencyProfile());
     }
-    localStorage.setItem(this.currencyProfileKey, JSON.stringify(currencyProfileStore));
+    const parsed = JSON.parse(stored) as SplitsonData;
+    this.connectRecordsWithUsers(parsed.records, parsed.users);
+    return parsed;
   }
 
-  public storeName(name: string) {
-    localStorage.setItem(this.nameKey, name);
-  }
-
-  public storeUsers(users: User[]) {
-    localStorage.setItem(this.usersKey, JSON.stringify(users));
-  }
-
-  public storeRecords(records: Record[]) {
-    localStorage.setItem(this.recordsKey, JSON.stringify(records));
-  }
-
-  public load(): StorageServiceModel {
-    const records = JSON.parse(localStorage.getItem(this.recordsKey) || '[]');
-    const users = JSON.parse(localStorage.getItem(this.usersKey) || '[]');
-    this.connectRecordsWithUsers(records, users);
-    const name = localStorage.getItem(this.nameKey) || DEFAULT_NAME;
-    const currencyProfile = this.loadCurrencyProfile();
-    return new StorageServiceModel(users, records, name, currencyProfile);
-  }
-
-  connectRecordsWithUsers(records: Record[], users: User[]) {
+  private connectRecordsWithUsers(records: Record[], users: User[]) {
     records.forEach(record => {
-      let boughtByList: User[] = [];
-      record.boughtBy.forEach(boughtBy => {
-        boughtByList.push(users.find(user => user.name === boughtBy.name)!)
-      })
-      record.boughtBy = boughtByList;
-    })
+      record.boughtBy = record.boughtBy.map(boughtBy =>
+        users.find(user => user.name === boughtBy.name)!
+      );
+    });
   }
 
-  loadCurrencyProfile() {
-    let currencyProfileStore: CurrencyProfileStore = JSON.parse(localStorage.getItem(this.currencyProfileKey) || "{}");
-    return Object.keys(currencyProfileStore).length == 0 
-              ? this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default) 
-              : this.getCurrencyProfile(currencyProfileStore.paidCurrencyName, currencyProfileStore.exchangeRate, currencyProfileStore.targetCurrencyName);
-  }
-
-  getCurrencyProfile(paidCurrencyName: string, exchangeRate: number, targetCurrencyName: string) {
+  private getDefaultCurrencyProfile(): CurrencyProfile {
     return {
-      paidCurrency: CurrencySettings.all.get(paidCurrencyName)!,
-      exchangeRate: exchangeRate,
-      targetCurrency: CurrencySettings.all.get(targetCurrencyName)!,
+      paidCurrency: CurrencySettings.all.get(CurrencySettings.default)!,
+      exchangeRate: 1,
+      targetCurrency: CurrencySettings.all.get(CurrencySettings.default)!,
     };
   }
-}
-
-export class StorageServiceModel {
-  constructor(public users: User[], public records: Record[], public name: string, public currencyProfile: CurrencyProfile) {}
-}
-
-export interface CurrencyProfileStore {
-  paidCurrencyName: string;
-  targetCurrencyName: string;
-  exchangeRate: number;
 }

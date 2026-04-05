@@ -1,9 +1,7 @@
-import {Component, Inject} from '@angular/core';
-import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
-import { Record, User } from '../dashboard/dashboard.component';
-import { MatListOption } from '@angular/material/list';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { Record } from '../model/splitson.model';
 
 @Component({
   selector: 'edit-record-dialog',

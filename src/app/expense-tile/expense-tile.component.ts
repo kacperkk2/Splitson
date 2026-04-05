@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { CurrencyProfile, Record } from '../dashboard/dashboard.component';
+import { CurrencyProfile, Record } from '../model/splitson.model';
 
 @Component({
   selector: 'app-expense-tile',

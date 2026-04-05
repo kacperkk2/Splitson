@@ -1,5 +1,5 @@
 import { Component, Input } from '@angular/core';
-import { User, Record, CurrencyProfile } from '../dashboard/dashboard.component';
+import { CurrencyProfile, Record, User } from '../model/splitson.model';
 
 @Component({
   selector: 'app-summary',

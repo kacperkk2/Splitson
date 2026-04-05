@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { CurrencySettings } from 'src/app/app.component';
-import { CurrencyProfile, Record, User } from 'src/app/dashboard/dashboard.component';
+import { CurrencyProfile, Record, User } from 'src/app/model/splitson.model';
 
 @Injectable({
   providedIn: 'root'

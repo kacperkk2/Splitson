@@ -69,7 +69,7 @@ Separatory: `||` (encje), `|@` (pola). Użytkownicy mapowani na indeksy numerycz
 - **NgRx:** Zaimportowany, nieużywany — nie ruszaj, nie proponuj wdrożenia
 
 ### GitHub Pages deployment
-Before every commit, ask the user whether they also want to build and deploy files for GitHub Pages. If yes, run these commands in order:
+Before every commit, build files for GitHub Pages. Run these commands in order:
 
 ng build --output-path docs --base-href /Splitson/
 cp docs/index.html docs/404.html

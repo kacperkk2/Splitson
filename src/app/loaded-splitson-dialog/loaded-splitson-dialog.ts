@@ -1,6 +1,6 @@
-import {Component, Inject} from '@angular/core';
-import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import { User, Record, CurrencyProfile } from '../dashboard/dashboard.component';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { SplitsonData, User } from '../model/splitson.model';
 
 @Component({
   selector: 'loaded-splitson-dialog',
@@ -10,8 +10,8 @@ export class LoadedSplitsonDialog {
   priceSum: number = 0;
 
   constructor(
-      public dialogRef: MatDialogRef<LoadedSplitsonDialog>, 
-      @Inject(MAT_DIALOG_DATA) public data: LoadedSplitsonDialogInput
+      public dialogRef: MatDialogRef<LoadedSplitsonDialog>,
+      @Inject(MAT_DIALOG_DATA) public data: SplitsonData
       ) {
         data.records.forEach(record => this.priceSum += record.price);
   }
@@ -22,8 +22,4 @@ export class LoadedSplitsonDialog {
     }
     return users.map(user => user.name + "(" + user.balance + ")").join(", ")
   }
-}
-
-export class LoadedSplitsonDialogInput {
-  constructor(public users: User[], public records: Record[], public name: string, public currencyProfile: CurrencyProfile) {}
 }

@@ -1,6 +1,6 @@
+import { animate, state, style, transition, trigger } from '@angular/animations';
 import { Component, Input } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { User, Record, CurrencyProfile } from '../dashboard/dashboard.component';
+import { CurrencyProfile, Record, User } from '../model/splitson.model';
 
 @Component({
   selector: 'app-balance-tile',

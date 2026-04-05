@@ -1,12 +1,8 @@
-import {Component, Inject, Output} from '@angular/core';
-import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
-import { CurrencyProfile, User } from '../dashboard/dashboard.component';
-import { MatListOption } from '@angular/material/list';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
+import { Component, Inject } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Currency, CurrencySettings } from '../app.component';
-import { StorageService } from '../services/storage/storage.service';
+import { CurrencyProfile, User } from '../model/splitson.model';
 
 @Component({
   selector: 'edit-users-dialog',
@@ -22,8 +18,7 @@ export class EditUsersDialog {
     constructor(
         public dialogRef: MatDialogRef<EditUsersDialog>,
         @Inject(MAT_DIALOG_DATA) public data: EditUsersDialogInput,
-        public dialog: MatDialog,
-        private storageService: StorageService
+        public dialog: MatDialog
         ) {
           this.currencies = Array.from(CurrencySettings.all.values());
           this.mainName = data.mainName;
@@ -36,7 +31,6 @@ export class EditUsersDialog {
     onNameInput(event: Event) {
         const name = (event.target as HTMLInputElement).value;
         this.mainName = name;
-        this.storageService.storeName(name);
         this.data.onNameChange?.(name);
     }
 

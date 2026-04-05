@@ -1,19 +1,17 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialog } from '../confirm-dialog/confirm-dialog';
-import { EditUsersDialog, EditUsersDialogInput, EditUsersDialogResult } from '../edit-users-dialog/edit-users-dialog';
-import { StorageService, StorageServiceModel } from '../services/storage/storage.service';
-import { Buffer } from "buffer";
-import { compressToBase64, decompressFromBase64 } from 'lz-string';
-import { IdManagerService } from '../services/id-manager/id-manager.service';
-import { CodecService } from '../services/codec/codec.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LoadedSplitsonDialog, LoadedSplitsonDialogInput } from '../loaded-splitson-dialog/loaded-splitson-dialog';
-import { ShareLinkDialog, ShareLinkDialogInput } from '../share-link-dialog/share-link-dialog';
-import { Currency, CurrencySettings, DEFAULT_NAME } from '../app.component';
-import { ShortUrlServiceService } from '../services/short-url/short-url-service.service';
-import { lastValueFrom, timeout, catchError, of } from 'rxjs';
+import { catchError, of, timeout } from 'rxjs';
+import { CurrencySettings, DEFAULT_NAME } from '../app.component';
+import { EditUsersDialog, EditUsersDialogInput, EditUsersDialogResult } from '../edit-users-dialog/edit-users-dialog';
+import { LoadedSplitsonDialog } from '../loaded-splitson-dialog/loaded-splitson-dialog';
+import { SplitsonData, User } from '../model/splitson.model';
 import { NewSplitsonDialog, NewSplitsonDialogResult } from '../new-splitson-dialog/new-splitson-dialog';
+import { CompressorService } from '../services/compressor/compressor.service';
+import { IdManagerService } from '../services/id-manager/id-manager.service';
+import { ShortUrlServiceService } from '../services/short-url/short-url-service.service';
+import { StorageService } from '../services/storage/storage.service';
+import { ShareLinkDialog, ShareLinkDialogInput } from '../share-link-dialog/share-link-dialog';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,120 +19,83 @@ import { NewSplitsonDialog, NewSplitsonDialogResult } from '../new-splitson-dial
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent {
-  users: User[] = [];
-  records: Record[] = [];
-  currencyProfile: CurrencyProfile = this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default);
-  mainName: string = DEFAULT_NAME;
+  data: SplitsonData = new SplitsonData(
+    [],
+    [],
+    DEFAULT_NAME,
+    this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default)
+  );
 
-  constructor(public dialog: MatDialog, 
-    private storageService: StorageService, 
+  constructor(public dialog: MatDialog,
+    private storageService: StorageService,
     private idManager: IdManagerService,
-    private codec: CodecService,
+    private compressor: CompressorService,
     private router: Router,
     private route: ActivatedRoute,
     private shortUrlService: ShortUrlServiceService) {}
 
   ngOnInit(): void {
     this.route.queryParams.subscribe((params)=> {
-      if (params['users'] && params['records'] && params['name'] && params['currency']) {
-        this.loadFromUrlAfterDialog(params['users'], params['records'], params['name'], params['currency']);
-      }
-      else {
+      if (params['data']) {
+        this.loadFromUrlAfterDialog(params['data']);
+      } else {
         this.loadFromStore();
       }
-      this.idManager.init(this.records);
+      this.idManager.init(this.data.records);
     });
   }
 
   loadFromStore() {
-    let data: StorageServiceModel = this.storageService.load();
-    this.users = data.users;
-    this.records = data.records;
-    this.mainName = data.name;
-    this.currencyProfile = data.currencyProfile;
+    this.data = this.storageService.load();
   }
 
-  loadFromUrlAfterDialog(usersText: string, recordsText: string, nameText: string, currencyProfileText: string) {
-    const data: LoadedSplitsonDialogInput = this.loadFromUrl(usersText, recordsText, nameText, currencyProfileText);
-    const dialogRef = this.dialog.open(LoadedSplitsonDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
+  loadFromUrlAfterDialog(dataParam: string) {
+    const splitsonData: SplitsonData = this.compressor.decompress(dataParam);
+    const dialogRef = this.dialog.open(LoadedSplitsonDialog, {data: splitsonData, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe(result => {
         if (result == true) {
-          this.storageService.storeAll(data.users, data.records, data.name, data.currencyProfile);
+          this.storageService.save(splitsonData);
         }
         this.router.navigate([], { queryParams: {} });
     });
   }
 
-  loadFromUrl(usersText: string, recordsText: string, nameText: string, currencyProfileText: string) {
-    const decompressedUsers = decompressFromBase64(usersText);
-    const decompressedRecords = decompressFromBase64(recordsText);
-    const decompressedCurrencyProfile = decompressFromBase64(currencyProfileText);
-    const name = decompressFromBase64(nameText);
-    const users = this.codec.decodeUsers(decompressedUsers);
-    return new LoadedSplitsonDialogInput(
-      users, 
-      this.codec.decodeRecords(decompressedRecords, users),
-      name,
-      this.codec.decodeCurrencyProfile(decompressedCurrencyProfile))
-  }
-
   share() {
-    const compressedEncodedData = this.getCompressedEncodedData();
     const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages
-    const longUrl = baseUrl 
-        + "?name=" + compressedEncodedData.name 
-        + "&users=" + compressedEncodedData.users
-        + "&records=" + compressedEncodedData.records
-        + "&currency=" + compressedEncodedData.currencyProfile;
-    
+    const longUrl = baseUrl + "?data=" + this.compressor.compress(this.data);
+
     const encodedUrl = encodeURIComponent(longUrl);
     this.shortUrlService.getShortUrl(encodedUrl).pipe(
       timeout(2000),
       catchError(() => of(null))
     ).subscribe((response) => {
       const shortUrl = response?.shorturl ?? "";
-      const data = new ShareLinkDialogInput(this.mainName, shortUrl, longUrl);
+      const data = new ShareLinkDialogInput(this.data.name, shortUrl, longUrl);
       const dialogRef = this.dialog.open(ShareLinkDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
       dialogRef.afterClosed().subscribe();
     });
   }
-
-  getCompressedEncodedData() {
-    const recordsText = this.codec.encodeRecords(this.records, this.users);
-    const usersText = this.codec.encodeUsers(this.users);
-    const currencyProfileText = this.codec.encodeCurrencyProfile(this.currencyProfile);
-    const compressedUsers = compressToBase64(usersText);
-    const compressedRecords = compressToBase64(recordsText);
-    const compressedName = compressToBase64(this.mainName);
-    const compressedCurrencyProfile = compressToBase64(currencyProfileText);
-    return {
-      users: encodeURIComponent(compressedUsers),
-      records: encodeURIComponent(compressedRecords),
-      name: encodeURIComponent(compressedName),
-      currencyProfile: encodeURIComponent(compressedCurrencyProfile),
-    }
-  }
   
   editUsers() {
-    const previousUserNames = this.users.map(user => user.name);
-    const data = new EditUsersDialogInput(this.users, this.mainName, this.currencyProfile, (name: string) => this.mainName = name)
-    const dialogRef = this.dialog.open(EditUsersDialog, {data: data, width: '90%', maxWidth: '650px', autoFocus: false});
+    const previousUserNames = this.data.users.map(user => user.name);
+    const dialogInput = new EditUsersDialogInput(this.data.users, this.data.name, this.data.currencyProfile, (name: string) => this.data.name = name)
+    const dialogRef = this.dialog.open(EditUsersDialog, {data: dialogInput, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: EditUsersDialogResult) => {
       if (result) {
-        this.users = result.users;
-        this.mainName = result.mainName;
-        const currentUserNames = this.users.map(user => user.name);
+        this.data.users = result.users;
+        this.data.name = result.mainName;
+        const currentUserNames = this.data.users.map(user => user.name);
         let deletedUsers = previousUserNames.filter(item => currentUserNames.indexOf(item) < 0);
         if (deletedUsers.length > 0) {
           this.removeDeletedUsersFromRecords(deletedUsers);
         }
-        this.storageService.storeAll(this.users, this.records, this.mainName, this.currencyProfile);
+        this.storageService.save(this.data);
       }
     });
   }
 
   removeDeletedUsersFromRecords(deletedUsers: string[]) {
-    this.records
+    this.data.records
       .forEach(record => {
         const filteredOut = record.boughtBy.filter(user => !deletedUsers.includes(user.name));
         record.boughtBy = filteredOut;
@@ -149,8 +110,8 @@ export class DashboardComponent {
   }
 
   clearRecords() {
-    this.records = [];
-    this.users.forEach(user => user.balance = 0);
+    this.data.records = [];
+    this.data.users.forEach(user => user.balance = 0);
     this.idManager.clear();
   }
 
@@ -166,34 +127,16 @@ export class DashboardComponent {
     const dialogRef = this.dialog.open(NewSplitsonDialog, {width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: NewSplitsonDialogResult) => {
       if (result) {
-        this.mainName = result.name;
+        this.data.name = result.name;
         if (!result.keepUsers) {
-          this.users = [];
+          this.data.users = [];
         }
         if (!result.keepCurrencies) {
-          this.currencyProfile = this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default);
+          this.data.currencyProfile = this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default);
         }
         this.clearRecords();
-        this.storageService.storeAll(this.users, this.records, this.mainName, this.currencyProfile);
+        this.storageService.save(this.data);
       }
     });
   }
-}
-
-export interface User {
-  name: string;
-  balance: number;
-}
-
-export interface Record {
-  id: number;
-  name: string;
-  price: number;
-  boughtBy: User[];
-}
-
-export interface CurrencyProfile {
-  paidCurrency: Currency;
-  exchangeRate: number;
-  targetCurrency: Currency;
 }

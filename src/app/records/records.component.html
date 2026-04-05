@@ -1,10 +1,10 @@
 <div class="records-container">
 <mat-list #recordsList>
-    <div *ngIf="records.length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div>
-    <div *ngFor="let record of records; let lastItem = last;">
+    <div *ngIf="data.records.length == 0" class="greyed" fxFill fxLayoutAlign="center center"> Brak wydatków </div>
+    <div *ngFor="let record of data.records; let lastItem = last;">
         <app-expense-tile
             [record]="record"
-            [currencyProfile]="currencyProfile"
+            [currencyProfile]="data.currencyProfile"
             (click)="assignUsers(record.id)">
         </app-expense-tile>
         <mat-divider *ngIf="!lastItem" class="divider"></mat-divider>
@@ -13,9 +13,9 @@
 
 <app-bottom-panel
     [leftLabel]="'Rozliczone rekordy' | uppercase"
-    [leftValue]="getAssignedRecordsNumber() + ' / ' + records.length"
+    [leftValue]="getAssignedRecordsNumber() + ' / ' + data.records.length"
     [rightLabel]="'Całkowity koszt' | uppercase"
-    [rightValue]="(getPriceSum() | number:'1.2-2') + ' ' + currencyProfile.paidCurrency.short"
+    [rightValue]="(getPriceSum() | number:'1.2-2') + ' ' + data.currencyProfile.paidCurrency.short"
     [showAddButton]="true"
     (addClick)="addRecords()">
 </app-bottom-panel>

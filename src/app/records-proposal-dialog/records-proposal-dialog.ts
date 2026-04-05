@@ -1,9 +1,5 @@
-import {Component, Inject} from '@angular/core';
-import {MatDialog, MatDialogModule, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
-import {MatButtonModule} from '@angular/material/button';
-import { User } from '../dashboard/dashboard.component';
-import { MatListOption } from '@angular/material/list';
-import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 @Component({
   selector: 'records-proposal-dialog',

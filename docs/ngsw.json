@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1775381354540,
+  "timestamp": 1775382690698,
   "index": "/Splitson/index.html",
   "assetGroups": [
     {
@@ -12,7 +12,7 @@
       },
       "urls": [
         "/Splitson/index.html",
-        "/Splitson/main.04c9e8a4082b3c5e.js",
+        "/Splitson/main.f2b0373c181e726f.js",
         "/Splitson/manifest.webmanifest",
         "/Splitson/polyfills.f84a3b69c6bc7436.js",
         "/Splitson/runtime.16de5338aa463b92.js",
@@ -51,8 +51,8 @@
     "/Splitson/assets/icons/icon-512x512.png": "8dce2d8ff13a6a990b5de5bcd66e123e3459c2ac",
     "/Splitson/assets/icons/icon-72x72.png": "b89fe2c9eb5e4db714a6119dd83723215b156cb2",
     "/Splitson/assets/icons/icon-96x96.png": "9814395b56b2607fce242636f8c6abc3bca3ce8f",
-    "/Splitson/index.html": "4ded0282112920b7611d8e376730bf4b95f41413",
-    "/Splitson/main.04c9e8a4082b3c5e.js": "e9c33f28cf2da1f8762853789e7b5b3b7783cf41",
+    "/Splitson/index.html": "52f8b8b37343726a5c15344cccc483c5fbfe2a48",
+    "/Splitson/main.f2b0373c181e726f.js": "ff409f315caf11f67e0ae15f5196f4708a87fb5e",
     "/Splitson/manifest.webmanifest": "f590f8cc4bc0d8065a99c8adc009302000565c24",
     "/Splitson/polyfills.f84a3b69c6bc7436.js": "d36edfa106cf2f7ec0bfc9c688a00d464092caff",
     "/Splitson/runtime.16de5338aa463b92.js": "462e6a72ebd787e5d6dd84cc884efa2c78c59b3c",

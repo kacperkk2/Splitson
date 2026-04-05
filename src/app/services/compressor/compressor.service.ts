@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { compressToBase64, decompressFromBase64 } from 'lz-string';
+import { compressToEncodedURIComponent, decompressFromEncodedURIComponent } from 'lz-string';
 import { SplitsonData } from 'src/app/model/splitson.model';
 import { CodecService } from '../codec/codec.service';
 
-const SECTION_DELIMITER = '\n';
+const SECTION_DELIMITER = '\x01';
 
 @Injectable({
   providedIn: 'root'
@@ -16,16 +16,25 @@ export class CompressorService {
     const recordsEncoded = this.codec.encodeRecords(data.records, data.users);
     const currencyEncoded = this.codec.encodeCurrencyProfile(data.currencyProfile);
     const combined = [usersEncoded, recordsEncoded, data.name, currencyEncoded].join(SECTION_DELIMITER);
-    return encodeURIComponent(compressToBase64(combined));
+    return compressToEncodedURIComponent(combined);
   }
 
   decompress(compressed: string): SplitsonData {
-    const decompressed = decompressFromBase64(decodeURIComponent(compressed));
+    const decompressed = decompressFromEncodedURIComponent(compressed);
     const parts = decompressed.split(SECTION_DELIMITER);
     const users = this.codec.decodeUsers(parts[0]);
     const records = this.codec.decodeRecords(parts[1], users);
     const name = parts[2];
     const currencyProfile = this.codec.decodeCurrencyProfile(parts[3]);
+    this.recalculateBalances(records);
     return new SplitsonData(users, records, name, currencyProfile);
+  }
+
+  private recalculateBalances(records: SplitsonData['records']) {
+    records.forEach(record => {
+      if (record.boughtBy.length == 0) return;
+      const amount = Number((record.price / record.boughtBy.length).toFixed(2));
+      record.boughtBy.forEach(user => user.balance -= amount);
+    });
   }
 }

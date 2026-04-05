@@ -15,71 +15,52 @@ export class CodecService {
     if (records.length == 0) {
       return "[]";
     }
-    let recordsList: string[] = [];
-    records.forEach(record => {
-      recordsList.push(
-        record.id + this.insideEntityDelimiter + 
-        record.name + this.insideEntityDelimiter + 
-        record.price + this.insideEntityDelimiter + 
-        this.mapUsersToCode(record.boughtBy, users))
-    });
-    return recordsList.join(this.entityDelimiter);
+    return records.map(record =>
+      record.name + this.insideEntityDelimiter +
+      record.price + this.insideEntityDelimiter +
+      this.mapUsersToCode(record.boughtBy, users)
+    ).join(this.entityDelimiter);
   }
 
   mapUsersToCode(boughtBy: User[], allUsers: User[]) {
     if (boughtBy.length == 0) {
       return "[]"
     }
-    let code: string = "";
-    boughtBy.forEach(bought => code += allUsers.findIndex(user => user.name === bought.name))
-    return code;
+    return boughtBy.map(bought => allUsers.findIndex(user => user.name === bought.name)).join(',');
   }
 
   mapCodeToUsers(code: string, allUsers: User[]) {
     if (code == "[]") {
       return [];
     }
-    let boughtBy: User[] = [];
-    [...code].forEach(position => boughtBy.push(allUsers[Number(position)]))
-    return boughtBy;
+    return code.split(',').map(i => allUsers[Number(i)]);
   }
 
   decodeRecords(records: string, allUsers: User[]) {
     if (records == "[]") {
       return [];
     }
-    let recordsList: Record[] = [];
-    records.split(this.entityDelimiter).forEach(record => {
-      const recordData = record.split(this.insideEntityDelimiter);
-      if (recordData.length != 4) {
-        return;
-      }
-      recordsList.push({
-        "id": Number(recordData[0]), 
-        "name": recordData[1], 
-        "price": Number(recordData[2]), 
-        "boughtBy": this.mapCodeToUsers(recordData[3], allUsers)
+    let id = 0;
+    return records.split(this.entityDelimiter)
+      .filter(record => record.split(this.insideEntityDelimiter).length == 3)
+      .map(record => {
+        const parts = record.split(this.insideEntityDelimiter);
+        return {
+          id: ++id,
+          name: parts[0],
+          price: Number(parts[1]),
+          boughtBy: this.mapCodeToUsers(parts[2], allUsers)
+        };
       });
-    });
-    return recordsList;
   }
 
   decodeUsers(users: string) {
     if (users == "[]") {
       return [];
     }
-    let usersList: User[] = [];
-    users.split(this.entityDelimiter).forEach(user => {
-      const userData = user.split(this.insideEntityDelimiter);
-      if (userData.length != 2) {
-        return;
-      }
-      usersList.push({
-        "name": userData[0], 
-        "balance": Number(userData[1])
-      });
-    });
-    return usersList;
+    return users.split(this.entityDelimiter)
+      .filter(name => name.length > 0)
+      .map(name => ({ name, balance: 0 }));
   }
 
   decodeCurrencyProfile(currencyProfile: string) {
@@ -91,12 +72,7 @@ export class CodecService {
     if (users.length == 0) {
       return "[]";
     }
-    let usersList: string[] = [];
-    users.forEach(user => usersList.push(
-        user.name + this.insideEntityDelimiter + 
-        user.balance
-      ));
-    return usersList.join(this.entityDelimiter);
+    return users.map(user => user.name).join(this.entityDelimiter);
   }
 
   encodeCurrencyProfile(currencyProfile: CurrencyProfile) {

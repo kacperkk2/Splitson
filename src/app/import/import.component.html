@@ -1,4 +1,15 @@
 <ng-container *ngIf="splitsonData">
+<div class="import-bar">
+    <div class="import-label">
+        <mat-icon>download</mat-icon>
+        <span>Import</span>
+    </div>
+    <div class="import-actions">
+        <button mat-stroked-button color="warn" (click)="reject()">Odrzuć</button>
+        <button mat-flat-button color="primary" (click)="import()">Wczytaj</button>
+    </div>
+</div>
+<div class="preview-frame">
 <mat-toolbar class="toolbar" fxLayout="row" fxLayoutAlign="space-between center">
     <div fxLayout="column" style="max-width: 240px">
         <span class="x-big-letters letters-spacing hide-overflow"> {{ splitsonData.name }} </span>
@@ -32,10 +43,6 @@
                             </div>
                         </div>
                     </div>
-                    <div class="action-buttons">
-                        <button mat-stroked-button (click)="reject()"> Odrzuć </button>
-                        <button mat-stroked-button color="primary" (click)="import()"> Wczytaj </button>
-                    </div>
                 </div>
             </div>
         </div>
@@ -65,13 +72,10 @@
                             </div>
                         </div>
                     </div>
-                    <div class="action-buttons">
-                        <button mat-stroked-button (click)="reject()"> Odrzuć </button>
-                        <button mat-stroked-button color="primary" (click)="import()"> Wczytaj </button>
-                    </div>
                 </div>
             </div>
         </div>
     </mat-tab>
 </mat-tab-group>
+</div>
 </ng-container>

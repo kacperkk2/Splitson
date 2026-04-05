@@ -4,6 +4,75 @@
     height: 100dvh;
 }
 
+.import-bar {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    background-color: #000000;
+    color: #F5F5F4;
+    flex-shrink: 0;
+
+    .import-label {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.85rem;
+        font-weight: 600;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: #7CB342;
+
+        mat-icon {
+            font-size: 18px;
+            width: 18px;
+            height: 18px;
+        }
+    }
+
+    .import-actions {
+        display: flex;
+        gap: 8px;
+    }
+}
+
+.preview-frame {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 8px;
+    box-shadow: 0 0 0 1px rgba(124, 179, 66, 0.4), 0 4px 16px rgba(0, 0, 0, 0.5);
+
+    ::ng-deep .highlight {
+        color: #F5F5F4;
+    }
+
+    ::ng-deep .mdc-tab-indicator__content--underline {
+        border-color: #F5F5F4;
+    }
+
+    ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+        color: #F5F5F4;
+    }
+
+    ::ng-deep .mat-mdc-tab .mat-ripple-element {
+        background-color: rgba(245, 245, 244, 0.1);
+    }
+
+    ::ng-deep .mat-mdc-tab-header {
+        --mdc-tab-indicator-active-indicator-color: #F5F5F4;
+        --mat-tab-header-active-ripple-color: rgba(245, 245, 244, 0.1);
+        --mat-tab-header-inactive-ripple-color: rgba(245, 245, 244, 0.1);
+        --mat-tab-header-active-focus-indicator-color: #F5F5F4;
+        --mat-tab-header-active-hover-indicator-color: #F5F5F4;
+        --mat-tab-header-active-label-text-color: #F5F5F4;
+        --mat-tab-header-active-focus-label-text-color: #F5F5F4;
+        --mat-tab-header-active-hover-label-text-color: #F5F5F4;
+    }
+}
+
 .toolbar {
     background-color: #202020;
     color: #F5F5F4;
@@ -61,15 +130,3 @@ mat-list {
     align-items: center;
 }
 
-.action-buttons {
-    width: 92%;
-    display: flex;
-    flex-direction: row;
-    gap: 12px;
-    margin-top: 12px;
-    margin-bottom: 4px;
-
-    button {
-        flex: 1;
-    }
-}

@@ -23,6 +23,7 @@ export class SplitsonData {
     public users: User[],
     public records: Record[],
     public name: string,
-    public currencyProfile: CurrencyProfile
+    public currencyProfile: CurrencyProfile,
+    public date: string
   ) {}
 }

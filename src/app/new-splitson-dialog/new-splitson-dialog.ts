@@ -18,7 +18,8 @@ export class NewSplitsonDialog {
         public dialogRef: MatDialogRef<NewSplitsonDialog>
         ) {
         this.newSplitsonForm = new FormGroup({
-            name: new FormControl(DEFAULT_NAME, [Validators.required, Validators.maxLength(this.maxLength)])
+            name: new FormControl(DEFAULT_NAME, [Validators.required, Validators.maxLength(this.maxLength)]),
+            date: new FormControl(new Date().toISOString().slice(0, 10), [Validators.required])
         });
     }
 
@@ -30,7 +31,8 @@ export class NewSplitsonDialog {
         const result = new NewSplitsonDialogResult(
             this.newSplitsonForm.get('name')!.value,
             this.keepUsers,
-            this.keepCurrencies
+            this.keepCurrencies,
+            this.newSplitsonForm.get('date')!.value
         );
         this.dialogRef.close(result);
     }
@@ -49,5 +51,5 @@ export class NewSplitsonDialog {
 }
 
 export class NewSplitsonDialogResult {
-    constructor(public name: string, public keepUsers: boolean, public keepCurrencies: boolean) {}
+    constructor(public name: string, public keepUsers: boolean, public keepCurrencies: boolean, public date: string) {}
 }

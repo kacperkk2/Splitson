@@ -13,6 +13,10 @@
         <mat-label>Tytuł</mat-label>
         <input matInput [ngModel]="mainName" (input)="onNameInput($event)" autocomplete="off">
     </mat-form-field>
+    <mat-form-field style="width: 100%;">
+        <mat-label>Data</mat-label>
+        <input matInput type="date" [ngModel]="mainDate" (input)="onDateInput($event)">
+    </mat-form-field>
 
 <mat-card *ngFor="let user of users" fxLayout="row" fxLayoutAlign="center center">
         <div style="width: 100%" fxLayoutAlign="space-between center">

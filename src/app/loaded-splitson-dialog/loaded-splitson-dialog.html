@@ -7,7 +7,10 @@
     </div>
 </div>
 <mat-dialog-content>
-    <div fxLayoutAlign="center center" style="font-size: large"> {{ data.name }} </div>
+    <div fxLayout="column" fxLayoutAlign="center center">
+        <div style="font-size: large"> {{ data.name }} </div>
+        <div *ngIf="data.date" class="greyed" style="font-size: x-small; margin-top: 3px;"> {{ data.date | date:'dd.MM.yyyy' }} </div>
+    </div>
 
     <mat-divider></mat-divider>
 

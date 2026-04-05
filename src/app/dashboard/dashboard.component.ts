@@ -23,7 +23,8 @@ export class DashboardComponent {
     [],
     [],
     DEFAULT_NAME,
-    this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default)
+    this.getCurrencyProfile(CurrencySettings.default, 1, CurrencySettings.default),
+    new Date().toISOString().slice(0, 10)
   );
 
   constructor(public dialog: MatDialog,
@@ -61,7 +62,7 @@ export class DashboardComponent {
   }
 
   share() {
-    const baseUrl = location.origin + "/Splitson"; // need to add splitson because of github pages
+    const baseUrl = location.origin + ""; // need to add splitson because of github pages
     const longUrl = baseUrl + "?data=" + this.compressor.compress(this.data);
 
     const encodedUrl = encodeURIComponent(longUrl);
@@ -78,12 +79,13 @@ export class DashboardComponent {
   
   editUsers() {
     const previousUserNames = this.data.users.map(user => user.name);
-    const dialogInput = new EditUsersDialogInput(this.data.users, this.data.name, this.data.currencyProfile, (name: string) => this.data.name = name)
+    const dialogInput = new EditUsersDialogInput(this.data.users, this.data.name, this.data.currencyProfile, this.data.date, (name: string) => this.data.name = name)
     const dialogRef = this.dialog.open(EditUsersDialog, {data: dialogInput, width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: EditUsersDialogResult) => {
       if (result) {
         this.data.users = result.users;
         this.data.name = result.mainName;
+        this.data.date = result.date;
         const currentUserNames = this.data.users.map(user => user.name);
         let deletedUsers = previousUserNames.filter(item => currentUserNames.indexOf(item) < 0);
         if (deletedUsers.length > 0) {
@@ -100,6 +102,14 @@ export class DashboardComponent {
         const filteredOut = record.boughtBy.filter(user => !deletedUsers.includes(user.name));
         record.boughtBy = filteredOut;
     })
+  }
+
+  getFormattedDate(dateStr: string): string {
+    if (!dateStr) return '';
+    const [year, month, day] = dateStr.split('-').map(Number);
+    const d = String(day).padStart(2, '0');
+    const m = String(month).padStart(2, '0');
+    return `${d}.${m}.${year}`;
   }
 
   getUsersNamesLabel(users: User[]) {
@@ -128,6 +138,7 @@ export class DashboardComponent {
     dialogRef.afterClosed().subscribe((result: NewSplitsonDialogResult) => {
       if (result) {
         this.data.name = result.name;
+        this.data.date = result.date;
         if (!result.keepUsers) {
           this.data.users = [];
         }

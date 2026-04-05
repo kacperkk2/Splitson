@@ -15,7 +15,7 @@ export class CompressorService {
     const usersEncoded = this.codec.encodeUsers(data.users);
     const recordsEncoded = this.codec.encodeRecords(data.records, data.users);
     const currencyEncoded = this.codec.encodeCurrencyProfile(data.currencyProfile);
-    const combined = [usersEncoded, recordsEncoded, data.name, currencyEncoded].join(SECTION_DELIMITER);
+    const combined = [usersEncoded, recordsEncoded, data.name, currencyEncoded, data.date].join(SECTION_DELIMITER);
     return compressToEncodedURIComponent(combined);
   }
 
@@ -26,8 +26,9 @@ export class CompressorService {
     const records = this.codec.decodeRecords(parts[1], users);
     const name = parts[2];
     const currencyProfile = this.codec.decodeCurrencyProfile(parts[3]);
+    const date = parts[4] || new Date().toISOString().slice(0, 10);
     this.recalculateBalances(records);
-    return new SplitsonData(users, records, name, currencyProfile);
+    return new SplitsonData(users, records, name, currencyProfile, date);
   }
 
   private recalculateBalances(records: SplitsonData['records']) {

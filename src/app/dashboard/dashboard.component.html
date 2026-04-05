@@ -2,6 +2,7 @@
     <div fxLayout="column" (click)="editUsers()" style="max-width: 240px">
         <span class="x-big-letters letters-spacing hide-overflow"> {{ data.name }} </span>
         <span class="small-letters hide-overflow"> {{ getUsersNamesLabel(data.users) }} </span>
+        <span class="small-letters hide-overflow greyed" style="margin-top: 5px; font-size: x-small;"> {{ getFormattedDate(data.date) }} </span>
     </div>
     <div>
         <button mat-icon-button (click)="share()">

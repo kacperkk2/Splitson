@@ -13,6 +13,7 @@ export class EditUsersDialog {
     currencies: Currency[];
     newUserForm: FormGroup;
     mainName: string = "";
+    mainDate: string = "";
     users: User[] = [];
 
     constructor(
@@ -22,6 +23,7 @@ export class EditUsersDialog {
         ) {
           this.currencies = Array.from(CurrencySettings.all.values());
           this.mainName = data.mainName;
+          this.mainDate = data.date;
           this.users = data.users;
           this.newUserForm = new FormGroup({
               user: new FormControl("", [Validators.required])
@@ -32,6 +34,10 @@ export class EditUsersDialog {
         const name = (event.target as HTMLInputElement).value;
         this.mainName = name;
         this.data.onNameChange?.(name);
+    }
+
+    onDateInput(event: Event) {
+        this.mainDate = (event.target as HTMLInputElement).value;
     }
 
     addUser() {
@@ -48,7 +54,7 @@ export class EditUsersDialog {
     }
 
     onBackClick(): void {
-      const result: EditUsersDialogResult = new EditUsersDialogResult(this.users, this.mainName);
+      const result: EditUsersDialogResult = new EditUsersDialogResult(this.users, this.mainName, this.mainDate);
       this.dialogRef.close(result);
     }
 
@@ -58,9 +64,9 @@ export class EditUsersDialog {
 }
 
 export class EditUsersDialogInput {
-  constructor(public users: User[], public mainName: string, public currencyProfile: CurrencyProfile, public onNameChange?: (name: string) => void) {}
+  constructor(public users: User[], public mainName: string, public currencyProfile: CurrencyProfile, public date: string, public onNameChange?: (name: string) => void) {}
 }
 
 export class EditUsersDialogResult {
-  constructor(public users: User[], public mainName: string) {}
+  constructor(public users: User[], public mainName: string, public date: string) {}
 }

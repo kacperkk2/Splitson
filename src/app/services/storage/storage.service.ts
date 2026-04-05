@@ -17,9 +17,10 @@ export class StorageService {
   public load(): SplitsonData {
     const stored = localStorage.getItem(this.key);
     if (!stored) {
-      return new SplitsonData([], [], DEFAULT_NAME, this.getDefaultCurrencyProfile());
+      return new SplitsonData([], [], DEFAULT_NAME, this.getDefaultCurrencyProfile(), new Date().toISOString().slice(0, 10));
     }
     const parsed = JSON.parse(stored) as SplitsonData;
+    if (!parsed.date) parsed.date = new Date().toISOString().slice(0, 10);
     this.connectRecordsWithUsers(parsed.records, parsed.users);
     return parsed;
   }

@@ -1,0 +1,81 @@
+{
+  "configVersion": 1,
+  "timestamp": 1775384477596,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/index.html",
+        "/main.34805cc7b14e9541.js",
+        "/manifest.webmanifest",
+        "/polyfills.f84a3b69c6bc7436.js",
+        "/runtime.16de5338aa463b92.js",
+        "/styles.8b4c59df3667d2a2.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/icons/icon-128x128.png",
+        "/assets/icons/icon-144x144.png",
+        "/assets/icons/icon-152x152.png",
+        "/assets/icons/icon-192x192.png",
+        "/assets/icons/icon-384x384.png",
+        "/assets/icons/icon-512x512.png",
+        "/assets/icons/icon-72x72.png",
+        "/assets/icons/icon-96x96.png",
+        "/splitson_icon.png"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/icons/icon-128x128.png": "3ed56a95bf746e227b5aa1d740d14ecfb3b0ffb3",
+    "/assets/icons/icon-144x144.png": "b1dfd8780ed328ad9bf585eb3e1cdb20dc8fbc40",
+    "/assets/icons/icon-152x152.png": "eacbc2b45c3b9b81f7e885aaf392a50eac3bae6e",
+    "/assets/icons/icon-192x192.png": "0f15271ac5aeca99477257002e2a6fa25ac7c321",
+    "/assets/icons/icon-384x384.png": "fee2549204167dee2fa34b41d3f34254c10f3b91",
+    "/assets/icons/icon-512x512.png": "8dce2d8ff13a6a990b5de5bcd66e123e3459c2ac",
+    "/assets/icons/icon-72x72.png": "b89fe2c9eb5e4db714a6119dd83723215b156cb2",
+    "/assets/icons/icon-96x96.png": "9814395b56b2607fce242636f8c6abc3bca3ce8f",
+    "/index.html": "bb601c69b5c4666d6e97bf72bdf4fbe223dce9d0",
+    "/main.34805cc7b14e9541.js": "1d1025ad75af7e64b1a2e3af672e8883c22544cf",
+    "/manifest.webmanifest": "f590f8cc4bc0d8065a99c8adc009302000565c24",
+    "/polyfills.f84a3b69c6bc7436.js": "d36edfa106cf2f7ec0bfc9c688a00d464092caff",
+    "/runtime.16de5338aa463b92.js": "462e6a72ebd787e5d6dd84cc884efa2c78c59b3c",
+    "/splitson_icon.png": "1183678b6d1b603649dc5703e5d6042d1907409b",
+    "/styles.8b4c59df3667d2a2.css": "40a8a5fd5f3346e3da8d752c7f1494b408fab68b"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}

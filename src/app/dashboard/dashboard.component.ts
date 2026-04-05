@@ -46,7 +46,7 @@ export class DashboardComponent {
 
   share() {
     const basePath = window.location.href.split('?')[0].replace(/\/$/, '');
-    const longUrl = basePath + "/import?data=" + this.compressor.compress(this.data);
+    const longUrl = basePath + "/Splitson" + "/import?data=" + this.compressor.compress(this.data);
 
     const encodedUrl = encodeURIComponent(longUrl);
     this.shortUrlService.getShortUrl(encodedUrl).pipe(

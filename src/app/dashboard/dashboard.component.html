@@ -8,9 +8,19 @@
         <button mat-icon-button (click)="share()">
             <mat-icon>share</mat-icon>
         </button>
-        <button mat-icon-button (click)="newSplitson()">
-            <mat-icon>post_add</mat-icon>
+        <button mat-icon-button [matMenuTriggerFor]="mainMenu">
+            <mat-icon>more_vert</mat-icon>
         </button>
+        <mat-menu #mainMenu="matMenu">
+            <button mat-menu-item (click)="newSplitson()">
+                <mat-icon>post_add</mat-icon>
+                <span>Nowy splitson</span>
+            </button>
+            <button mat-menu-item (click)="openArchive()">
+                <mat-icon>history</mat-icon>
+                <span>Archiwum</span>
+            </button>
+        </mat-menu>
     </div>
   </mat-toolbar>
 <mat-tab-group>

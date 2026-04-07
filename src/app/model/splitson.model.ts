@@ -27,3 +27,10 @@ export class SplitsonData {
     public date: string
   ) {}
 }
+
+export class SplitsonAppData {
+  constructor(
+    public active: SplitsonData,
+    public archive: SplitsonData[]
+  ) {}
+}

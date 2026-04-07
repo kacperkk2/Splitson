@@ -1,0 +1,25 @@
+<mat-toolbar class="toolbar" fxLayout="row" fxLayoutAlign="space-between center">
+    <div fxLayout="row" fxLayoutAlign="start center">
+        <button mat-icon-button (click)="goBack()">
+            <mat-icon>chevron_left</mat-icon>
+        </button>
+        <span class="x-big-letters letters-spacing">Archiwum</span>
+    </div>
+    <span class="highlight medium-letters">{{ getCount() }}</span>
+</mat-toolbar>
+<div class="archive-frame">
+    <ng-container *ngIf="activeSplitson">
+        <app-archive-tile [data]="activeSplitson" [isActive]="true"></app-archive-tile>
+    </ng-container>
+<ng-container *ngFor="let group of archiveGroups">
+        <div class="date-header" fxLayout="row" fxLayoutAlign="start center">
+            <span class="small-letters greyed date-label">{{ group.formattedDate }}</span>
+            <mat-divider class="divider date-divider" fxFlex></mat-divider>
+        </div>
+        <div *ngFor="let item of group.items; let lastItem = last">
+            <app-archive-tile [data]="item.data" [isActive]="false" (deleteClicked)="deleteArchive(item.index)" (tileClicked)="loadArchiveItem(item.index)"></app-archive-tile>
+            <mat-divider *ngIf="!lastItem" class="divider"></mat-divider>
+        </div>
+    </ng-container>
+    <div *ngIf="archiveGroups.length === 0" class="empty-archive greyed small-letters">Brak zarchiwizowanych splitsonów</div>
+</div>

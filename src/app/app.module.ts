@@ -43,6 +43,8 @@ import { ImportComponent } from './import/import.component';
 import { ExpenseTileComponent } from './expense-tile/expense-tile.component';
 import { BalanceTileComponent } from './balance-tile/balance-tile.component';
 import { BottomPanelComponent } from './bottom-panel/bottom-panel.component';
+import { ArchiveComponent } from './archive/archive.component';
+import { ArchiveTileComponent } from './archive-tile/archive-tile.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 
 
@@ -66,7 +68,9 @@ import { ServiceWorkerModule } from '@angular/service-worker';
     ImportComponent,
     ExpenseTileComponent,
     BalanceTileComponent,
-    BottomPanelComponent
+    BottomPanelComponent,
+    ArchiveComponent,
+    ArchiveTileComponent
   ],
   imports: [
     BrowserModule,

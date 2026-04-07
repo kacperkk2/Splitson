@@ -1,0 +1,14 @@
+<mat-card class="tile" [class.active]="isActive" [class.clickable]="!isActive" fxLayout="column" fxLayoutAlign="center center" (click)="!isActive && tileClicked.emit()">
+    <div class="tile-inside" fxLayout="row" fxLayoutAlign="space-between center">
+        <div fxLayout="column" fxLayoutAlign="center start" fxFlex style="min-width: 0">
+            <span class="x-big-letters letters-spacing hide-overflow">{{ data.name }}</span>
+            <span class="small-letters greyed hide-overflow">{{ getUsersLabel() }}</span>
+        </div>
+        <div fxLayout="column" fxLayoutAlign="center end" class="right-col">
+            <button mat-icon-button color="warn" *ngIf="!isActive" (click)="onDelete(); $event.stopPropagation()">
+                <mat-icon color="warn">delete_outline</mat-icon>
+            </button>
+            <span *ngIf="isActive" class="active-badge small-letters highlight">{{ getFormattedDate() }}</span>
+        </div>
+    </div>
+</mat-card>

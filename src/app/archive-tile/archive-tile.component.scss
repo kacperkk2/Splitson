@@ -1,0 +1,28 @@
+.tile {
+    background-color: #202020;
+    min-height: 54px;
+    margin: 0;
+    border-left: 3px solid transparent;
+}
+
+.tile.active {
+    border-left-color: #7CB342;
+}
+
+.tile-inside {
+    width: 92%;
+}
+
+.right-col {
+    flex-shrink: 0;
+    padding-left: 12px;
+    text-align: right;
+}
+
+.active-badge {
+    padding: 4px 0;
+}
+
+.clickable {
+    cursor: pointer;
+}

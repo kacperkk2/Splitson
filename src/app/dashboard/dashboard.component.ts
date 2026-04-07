@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { catchError, of, timeout } from 'rxjs';
 import { CurrencySettings, DEFAULT_NAME } from '../app.component';
 import { EditUsersDialog, EditUsersDialogInput, EditUsersDialogResult } from '../edit-users-dialog/edit-users-dialog';
@@ -31,6 +31,7 @@ export class DashboardComponent {
     private idManager: IdManagerService,
     private compressor: CompressorService,
     private route: ActivatedRoute,
+    private router: Router,
     private shortUrlService: ShortUrlServiceService) {}
 
   ngOnInit(): void {
@@ -120,6 +121,7 @@ export class DashboardComponent {
     const dialogRef = this.dialog.open(NewSplitsonDialog, {width: '90%', maxWidth: '650px', autoFocus: false});
     dialogRef.afterClosed().subscribe((result: NewSplitsonDialogResult) => {
       if (result) {
+        this.storageService.archiveCurrent();
         this.data.name = result.name;
         this.data.date = result.date;
         if (!result.keepUsers) {
@@ -132,5 +134,9 @@ export class DashboardComponent {
         this.storageService.save(this.data);
       }
     });
+  }
+
+  openArchive() {
+    this.router.navigate(['/archive']);
   }
 }

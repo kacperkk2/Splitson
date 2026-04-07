@@ -33,6 +33,7 @@ export class ImportComponent {
 
   import() {
     if (this.splitsonData) {
+      this.storageService.archiveCurrent();
       this.storageService.save(this.splitsonData);
     }
     this.router.navigate(['/']);
